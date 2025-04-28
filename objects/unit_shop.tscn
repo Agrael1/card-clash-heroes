@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0nu1n6wbjeug"]
+
+[ext_resource type="PackedScene" uid="uid://cxinl25e6w1q8" path="res://objects/card_container.tscn" id="1_l7r41"]
+
+[node name="Shop" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 397.0
+offset_bottom = 1076.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -453.0
+offset_right = 196.0
+offset_bottom = 453.0
+grow_vertical = 2
+theme_override_constants/margin_left = 34
+
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 34
+
+[node name="CardContainer" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("1_l7r41")]
+layout_mode = 2
+
+[node name="CardContainer2" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("1_l7r41")]
+layout_mode = 2
+
+[node name="CardContainer3" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("1_l7r41")]
+layout_mode = 2
+
+[node name="CardContainer4" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("1_l7r41")]
+layout_mode = 2
+
+[node name="CardContainer5" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("1_l7r41")]
+layout_mode = 2

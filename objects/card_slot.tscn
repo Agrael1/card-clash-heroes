@@ -3,15 +3,16 @@
 [ext_resource type="Texture2D" uid="uid://c2kjy60hm1j6e" path="res://textures/slot.png" id="1_c277k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omibg"]
-size = Vector2(204, 204)
+size = Vector2(176, 176)
 
 [node name="CardSlot" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(205, 205)
-offset_right = 204.0
-offset_bottom = 205.0
+custom_minimum_size = Vector2(178, 178)
+offset_right = 178.0
+offset_bottom = 178.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.862745, 0.862745)
 texture = ExtResource("1_c277k")
 centered = false
 
@@ -20,5 +21,5 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(102, 103)
+position = Vector2(88, 88)
 shape = SubResource("RectangleShape2D_omibg")

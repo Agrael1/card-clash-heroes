@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgvammbnay7fb"]
+[gd_scene load_steps=5 format=3 uid="uid://cgvammbnay7fb"]
 
 [ext_resource type="Script" uid="uid://b76fpo1woutd2" path="res://scripts/card_manager.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://c3dodjurejeur" path="res://objects/card.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://c0nu1n6wbjeug" path="res://objects/unit_shop.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://hu6sil3b3vys" path="res://objects/card_slot.tscn" id="3_sugp2"]
 
 [node name="Node2D" type="Node2D"]
@@ -16,49 +17,44 @@ position = Vector2(935, 453)
 [node name="Card2" parent="CardManager" instance=ExtResource("1_o5qli")]
 position = Vector2(687, 451)
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CardManager"]
-offset_left = 2.0
-offset_top = 649.0
-offset_right = 1917.0
-offset_bottom = 1079.0
+[node name="Shop" parent="CardManager" instance=ExtResource("3_jyhfs")]
 
-[node name="GridContainer" type="GridContainer" parent="CardManager/NinePatchRect"]
-layout_mode = 1
+[node name="GridContainer" type="GridContainer" parent="CardManager"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -416.0
-offset_top = -207.0
-offset_right = 416.0
-offset_bottom = 207.0
+offset_left = 527.0
+offset_top = 651.5
+offset_right = 1392.0
+offset_bottom = 1076.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 4
 
-[node name="CardSlot" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot2" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot2" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot3" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot3" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot4" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot4" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot5" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot5" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot6" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot6" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot7" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot7" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
 
-[node name="CardSlot8" parent="CardManager/NinePatchRect/GridContainer" instance=ExtResource("3_sugp2")]
+[node name="CardSlot8" parent="CardManager/GridContainer" instance=ExtResource("3_sugp2")]
 layout_mode = 2
