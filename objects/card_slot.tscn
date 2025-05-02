@@ -10,6 +10,7 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(178, 178)
 offset_right = 178.0
 offset_bottom = 178.0
+mouse_filter = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.862745, 0.862745)

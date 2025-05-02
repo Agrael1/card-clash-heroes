@@ -21,25 +21,11 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.is_pressed():
-			# Handle left mouse button press
-			var card = raycast_card()
-			if card:
-				on_drag_start(card)
 		if event.is_released():
 			if dragged_card:
 				on_drag_end()
 
-# Function to sort by y position
-func sort_by_z(cards):
-	var first = cards[0].collider.get_parent()
-	var first_z_index = first.z_index
-	
-	for i in range(1, cards.size()):
-		var card = cards[i].collider.get_parent()
-		if card.z_index > first_z_index:
-			first = card
-	return first
+
 	
 func raycast_slot():
 	var space_state = get_world_2d().direct_space_state
@@ -51,18 +37,6 @@ func raycast_slot():
 	# Check and sort
 	if result.size() > 0:
 		return result[0].collider.get_parent()
-	return null
-
-func raycast_card():
-	var space_state = get_world_2d().direct_space_state
-	var parameters = PhysicsPointQueryParameters2D.new()
-	parameters.position = get_global_mouse_position()
-	parameters.collide_with_areas = true
-	parameters.collision_mask = CARD_MASK
-	var result = space_state.intersect_point(parameters)
-	# Check and sort
-	if result.size() > 0:
-		return sort_by_z(result)
 	return null
 
 # Drag logic
@@ -93,9 +67,6 @@ func on_card_hovered_off(card: Card):
 		card.z_index = 1
 		if card_hovered == card:
 			card_hovered = null
-			var new_card = raycast_card()
-			if  new_card:
-				on_card_hovered(new_card)
 	
 
 func connect_card(card: Card):
