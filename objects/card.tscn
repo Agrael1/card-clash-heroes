@@ -1,10 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3dodjurejeur"]
+[gd_scene load_steps=7 format=3 uid="uid://c3dodjurejeur"]
 
 [ext_resource type="Script" uid="uid://dfx54bgpbnecg" path="res://scripts/card.gd" id="1_77oaa"]
 [ext_resource type="Texture2D" uid="uid://cm40e5sxatra5" path="res://textures/peasant.png" id="1_k5eb0"]
+[ext_resource type="Resource" uid="uid://dfxg1nquu644t" path="res://resources/peasant.tres" id="2_nsn7b"]
+[ext_resource type="Script" uid="uid://dpikklyj2aspl" path="res://scripts/number_panel.gd" id="3_ebvaf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k5eb0"]
 size = Vector2(11.6364, 11.6364)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_77oaa"]
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 1
+shadow_offset = Vector2(1.51, 2.24)
 
 [node name="Card" type="Control"]
 z_index = 1
@@ -16,6 +32,7 @@ offset_top = -128.0
 pivot_offset = Vector2(64, 64)
 mouse_filter = 2
 script = ExtResource("1_77oaa")
+unit = ExtResource("2_nsn7b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.595349, 0.595349)
@@ -24,9 +41,36 @@ texture = ExtResource("1_k5eb0")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+texture_filter = 1
 position = Vector2(-1.14441e-05, 0)
 scale = Vector2(11, 11)
 shape = SubResource("RectangleShape2D_k5eb0")
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(0.566531, 0.25297, 0, 1)
+z_index = 1
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 56.0
+offset_bottom = 56.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_77oaa")
+script = ExtResource("3_ebvaf")
+number = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+z_index = 1
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 24.0
+mouse_filter = 2
+theme_override_constants/outline_size = 3
+text = "1"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

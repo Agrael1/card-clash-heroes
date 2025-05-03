@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://du6ly4yrk8unl"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_47oar"]
+[ext_resource type="Texture2D" uid="uid://dnu52u8mbrwwg" path="res://textures/archer.svg" id="2_47oar"]
+
+[resource]
+script = ExtResource("1_47oar")
+sprite = ExtResource("2_47oar")
+tag = "archer"
+health = 1
+attack = 2
+max_count = 22
+metadata/_custom_type_script = "uid://umlu675s31ui"

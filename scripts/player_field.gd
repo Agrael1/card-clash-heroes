@@ -1,0 +1,65 @@
+class_name PlayerField
+extends Node
+
+const CARD_PATH = "res://objects/card.tscn"
+const SLOT_PATH = "res://objects/card_slot.tscn"
+@export var field_width : int = 4
+@export var field_height : int = 2
+
+@onready var root : GridContainer = $"."
+
+var grid : Array[CardSlot] = []
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	grid.resize(field_width * field_height)
+	var slot_obj : CardSlot = preload(SLOT_PATH).instantiate()
+		
+	# fill with empty slots
+	for i in range(field_width * field_height):
+		var slot = slot_obj.duplicate()
+		slot.name = "slot_" + str(i)
+		slot.slot_number = i
+		grid[i] = slot
+		add_child(slot)
+	
+	root.columns = field_width
+
+func reset_slot(slot_num:int):
+	if slot_num >= 0 and slot_num < grid.size():
+		grid[slot_num].reset_card()
+
+func find_card(card_tag:String) -> Card:
+	for i in range(0, grid.size()):
+		var slot = grid[i]
+		if slot.same_as(card_tag):
+			return slot.card_ref
+	return null
+
+func find_empty_slot()->CardSlot:
+	for i in range(0, grid.size()):
+		var slot = grid[i]
+		if !slot.card_ref:
+			return slot
+	return null
+
+func return_to_slot(card:Card):
+	var slot_num : int = card.slot
+	var slot : CardSlot = grid[slot_num]
+	if slot_num >= 0 and slot_num < grid.size():
+		slot.place_card(card)
+	
+
+func try_place_card(card:Card, slot_num:int) -> bool:
+	var slot = grid[slot_num]
+	if slot.is_empty():
+		reset_slot(card.slot)
+		slot.set_card(card)
+		return true
+	
+	if slot.same_as(card.unit.tag):
+		slot.card_ref.number += card.number
+		card.queue_free()
+		return true
+	return false
+	

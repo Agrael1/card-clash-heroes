@@ -1,19 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://hu6sil3b3vys"]
+[gd_scene load_steps=4 format=3 uid="uid://hu6sil3b3vys"]
 
 [ext_resource type="Texture2D" uid="uid://c2kjy60hm1j6e" path="res://textures/slot.png" id="1_c277k"]
+[ext_resource type="Script" uid="uid://qpq1k4m3n2pi" path="res://scripts/card_slot.gd" id="1_omibg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omibg"]
-size = Vector2(176, 176)
+size = Vector2(128, 128)
 
 [node name="CardSlot" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(178, 178)
-offset_right = 178.0
-offset_bottom = 178.0
+custom_minimum_size = Vector2(128, 128)
+offset_right = 128.0
+offset_bottom = 128.0
 mouse_filter = 2
+script = ExtResource("1_omibg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.862745, 0.862745)
+scale = Vector2(0.627451, 0.627451)
 texture = ExtResource("1_c277k")
 centered = false
 
@@ -22,5 +24,5 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(88, 88)
+position = Vector2(64, 64)
 shape = SubResource("RectangleShape2D_omibg")

@@ -1,12 +1,13 @@
 class_name CardManager
 extends Node2D
 
-const CARD_MASK = 1 << 0
 const SLOT_MASK = 1 << 1
 
 var dragged_card : Card
 var card_hovered : Card
 var screen_size : Vector2
+
+@onready var player_field: PlayerField = $"../MarginContainer/PlayerField"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -27,7 +28,7 @@ func _input(event: InputEvent) -> void:
 
 
 	
-func raycast_slot():
+func raycast_slot() -> CardSlot:
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()
@@ -45,14 +46,13 @@ func on_drag_start(card: Card):
 	dragged_card.scale = Vector2(1,1)
 	
 func on_drag_end():
-	dragged_card.scale = Vector2(1.05,1.05)
-	var card_slot = raycast_slot()
-	if card_slot:
-		var rect = card_slot.get_global_rect()
-		dragged_card.position = rect.position + rect.size / 2
-	
+	var saved_card : Card = dragged_card;
 	dragged_card = null
-
+	
+	saved_card.scale = Vector2(1.05,1.05)
+	var card_slot = raycast_slot()
+	if !card_slot or card_slot.slot_number == saved_card.slot or !player_field.try_place_card(saved_card, card_slot.slot_number):
+		player_field.return_to_slot(saved_card)
 
 # Card logic
 func on_card_hovered(card: Card):

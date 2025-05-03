@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgvammbnay7fb"]
+[gd_scene load_steps=5 format=3 uid="uid://cgvammbnay7fb"]
 
 [ext_resource type="Script" uid="uid://b76fpo1woutd2" path="res://scripts/card_manager.gd" id="1_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://c3dodjurejeur" path="res://objects/card.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://dor8dwf0om2sr" path="res://objects/player_field.tscn" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c0nu1n6wbjeug" path="res://objects/unit_shop.tscn" id="3_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://hu6sil3b3vys" path="res://objects/card_slot.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://7yfj7tmov3hs" path="res://scripts/input_manager.gd" id="5_tbgi4"]
 
 [node name="Root" type="PanelContainer"]
@@ -19,58 +18,21 @@ size_flags_vertical = 6
 mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="Shop" parent="." instance=ExtResource("3_jyhfs")]
+layout_mode = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_constants/margin_bottom = 32
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+[node name="PlayerField" parent="MarginContainer" instance=ExtResource("1_tbgi4")]
 layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 4
-
-[node name="CardSlot" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot2" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot3" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot4" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot5" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot6" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot7" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
-
-[node name="CardSlot8" parent="MarginContainer/GridContainer" instance=ExtResource("3_sugp2")]
-layout_mode = 2
+field_width = 5
 
 [node name="CardManager" type="Node2D" parent="."]
 script = ExtResource("1_0wfyh")
-
-[node name="Card" parent="CardManager" instance=ExtResource("1_o5qli")]
-offset_left = 935.0
-offset_top = 453.0
-offset_right = 935.0
-offset_bottom = 453.0
-
-[node name="Card2" parent="CardManager" instance=ExtResource("1_o5qli")]
-offset_left = 687.0
-offset_top = 451.0
-offset_right = 687.0
-offset_bottom = 451.0
-
-[node name="Shop" parent="CardManager" instance=ExtResource("3_jyhfs")]
 
 [node name="InputManager" type="Node2D" parent="."]
 script = ExtResource("5_tbgi4")

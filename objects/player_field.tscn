@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dor8dwf0om2sr"]
+
+[ext_resource type="Script" uid="uid://krgn8aj17g14" path="res://scripts/player_field.gd" id="1_wghna"]
+
+[node name="PlayerField" type="GridContainer"]
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 4
+script = ExtResource("1_wghna")

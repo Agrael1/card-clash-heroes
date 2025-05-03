@@ -1,17 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0nu1n6wbjeug"]
+[gd_scene load_steps=2 format=3 uid="uid://c0nu1n6wbjeug"]
 
 [ext_resource type="Script" uid="uid://dpslxhofkwxwe" path="res://scripts/unit_shop.gd" id="1_8ajov"]
-[ext_resource type="PackedScene" uid="uid://c3dodjurejeur" path="res://objects/card.tscn" id="2_8ajov"]
 
-[node name="Shop" type="Node2D"]
-script = ExtResource("1_8ajov")
-
-[node name="Panel" type="Panel" parent="."]
+[node name="Shop" type="Panel"]
 offset_right = 397.0
 offset_bottom = 1076.0
 mouse_filter = 2
+script = ExtResource("1_8ajov")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -24,28 +21,8 @@ mouse_filter = 2
 theme_override_constants/margin_left = 98
 theme_override_constants/margin_top = 128
 
-[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 34
-
-[node name="Card" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("2_8ajov")]
-layout_mode = 2
-collision_mask = 2
-
-[node name="Card2" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("2_8ajov")]
-layout_mode = 2
-collision_mask = 2
-
-[node name="Card3" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("2_8ajov")]
-layout_mode = 2
-collision_mask = 2
-
-[node name="Card4" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("2_8ajov")]
-layout_mode = 2
-collision_mask = 2
-
-[node name="Card5" parent="Panel/MarginContainer/GridContainer" instance=ExtResource("2_8ajov")]
-layout_mode = 2
-collision_mask = 2
