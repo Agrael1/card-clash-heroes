@@ -1,3 +1,4 @@
+class_name MainMenu
 extends Control
 
 var main_scene : PackedScene = preload("res://scenes/main.tscn")
