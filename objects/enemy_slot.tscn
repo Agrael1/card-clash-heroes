@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3b1xkxkqp8ye"]
+
+[ext_resource type="Script" uid="uid://qpq1k4m3n2pi" path="res://scripts/card_slot.gd" id="1_l1qfj"]
+[ext_resource type="Texture2D" uid="uid://c2kjy60hm1j6e" path="res://textures/slot.png" id="2_eltp8"]
+
+[node name="EnemySlot" type="Panel"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(128, 128)
+offset_right = 128.0
+offset_bottom = 128.0
+mouse_filter = 2
+script = ExtResource("1_l1qfj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.627451, 0.627451)
+texture = ExtResource("2_eltp8")
+centered = false

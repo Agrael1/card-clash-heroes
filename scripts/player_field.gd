@@ -1,11 +1,9 @@
 class_name PlayerField
 extends Node
 
-const CARD_PATH = "res://objects/card.tscn"
-const SLOT_PATH = "res://objects/card_slot.tscn"
 @export var field_width : int = 4
 @export var field_height : int = 2
-
+@export var slot_object = preload("res://objects/card_slot.tscn")
 @onready var root : GridContainer = $"."
 
 var grid : Array[CardSlot] = []
@@ -13,11 +11,9 @@ var grid : Array[CardSlot] = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	grid.resize(field_width * field_height)
-	var slot_obj : CardSlot = preload(SLOT_PATH).instantiate()
-		
-	# fill with empty slots
+	
 	for i in range(field_width * field_height):
-		var slot = slot_obj.duplicate()
+		var slot = slot_object.instantiate()
 		slot.name = "slot_" + str(i)
 		slot.slot_number = i
 		grid[i] = slot
