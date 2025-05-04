@@ -1,14 +1,18 @@
-[gd_scene format=3 uid="uid://cahns5mqsn7le"]
+[gd_scene load_steps=2 format=3 uid="uid://cahns5mqsn7le"]
 
-[node name="Main Menu" type="Control"]
+[ext_resource type="Script" uid="uid://8ac1s2xk3u8x" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_l6cm7")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="MenuContainer" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -18,21 +22,21 @@ anchor_bottom = 0.5
 offset_left = -170.0
 offset_top = -158.0
 offset_right = 170.0
-offset_bottom = 158.0
+offset_bottom = 103.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MenuContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/VBoxContainer"]
 clip_contents = false
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -46,18 +50,22 @@ text = "Card Clash: Heroes
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Host" type="Button" parent="MenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Host Game"
 
-[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="MenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Join Game"
 
-[node name="Button3" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Exit" type="Button" parent="MenuContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
+
+[connection signal="pressed" from="MenuContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
