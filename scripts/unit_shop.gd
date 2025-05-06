@@ -1,3 +1,4 @@
+class_name Shop
 extends Control
 
 const CARD_PATH = "res://objects/card.tscn"

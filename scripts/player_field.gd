@@ -1,10 +1,18 @@
 class_name PlayerField
-extends Node
+extends Container
+
+const CARD_MASK = 0
+const CARD_MASK_ENEMY = 4
 
 @export var field_width : int = 4
 @export var field_height : int = 2
 @export var slot_object = preload("res://objects/card_slot.tscn")
+
+@onready var card_manager = $"../../CardManager"
 @onready var root : GridContainer = $"."
+
+var card_db_ref : CardDB = preload("res://resources/card_db.tres")
+var card_object : PackedScene = preload("res://objects/card.tscn")
 
 var grid : Array[CardSlot] = []
 
@@ -59,3 +67,31 @@ func try_place_card(card:Card, slot_num:int) -> bool:
 		return true
 	return false
 	
+func export():
+	# Export the current state of the field to an array
+	var export_data = []
+	export_data.resize(field_width * field_height)
+	
+	for i in range(0, grid.size()):
+		var slot = grid[i]
+		if slot.card_ref:
+			export_data[i] = slot.card_ref.export() # Format: [card_tag, card_number, card_slot]
+		else:
+			export_data[i] = null
+	return export_data
+	
+func import(data):
+	for i in range(0, grid.size()):
+		var slot = grid[grid.size() - i - 1] # Mirror
+		var card_data = data[i]
+		if card_data == null:
+			continue;
+		
+		# Instantiate card
+		var card : Card = card_object.instantiate()
+		card.collision_mask = CARD_MASK_ENEMY
+		card.unit = card_db_ref.units_egypt[card_data["unit"]]
+		card.number = card_data["number"]
+		
+		card_manager.add_child(card)
+		slot.set_card(card)

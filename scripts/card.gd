@@ -55,3 +55,5 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
 		emit_signal("mouse_click", self)
 		
+func export():
+	return { "unit": unit.tag, "number" : _number, "slot" : slot }
