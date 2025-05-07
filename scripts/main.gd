@@ -9,10 +9,11 @@ var remote_player_ready = false
 var remote_player_id = 0
 
 @onready var main_menu : MainMenu = $"../"
-@onready var ready_button : Button = $Attack
+@onready var ready_button : Button = $MarginContainer3/Attack
 @onready var enemy_field : PlayerField = $MarginContainer2/EnemyField
 @onready var player_field : PlayerField = $MarginContainer/PlayerField
 @onready var shop : Shop = $Shop
+@onready var turn_scale : TurnScale = $TurnScale
 
 
 
@@ -27,6 +28,9 @@ func on_local_ready_changed()->void:
 	
 func on_both_ready()->void:
 	sync_fields.rpc(multiplayer.get_unique_id(), player_field.export())
+	turn_scale.visible = true
+	
+	# on host calculate the turns
 
 func _on_attack_pressed() -> void:
 	var is_ready : bool = toggle_ready()

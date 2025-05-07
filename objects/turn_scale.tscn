@@ -1,0 +1,123 @@
+[gd_scene load_steps=4 format=3 uid="uid://drvvnk4kik3uj"]
+
+[ext_resource type="PackedScene" uid="uid://c3dodjurejeur" path="res://objects/card.tscn" id="1_4rcqu"]
+[ext_resource type="Script" uid="uid://bi64un516pci0" path="res://scripts/turn_scale.gd" id="1_m8de5"]
+[ext_resource type="Texture2D" uid="uid://dis3nwsomj0as" path="res://textures/triangle.svg" id="2_1nscy"]
+
+[node name="TurnScale" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_m8de5")
+
+[node name="Panel" type="Panel" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_left = -1656.0
+offset_top = 931.0
+offset_bottom = 1077.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+offset_top = 1.0
+offset_right = 1913.0
+offset_bottom = 199.0
+theme_override_constants/margin_left = 69
+theme_override_constants/margin_top = 70
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Card" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card2" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card3" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card4" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card5" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card6" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card7" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card8" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card9" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card10" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card11" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card12" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card13" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Card14" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
+layout_mode = 2
+collision_mask = 5
+number = 7
+
+[node name="Triangle" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(-1784, 805)
+rotation = 1.57952
+texture = ExtResource("2_1nscy")
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -1917.0
+offset_top = 805.0
+offset_right = -1654.0
+offset_bottom = 1076.0
+
+[node name="Card" parent="Panel2" instance=ExtResource("1_4rcqu")]
+visible = false
+offset_left = 196.0
+offset_top = 199.0
+offset_right = 324.0
+offset_bottom = 327.0
+scale = Vector2(2, 2)

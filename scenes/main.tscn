@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cgvammbnay7fb"]
+[gd_scene load_steps=8 format=3 uid="uid://cgvammbnay7fb"]
 
 [ext_resource type="Script" uid="uid://b76fpo1woutd2" path="res://scripts/card_manager.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dor8dwf0om2sr" path="res://objects/player_field.tscn" id="1_tbgi4"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c0nu1n6wbjeug" path="res://objects/unit_shop.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://d3b1xkxkqp8ye" path="res://objects/enemy_slot.tscn" id="3_tbgi4"]
 [ext_resource type="Script" uid="uid://7yfj7tmov3hs" path="res://scripts/input_manager.gd" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://drvvnk4kik3uj" path="res://objects/turn_scale.tscn" id="7_o6xl0"]
 
 [node name="Root" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -28,7 +29,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_constants/margin_bottom = 32
+theme_override_constants/margin_bottom = 202
 
 [node name="PlayerField" parent="MarginContainer" instance=ExtResource("1_tbgi4")]
 layout_mode = 2
@@ -51,10 +52,19 @@ script = ExtResource("1_0wfyh")
 [node name="InputManager" type="Node2D" parent="."]
 script = ExtResource("5_tbgi4")
 
-[node name="Attack" type="Button" parent="."]
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_bottom = 170
+
+[node name="Attack" type="Button" parent="MarginContainer3"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Ready"
 
-[connection signal="pressed" from="Attack" to="." method="_on_attack_pressed"]
+[node name="TurnScale" parent="." instance=ExtResource("7_o6xl0")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+
+[connection signal="pressed" from="MarginContainer3/Attack" to="." method="_on_attack_pressed"]
