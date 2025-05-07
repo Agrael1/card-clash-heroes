@@ -24,11 +24,18 @@ var _number:int = 0
 			number_panel.set_number(_number)
 	get:
 		return _number;
+		
+var _unit:Unit = null
+@export var unit:Unit:
+	set(value):
+		_unit = value
+		if sprite:
+			sprite.texture = _unit.sprite
+	get:
+		return _unit
 
 
-@export var unit : Unit
 var slot:int = -1
-
 @onready var number_panel = $Panel
 @onready var sprite = $Sprite2D
 @onready var area :Area2D = $Area2D
