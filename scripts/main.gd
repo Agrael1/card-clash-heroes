@@ -14,6 +14,8 @@ var remote_player_id = 0
 @onready var player_field : PlayerField = $MarginContainer/PlayerField
 @onready var shop : Shop = $Shop
 @onready var turn_scale : TurnScale = $TurnScale
+@onready var card_manager : CardManager = $CardManager
+@onready var battle_field : BattleField = $BattleField
 
 
 
@@ -25,6 +27,7 @@ func on_peer_disconnected(peer_id:int)->void:
 	
 func on_local_ready_changed()->void:
 	shop.visible = !local_player_ready
+	card_manager.block_free_move = local_player_ready
 	
 func on_both_ready()->void:
 	sync_fields.rpc(multiplayer.get_unique_id(), player_field.export())
@@ -32,6 +35,7 @@ func on_both_ready()->void:
 	turn_scale.populate_atb_bar()
 	
 	# on host calculate the turns
+
 
 func _on_attack_pressed() -> void:
 	var is_ready : bool = toggle_ready()
@@ -74,3 +78,12 @@ func sync_fields(unique_id:int, field_data):
 	var sender_id : int = multiplayer.get_unique_id()
 	if unique_id != sender_id:
 		enemy_field.import(field_data)
+		if unique_id != 1:
+			start_battle()
+
+func start_battle():
+	#find first card on host (test)
+	var index : int = player_field.grid.find_custom(func(x:CardSlot):return !x.is_empty())
+	if index!=-1:
+		var card : Card = player_field.grid[index].card_ref
+		battle_field.on_card_turn(card)

@@ -1,16 +1,13 @@
 class_name Shop
 extends Control
 
-const CARD_PATH = "res://objects/card.tscn"
 const CARD_MASK = 0
 const SHOP_MASK = 2
 
 var card_db_ref : CardDB = preload("res://resources/card_db.tres")
+var card_instance : PackedScene = preload("res://objects/card.tscn")
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var card_manager = $"../CardManager"
-
-func is_card(item):
-	return item is Card
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,7 +15,7 @@ func _ready() -> void:
 	var card_array : Array[String] = card_db_ref.units_egypt_names
 	for i in range(0, card_array.size()):
 		var card_name = card_array[i]
-		var card : Card = preload(CARD_PATH).instantiate()
+		var card : Card = card_instance.instantiate()
 		card.name = card_name + "_" + str(i)
 		card.unit = card_db_ref.units_egypt[card_name]
 		card.collision_mask = SHOP_MASK

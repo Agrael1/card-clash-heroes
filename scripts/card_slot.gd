@@ -14,7 +14,7 @@ func reset_card():
 
 func place_card(card: Card):
 	var rect = get_global_rect()
-	card.position = rect.position + rect.size / 2
+	card.position = rect.position
 
 func is_empty() -> bool:
 	return card_ref == null
