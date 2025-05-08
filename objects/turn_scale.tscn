@@ -28,78 +28,8 @@ theme_override_constants/margin_left = 69
 theme_override_constants/margin_top = 70
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
-visible = false
 layout_mode = 2
-
-[node name="Card" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card2" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card3" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card4" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card5" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card6" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card7" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card8" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card9" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card10" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card11" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card12" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card13" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
-
-[node name="Card14" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("1_4rcqu")]
-layout_mode = 2
-collision_mask = 5
-number = 7
+mouse_filter = 0
 
 [node name="Triangle" type="Sprite2D" parent="."]
 z_index = 2

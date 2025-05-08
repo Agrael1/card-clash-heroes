@@ -32,6 +32,10 @@ func on_local_ready_changed()->void:
 func on_both_ready()->void:
 	sync_fields.rpc(multiplayer.get_unique_id(), player_field.export())
 	turn_scale.visible = true
+	turn_scale.populate_atb_bar()
+	
+	# on host calculate the turns
+
 
 func _on_attack_pressed() -> void:
 	var is_ready : bool = toggle_ready()
