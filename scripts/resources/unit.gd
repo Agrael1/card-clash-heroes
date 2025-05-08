@@ -7,6 +7,7 @@ extends Resource
 @export var tag: String
 @export var health: int
 @export var attack: int
+@export var initiative: float
 
 @export_group("Shop Stats")
 @export var max_count: int
