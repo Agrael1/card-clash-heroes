@@ -9,5 +9,6 @@ sprite = ExtResource("2_8ck1u")
 tag = "peasant"
 health = 1
 attack = 1
+initiative = 10.0
 max_count = 22
 metadata/_custom_type_script = "uid://umlu675s31ui"

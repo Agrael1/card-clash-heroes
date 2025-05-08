@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://cqgir0cs8c2i5" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://c0nu1n6wbjeug" path="res://objects/unit_shop.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://d3b1xkxkqp8ye" path="res://objects/enemy_slot.tscn" id="3_tbgi4"]
-[ext_resource type="Script" uid="uid://7yfj7tmov3hs" path="res://scripts/input_manager.gd" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://drvvnk4kik3uj" path="res://objects/turn_scale.tscn" id="7_o6xl0"]
+[ext_resource type="Script" uid="uid://dajiboyk64xc" path="res://scripts/battle_field.gd" id="8_tipki"]
 
 [node name="Root" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -33,7 +33,6 @@ theme_override_constants/margin_bottom = 202
 
 [node name="PlayerField" parent="MarginContainer" instance=ExtResource("1_tbgi4")]
 layout_mode = 2
-field_width = 5
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -43,14 +42,7 @@ theme_override_constants/margin_top = 32
 
 [node name="EnemyField" parent="MarginContainer2" instance=ExtResource("1_tbgi4")]
 layout_mode = 2
-field_width = 5
 slot_object = ExtResource("3_tbgi4")
-
-[node name="CardManager" type="Node2D" parent="."]
-script = ExtResource("1_0wfyh")
-
-[node name="InputManager" type="Node2D" parent="."]
-script = ExtResource("5_tbgi4")
 
 [node name="MarginContainer3" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -62,9 +54,17 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Ready"
 
-[node name="TurnScale" parent="." instance=ExtResource("7_o6xl0")]
+[node name="TurnScale" parent="." node_paths=PackedStringArray("player_field", "enemy_field") instance=ExtResource("7_o6xl0")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 8
+player_field = NodePath("../MarginContainer/PlayerField")
+enemy_field = NodePath("../MarginContainer2/EnemyField")
+
+[node name="CardManager" type="Node2D" parent="."]
+script = ExtResource("1_0wfyh")
+
+[node name="BattleField" type="Node2D" parent="."]
+script = ExtResource("8_tipki")
 
 [connection signal="pressed" from="MarginContainer3/Attack" to="." method="_on_attack_pressed"]

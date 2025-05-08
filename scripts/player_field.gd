@@ -4,7 +4,7 @@ extends Container
 const CARD_MASK = 0
 const CARD_MASK_ENEMY = 4
 
-@export var field_width : int = 4
+@export var field_width : int = 5
 @export var field_height : int = 2
 @export var slot_object = preload("res://objects/card_slot.tscn")
 
@@ -66,6 +66,7 @@ func try_place_card(card:Card, slot_num:int) -> bool:
 		card.queue_free()
 		return true
 	return false
+	
 	
 func export():
 	# Export the current state of the field to an array
