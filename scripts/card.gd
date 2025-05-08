@@ -1,6 +1,8 @@
 class_name Card
 extends Node
 
+const SELF_SCENE = preload("res://objects/card.tscn")
+
 signal mouse_enter
 signal mouse_exit
 signal mouse_click(card : Card)

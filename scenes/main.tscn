@@ -62,9 +62,11 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Ready"
 
-[node name="TurnScale" parent="." instance=ExtResource("7_o6xl0")]
+[node name="TurnScale" parent="." node_paths=PackedStringArray("player_field", "enemy_field") instance=ExtResource("7_o6xl0")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 8
+player_field = NodePath("../MarginContainer/PlayerField")
+enemy_field = NodePath("../MarginContainer2/EnemyField")
 
 [connection signal="pressed" from="MarginContainer3/Attack" to="." method="_on_attack_pressed"]
