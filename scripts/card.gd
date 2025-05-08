@@ -5,7 +5,7 @@ signal mouse_enter
 signal mouse_exit
 signal mouse_click(card : Card)
 
-enum Outline {NONE, CURRENT, ENEMY}
+enum Outline {NONE, CURRENT, ENEMY_FULL, ENEMY_PENALTY}
 
 # Prooperties
 var _collision_mask : int = 0
@@ -36,6 +36,8 @@ var _unit:Unit = null
 	get:
 		return _unit
 
+var card_state: Outline = Outline.NONE
+var current_health
 
 var slot:int = -1
 @onready var number_panel = $Panel
@@ -52,6 +54,7 @@ func _ready() -> void:
 	
 	number_panel.number = _number
 	sprite.texture = unit.sprite
+	current_health = unit.health
 	
 	var parent = get_parent()
 	if parent is CardManager:
@@ -72,10 +75,13 @@ func export():
 	return { "unit": unit.tag, "number" : _number, "slot" : slot }
 
 func set_outline(xoutline : Outline):
+	card_state = xoutline
 	match xoutline:
 		Outline.CURRENT:
 			outline.bg_color = Color.YELLOW
-		Outline.ENEMY:
+		Outline.ENEMY_FULL:
 			outline.bg_color = Color.RED
+		Outline.ENEMY_PENALTY:
+			outline.bg_color = Color.ORANGE
 		_:
 			outline.bg_color = Color.TRANSPARENT

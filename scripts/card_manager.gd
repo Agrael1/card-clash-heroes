@@ -4,6 +4,7 @@ extends Node2D
 const CARD_MASK = 1 << 0
 const SLOT_MASK = 1 << 1
 const SHOP_MASK = 1 << 2
+const CARD_MASK_ENEMY = 1 << 4
 
 var dragged_card : Card
 var card_hovered : Card
@@ -27,14 +28,17 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
-			raycast_at_cursor()
+			raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY)
 		if event.is_released():
 			if dragged_card:
 				on_drag_end()
 
 func on_raycast_card(card:Card):
-	if !block_free_move:
+	if !block_free_move: # prep phase
 		on_drag_start(card)
+		
+func on_raycast_enemy(card:Card):
+	battle_field.try_attack_at(card.slot)
 
 # Drag logic
 func on_drag_start(card: Card):
@@ -69,18 +73,15 @@ func connect_card(card: Card):
 	card.connect("mouse_exit", on_card_hovered_off)
 
 
-
-
 # Function to sort by y position
 func first_by_z(cards):
-	var filtered_cards = cards.filter(func(item):return item.collider.collision_mask == CARD_MASK)
-	var first = filtered_cards[0].collider.get_parent()
-	var first_z_index = first.z_index
+	var first = cards[0]
+	var first_z_index = first.collider.get_parent().z_index
 	
-	for i in range(1, filtered_cards.size()):
-		var card = filtered_cards[i].collider.get_parent()
+	for i in range(1, cards.size()):
+		var card = cards[i].collider.get_parent()
 		if card.z_index > first_z_index:
-			first = card
+			first = cards[i]
 	return first
 
 func raycast_at_cursor(collision_mask:int = CARD_MASK):
@@ -92,10 +93,14 @@ func raycast_at_cursor(collision_mask:int = CARD_MASK):
 	var result = space_state.intersect_point(parameters)
 	# Check and sort
 	if result.size() > 0:
-		var result_mask = result[0].collider.collision_mask
+		var first = first_by_z(result)
+		var result_mask = first.collider.collision_mask
+		var output = first.collider.get_parent()
 		match result_mask:
 			CARD_MASK:
-				on_raycast_card(first_by_z(result))
+				on_raycast_card(output)
+			CARD_MASK_ENEMY:
+				on_raycast_enemy(output)
 				
 func raycast_slot() -> CardSlot:
 	var space_state = get_world_2d().direct_space_state
