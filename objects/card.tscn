@@ -1,9 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3dodjurejeur"]
+[gd_scene load_steps=8 format=3 uid="uid://c3dodjurejeur"]
 
 [ext_resource type="Script" uid="uid://dfx54bgpbnecg" path="res://scripts/card.gd" id="1_77oaa"]
 [ext_resource type="Texture2D" uid="uid://cm40e5sxatra5" path="res://textures/peasant.png" id="1_k5eb0"]
 [ext_resource type="Resource" uid="uid://dfxg1nquu644t" path="res://resources/peasant.tres" id="2_nsn7b"]
 [ext_resource type="Script" uid="uid://dpikklyj2aspl" path="res://scripts/number_panel.gd" id="3_ebvaf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsn7b"]
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k5eb0"]
 size = Vector2(11.6364, 11.6364)
@@ -27,14 +33,23 @@ z_index = 1
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 3
 anchors_preset = 0
-offset_left = -128.0
-offset_top = -128.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
 pivot_offset = Vector2(64, 64)
 mouse_filter = 2
 script = ExtResource("1_77oaa")
 unit = ExtResource("2_nsn7b")
 
+[node name="Outline" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nsn7b")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(64, 64)
 scale = Vector2(0.595349, 0.595349)
 texture = ExtResource("1_k5eb0")
 
@@ -42,7 +57,7 @@ texture = ExtResource("1_k5eb0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 texture_filter = 1
-position = Vector2(-1.14441e-05, 0)
+position = Vector2(64, 64)
 scale = Vector2(11, 11)
 shape = SubResource("RectangleShape2D_k5eb0")
 
@@ -51,10 +66,10 @@ self_modulate = Color(0.566531, 0.25297, 0, 1)
 z_index = 1
 texture_filter = 1
 layout_mode = 0
-offset_left = 16.0
-offset_top = 32.0
-offset_right = 56.0
-offset_bottom = 56.0
+offset_left = 80.0
+offset_top = 96.0
+offset_right = 120.0
+offset_bottom = 120.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_77oaa")
 script = ExtResource("3_ebvaf")
 number = 1
