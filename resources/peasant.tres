@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://dfxg1nquu644t"]
 
 [ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_gb4c0"]
-[ext_resource type="Texture2D" uid="uid://cm40e5sxatra5" path="res://textures/peasant.png" id="2_8ck1u"]
+[ext_resource type="Texture2D" uid="uid://daal0f6e3nimc" path="res://textures/peasant.png" id="2_8ck1u"]
 
 [resource]
 script = ExtResource("1_gb4c0")
@@ -9,6 +9,6 @@ sprite = ExtResource("2_8ck1u")
 tag = "peasant"
 health = 1
 attack = 1
-initiative = 10.0
+initiative = 8.0
 max_count = 22
 metadata/_custom_type_script = "uid://umlu675s31ui"

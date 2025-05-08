@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3dodjurejeur"]
 
 [ext_resource type="Script" uid="uid://dfx54bgpbnecg" path="res://scripts/card.gd" id="1_77oaa"]
-[ext_resource type="Texture2D" uid="uid://cm40e5sxatra5" path="res://textures/peasant.png" id="1_k5eb0"]
 [ext_resource type="Resource" uid="uid://dfxg1nquu644t" path="res://resources/peasant.tres" id="2_nsn7b"]
 [ext_resource type="Script" uid="uid://dpikklyj2aspl" path="res://scripts/number_panel.gd" id="3_ebvaf"]
+[ext_resource type="Texture2D" uid="uid://bewbrgmsamehp" path="res://textures/bowman.png" id="3_nsn7b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k5eb0"]
 size = Vector2(11.6364, 11.6364)
@@ -43,8 +43,8 @@ offset_bottom = 128.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(64, 64)
-scale = Vector2(0.595349, 0.595349)
-texture = ExtResource("1_k5eb0")
+scale = Vector2(0.128, 0.128)
+texture = ExtResource("3_nsn7b")
 
 [node name="Area2D" type="Area2D" parent="."]
 

@@ -7,6 +7,7 @@ extends Control
 @onready var card_parent: Node = $Panel/MarginContainer/HBoxContainer
 @onready var current_turn_card: Card = $Panel2/Card
 @onready var card_manager : CardManager = $"../CardManager"
+@onready var battle_field : BattleField = $"../BattleField"
 
 class CardRef:
 	var ref: Card
@@ -18,8 +19,56 @@ class CardRef:
 		self.ref = inref
 		self.belongs_to_player = inbelongs
 		self.atb_increment = inref.unit.initiative / 100
+		
+	func duplicate():
+		var x = CardRef.new(self.ref, self.belongs_to_player)
+		x.current_atb = self.current_atb
+		return x
 
 var _card_refs: Array[CardRef]
+
+var _cache_refs : Array
+	
+
+func predict():
+	_cache_refs.resize(15)	
+	
+	var units_copy: Array[CardRef]
+	units_copy.resize(_card_refs.size())
+	for i in range(0, _card_refs.size()):
+		units_copy[i] = _card_refs[i].duplicate()
+	
+	
+	for i in range(0, _cache_refs.size()):
+		# Get least time
+		var next_turn_times = []
+		for j in range(0, units_copy.size()):
+			var unit = units_copy[j]
+			var time_needed = (1.0 - unit.current_atb) / unit.atb_increment
+			next_turn_times.append({"index": j, "time": time_needed})
+		
+		# sort
+		next_turn_times.sort_custom(func(a,b):return a["time"]<b["time"])
+		
+		# get the smallest
+		var next_unit_turn = next_turn_times[0]
+		var time_to_next = next_unit_turn["time"]
+		var next_unit_idx = next_unit_turn["index"]
+		
+		_cache_refs[i] = _card_refs[next_unit_idx]
+		
+		# Advance time for all units
+		for j in range(0, units_copy.size()):
+			var unit = units_copy[j]
+			unit.current_atb += unit.atb_increment * time_to_next
+			
+			if next_unit_idx == j:
+				unit.current_atb = 0.0
+			elif unit.current_atb > 0.9999:
+				unit.current_atb = 0.9999
+	
+func repredict():
+	pass
 
 func populate_atb_bar() -> void:
 	_card_refs = []
@@ -43,6 +92,7 @@ func populate_atb_bar() -> void:
 		)
 	
 	if not _card_refs.is_empty():
+		predict()
 		_make_ui_respect_state()
 		card_parent.visible = true
 		current_turn_card.visible = true
@@ -75,25 +125,36 @@ func import(data): # format {"slot": int, "enemy":bool, "current_atb":float}
 		_card_refs[i].current_atb = data[i]["current_atb"]
 	
 	if not _card_refs.is_empty():
+		predict()
 		_make_ui_respect_state()
 		card_parent.visible = true
 		current_turn_card.visible = true
+		
+		var current : CardRef = first()
+		if current.belongs_to_player:
+			battle_field.on_card_turn(current.ref)
 	else:
 		push_error("no cards on either field?")
 
 func first():
-	return _card_refs[0]
+	return _cache_refs[0]
+	
+func action():
+	pass
+
+func wait():
+	pass
 
 func _make_ui_respect_state() -> void:
-	assert(not _card_refs.is_empty())
+	assert(not _card_refs.is_empty())	
 	
 	var current = first()
 	current_turn_card.unit = current.ref.unit
 	current_turn_card.number = current.ref.number
 	current_turn_card.sprite.modulate = Color.SKY_BLUE if current.belongs_to_player else Color.INDIAN_RED
 	
-	for i in range(1, _card_refs.size()):
-		var ref : CardRef = _card_refs[i]
+	for i in range(1, _cache_refs.size()):
+		var ref : CardRef = _cache_refs[i]
 		var instance : Card = Card.SELF_SCENE.instantiate()
 		instance.collision_mask = ref.ref.collision_mask
 		instance.unit = ref.ref.unit

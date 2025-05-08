@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://du6ly4yrk8unl"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_fr572"]
+[ext_resource type="Texture2D" uid="uid://bewbrgmsamehp" path="res://textures/bowman.png" id="2_ttgxr"]
+
+[resource]
+script = ExtResource("1_fr572")
+sprite = ExtResource("2_ttgxr")
+tag = "bowman"
+health = 1
+attack = 2
+initiative = 7.0
+max_count = 22
+metadata/_custom_type_script = "uid://umlu675s31ui"

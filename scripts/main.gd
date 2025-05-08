@@ -15,7 +15,6 @@ var remote_player_id = 0
 @onready var shop : Shop = $Shop
 @onready var turn_scale : TurnScale = $TurnScale
 @onready var card_manager : CardManager = $CardManager
-@onready var battle_field : BattleField = $BattleField
 
 
 
@@ -71,24 +70,15 @@ func update_ready_status(is_ready:bool, unique_id:int):
 		check_both_ready()
 	
 @rpc("any_peer", "call_local", "reliable")
-func sync_fields(unique_id:int, field_data):
-	var sender_id : int = multiplayer.get_unique_id()
-	if unique_id != sender_id:
+func sync_fields(emitter_id:int, field_data):
+	var receiver_id : int = multiplayer.get_unique_id()
+	if emitter_id != receiver_id:
 		enemy_field.import(field_data)
-		if unique_id != 1:
-			start_battle()
-			
-		sync_atb.rpc_id(unique_id, turn_scale.export())
+		if emitter_id != 1:
+			turn_scale.populate_atb_bar()
+			sync_atb.rpc_id(emitter_id, turn_scale.export())
+		
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_atb(data):
 	turn_scale.import(data)
-	
-func start_battle():
-	turn_scale.populate_atb_bar()
-	
-	#find first card on host (test)
-	var index : int = player_field.grid.find_custom(func(x:CardSlot):return !x.is_empty())
-	if index != -1:
-		var card : Card = player_field.grid[index].card_ref
-		battle_field.on_card_turn(card)
