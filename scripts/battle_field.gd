@@ -30,6 +30,8 @@ func attack_visualize_front(card:Card, radius:int):
 			slot.card_ref.set_outline(Card.Outline.ENEMY_FULL)
 
 func try_attack_at(slot_idx:int)->bool:
+	if !attacker_card: return false
+	
 	var card = enemy_field.grid[slot_idx].card_ref
 	if card:
 		match card.card_state:

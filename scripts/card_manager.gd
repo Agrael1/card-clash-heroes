@@ -13,6 +13,7 @@ var block_free_move : bool = false
 
 @onready var player_field: PlayerField = $"../MarginContainer/PlayerField"
 @onready var battle_field : BattleField = $"../BattleField"
+@onready var atb_bar : TurnScale = $"../TurnScale"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -38,7 +39,8 @@ func on_raycast_card(card:Card):
 		on_drag_start(card)
 		
 func on_raycast_enemy(card:Card):
-	battle_field.try_attack_at(card.slot)
+	if battle_field.try_attack_at(card.slot):
+		atb_bar.action()
 
 # Drag logic
 func on_drag_start(card: Card):

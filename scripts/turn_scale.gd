@@ -1,6 +1,8 @@
 class_name TurnScale
 extends Control
 
+enum ActionTaken{ACTION, WAIT}
+
 @export var player_field: PlayerField
 @export var enemy_field: PlayerField
 
@@ -28,45 +30,48 @@ class CardRef:
 var _card_refs: Array[CardRef]
 
 var _cache_refs : Array
+var _last_state : Array
 	
 
 func predict():
 	_cache_refs.resize(15)	
 	
-	var units_copy: Array[CardRef]
-	units_copy.resize(_card_refs.size())
+	_last_state.resize(_card_refs.size())
 	for i in range(0, _card_refs.size()):
-		units_copy[i] = _card_refs[i].duplicate()
-	
+		_last_state[i] = _card_refs[i].duplicate()
 	
 	for i in range(0, _cache_refs.size()):
-		# Get least time
-		var next_turn_times = []
-		for j in range(0, units_copy.size()):
-			var unit = units_copy[j]
-			var time_needed = (1.0 - unit.current_atb) / unit.atb_increment
-			next_turn_times.append({"index": j, "time": time_needed})
+		advance(i)
+		
+	
+func advance(insert_idx:int):
+	# Get least time
+	var next_turn_times = []
+	for j in range(0, _last_state.size()):
+		var unit = _last_state[j]
+		var time_needed = (1.0 - unit.current_atb) / unit.atb_increment
+		next_turn_times.append({"index": j, "time": time_needed})
 		
 		# sort
-		next_turn_times.sort_custom(func(a,b):return a["time"]<b["time"])
+	next_turn_times.sort_custom(func(a,b):return a["time"]<b["time"])
 		
 		# get the smallest
-		var next_unit_turn = next_turn_times[0]
-		var time_to_next = next_unit_turn["time"]
-		var next_unit_idx = next_unit_turn["index"]
+	var next_unit_turn = next_turn_times[0]
+	var time_to_next = next_unit_turn["time"]
+	var next_unit_idx = next_unit_turn["index"]
 		
-		_cache_refs[i] = _card_refs[next_unit_idx]
+	_cache_refs[insert_idx] = _last_state[next_unit_idx].duplicate()
 		
 		# Advance time for all units
-		for j in range(0, units_copy.size()):
-			var unit = units_copy[j]
-			unit.current_atb += unit.atb_increment * time_to_next
+	for j in range(0, _last_state.size()):
+		var unit = _last_state[j]
+		unit.current_atb += unit.atb_increment * time_to_next
 			
-			if next_unit_idx == j:
-				unit.current_atb = 0.0
-			elif unit.current_atb > 0.9999:
-				unit.current_atb = 0.9999
-	
+		if next_unit_idx == j:
+			unit.current_atb = 0.0
+		elif unit.current_atb > 0.9999:
+			unit.current_atb = 0.9999
+
 func repredict():
 	pass
 
@@ -138,12 +143,33 @@ func import(data): # format {"slot": int, "enemy":bool, "current_atb":float}
 
 func first():
 	return _cache_refs[0]
-	
+
 func action():
-	pass
+	# simple path - remove first and calculate next
+	_cache_refs.pop_front()
+	_cache_refs.push_back(null)
+	advance(_cache_refs.size() - 1)
+	_ui_advance()
+	return first()
 
 func wait():
+	# complex path - recalculate placement of the same ref
 	pass
+
+func _ui_advance()->void:
+	var current = first()
+	current_turn_card.unit = current.ref.unit
+	current_turn_card.number = current.ref.number
+	current_turn_card.sprite.modulate = Color.SKY_BLUE if current.belongs_to_player else Color.INDIAN_RED
+	
+	# move first child to the end
+	var ref : CardRef = _cache_refs.back()
+	var child : Card = card_parent.get_child(0)
+	child.collision_mask = ref.ref.collision_mask
+	child.unit = ref.ref.unit
+	child.number = ref.ref.number
+	child.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED
+	card_parent.move_child(child, card_parent.get_child_count() - 1)
 
 func _make_ui_respect_state() -> void:
 	assert(not _card_refs.is_empty())	
