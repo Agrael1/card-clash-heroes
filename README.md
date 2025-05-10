@@ -3,8 +3,8 @@
 # TODO:
 
 Core:
-	- [ ] Fix ATB and make it run on both peers.
-	- [ ] Sync Attack
+	- [x] Fix ATB and make it run on both peers.
+	- [x] Sync Attack
 	- [ ] Wait button + sync
 	- [ ] Move cards to the right place on the board
 	- [ ] Limit the number of cards in stacks and add currency for each player

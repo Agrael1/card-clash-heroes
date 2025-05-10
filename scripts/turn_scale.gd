@@ -1,8 +1,6 @@
 class_name TurnScale
 extends Control
 
-enum ActionTaken{ACTION, WAIT}
-
 @export var player_field: PlayerField
 @export var enemy_field: PlayerField
 
@@ -29,8 +27,8 @@ class CardRef:
 
 var _card_refs: Array[CardRef]
 
-var _cache_refs : Array
-var _last_state : Array
+var _cache_refs : Array[CardRef]
+var _last_state : Array[CardRef]
 	
 
 func predict():
@@ -101,6 +99,10 @@ func populate_atb_bar() -> void:
 		_make_ui_respect_state()
 		card_parent.visible = true
 		current_turn_card.visible = true
+		
+		var current : CardRef = first()
+		if current.belongs_to_player:
+			battle_field.on_card_turn(current.ref)
 	else:
 		push_error("no cards on either field?")
 
@@ -155,6 +157,33 @@ func action():
 func wait():
 	# complex path - recalculate placement of the same ref
 	pass
+
+func trim_card(card : Card):
+	_last_state = _last_state.filter(func(x: CardRef): return x.ref != card)
+	var prev_size = _cache_refs.size()
+	_ui_trim(card)
+	_cache_refs = _cache_refs.filter(func(x): return x.ref != card)
+	var new_size = _cache_refs.size()
+	for i in range(new_size, prev_size):
+		_cache_refs.push_back(null)
+		advance(i)
+	_ui_compensate(new_size)
+
+func _ui_trim(card : Card):
+	for i in range(1, _cache_refs.size()):
+		var ref : CardRef = _cache_refs[i]
+		if ref.ref == card:
+			# -1 because 0th ref is in other panel
+			card_parent.move_child(card_parent.get_child(i - 1), card_parent.get_child_count() - 1)
+
+func _ui_compensate(begin):
+	for i in range(begin, _cache_refs.size()):
+		var ref : CardRef = _cache_refs[i]
+		var child : Card = card_parent.get_child(i - 1)
+		child.collision_mask = ref.ref.collision_mask
+		child.unit = ref.ref.unit
+		child.number = ref.ref.number
+		child.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED
 
 func _ui_advance()->void:
 	var current = first()

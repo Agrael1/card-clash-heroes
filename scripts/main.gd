@@ -81,4 +81,5 @@ func sync_fields(emitter_id:int, field_data):
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_atb(data):
+	print("Called on: {a}".format({"a":multiplayer.get_unique_id()}))
 	turn_scale.import(data)

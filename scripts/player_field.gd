@@ -67,6 +67,8 @@ func try_place_card(card:Card, slot_num:int) -> bool:
 		return true
 	return false
 	
+func get_at(slot_num:int, inverted : bool = false):
+	return grid[grid.size() - slot_num - 1] if inverted else grid[slot_num]
 	
 func export():
 	# Export the current state of the field to an array

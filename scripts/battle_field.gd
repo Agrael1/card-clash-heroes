@@ -1,8 +1,11 @@
 class_name BattleField
 extends Node2D
 
+enum ActionTaken{ATTACK, MOVE, WAIT}
+
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var enemy_field : PlayerField = $"../MarginContainer2/EnemyField"
+@onready var atb_bar : TurnScale = $"../TurnScale"
 
 var attacker_card : Card
 
@@ -15,6 +18,13 @@ func on_card_turn(card:Card):
 # for type archer
 func attack_any():
 	pass
+
+func reset_vizualize():
+	if attacker_card:
+		attacker_card.set_outline(Card.Outline.NONE)
+		for slot : CardSlot in enemy_field.grid:
+			if !slot.is_empty():
+				slot.card_ref.set_outline(Card.Outline.NONE)
 
 # for fighter
 func attack_visualize_front(card:Card, radius:int):
@@ -36,32 +46,64 @@ func try_attack_at(slot_idx:int)->bool:
 	if card:
 		match card.card_state:
 			Card.Outline.ENEMY_FULL:
-				# do a full damage
-				var unit_attacker = attacker_card.unit
-				var unit_target = card.unit
-				var target_count = card.number
-				
-				var damage = min(unit_attacker.attack * attacker_card.number, target_count * unit_target.health)
-				var killed_units = min(int(floor(damage / float(unit_target.health))), target_count)
-				card.current_health -= damage - killed_units * unit_target.health
-				card.number -= killed_units
-				
-				print("{unit_a} attacked {unit_t}, dealt {dmg} damage, killed {kill}"
-				.format({"unit_a":unit_attacker.tag,
-				"unit_t":unit_target.tag,
-				"dmg":damage,
-				"kill":killed_units}))
-				
-				if card.number == 0:
-					card.queue_free()
-					enemy_field.grid[slot_idx].card_ref = null
-				
+				var damage = attacker_card.unit.attack * attacker_card.number				
+				make_turn.rpc(multiplayer.get_unique_id(), 
+				{	
+					"action":ActionTaken.ATTACK,
+					"target" : card.slot,
+					"damage" : damage
+				})
 				return true
-			
-		
 		return true
 	return false
 
-@rpc("any_peer","reliable")
-func turn(unique_id:int, slot:int):
-	pass
+func take_damage(target_card : Card, damage: int):
+	var target_overall_hp = (target_card.number - 1) * target_card.unit.health + target_card.current_health
+	var remaining_hp = max(target_overall_hp - damage, 0)
+	
+	var units_remain = remaining_hp / target_card.unit.health
+	var health_remain = remaining_hp % target_card.unit.health
+
+	target_card.number = units_remain + int(health_remain > 0)
+	target_card.current_health = health_remain
+	
+
+@rpc("any_peer", "call_local","reliable")
+func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTaken,"target":int, "?damage":int}
+	var recv_id = multiplayer.get_unique_id()
+	var action : ActionTaken = turn_desc["action"]
+	var target_field : PlayerField = player_field
+	var invert : bool = true
+	if recv_id == send_id:
+		target_field = enemy_field # Called from and on command host
+		invert = false
+	
+	match action:
+		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
+			var attacker:TurnScale.CardRef = atb_bar.first()
+			var damage : int = turn_desc["damage"]
+			var target_slot : int = turn_desc["target"]
+			var target : CardSlot = target_field.get_at(target_slot, invert) # inverted
+			var target_card : Card = target.card_ref			
+			
+			var before : int = target_card.number
+			take_damage(target_card, damage)
+			var units_killed = before - target_card.number
+			
+			print("{unit_a} attacked {unit_t}, dealt {dmg} damage, killed {kill}"
+				.format({"unit_a":attacker.ref.unit.tag,
+				"unit_t":target.card_ref.unit.tag,
+				"dmg":damage,
+				"kill":units_killed}))
+			
+			if target_card.number == 0: # Remove
+				atb_bar.trim_card(target_card)
+				target_card.queue_free()
+			
+			var new_first : TurnScale.CardRef = atb_bar.action()
+			reset_vizualize()
+			if new_first.belongs_to_player:
+				on_card_turn(new_first.ref)
+			else:
+				attacker_card = null
+	
