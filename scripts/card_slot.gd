@@ -6,13 +6,13 @@ extends Panel
 
 func set_card(card : Card):
 	card_ref = card
-	_place_card(card)
+	place_card(card)
 	card.slot = slot_number
 
 func reset_card():
 	card_ref = null
 
-func _place_card(card: Card):
+func place_card(card: Card):
 	var rect = get_global_rect()
 	card.position = rect.position
 

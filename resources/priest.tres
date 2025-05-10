@@ -10,5 +10,6 @@ tag = "priest"
 health = 4
 attack = 2
 initiative = 8.0
+meele = true
 max_count = 22
 metadata/_custom_type_script = "uid://umlu675s31ui"

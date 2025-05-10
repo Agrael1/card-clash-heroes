@@ -67,4 +67,19 @@ script = ExtResource("1_0wfyh")
 [node name="BattleField" type="Node2D" parent="."]
 script = ExtResource("8_tipki")
 
+[node name="FloatingMenu" type="Node2D" parent="."]
+visible = false
+
+[node name="Wait" type="Button" parent="FloatingMenu"]
+offset_left = 1670.0
+offset_top = 713.0
+offset_right = 1714.0
+offset_bottom = 744.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disabled = true
+text = "Wait
+"
+
 [connection signal="pressed" from="MarginContainer3/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="FloatingMenu/Wait" to="BattleField" method="_on_wait_pressed"]

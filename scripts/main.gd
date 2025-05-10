@@ -15,6 +15,7 @@ var remote_player_id = 0
 @onready var shop : Shop = $Shop
 @onready var turn_scale : TurnScale = $TurnScale
 @onready var card_manager : CardManager = $CardManager
+@onready var floating_menu : Node2D = $FloatingMenu
 
 
 
@@ -31,6 +32,7 @@ func on_local_ready_changed()->void:
 func on_both_ready()->void:
 	sync_fields.rpc(multiplayer.get_unique_id(), player_field.export())
 	turn_scale.visible = true
+	floating_menu.visible = true
 
 
 func _on_attack_pressed() -> void:
@@ -81,5 +83,4 @@ func sync_fields(emitter_id:int, field_data):
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_atb(data):
-	print("Called on: {a}".format({"a":multiplayer.get_unique_id()}))
 	turn_scale.import(data)

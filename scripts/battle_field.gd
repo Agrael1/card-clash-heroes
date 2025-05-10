@@ -6,18 +6,20 @@ enum ActionTaken{ATTACK, MOVE, WAIT}
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var enemy_field : PlayerField = $"../MarginContainer2/EnemyField"
 @onready var atb_bar : TurnScale = $"../TurnScale"
+@onready var wait_button : Button = $"../FloatingMenu/Wait"
 
 var attacker_card : Card
 
 func on_card_turn(card:Card):
 	# first color the selected card
-	card.set_outline(Card.Outline.CURRENT)	
+	card.set_outline(Card.Outline.CURRENT)
+	wait_button.disabled = false
+	
 	attacker_card = card
-	attack_visualize_front(card, 4)
-
-# for type archer
-func attack_any():
-	pass
+	if card.unit.meele:
+		attack_visualize_front(card, 4)
+	else:
+		attack_visualize_archer(card)
 
 func reset_vizualize():
 	if attacker_card:
@@ -28,32 +30,66 @@ func reset_vizualize():
 
 # for fighter
 func attack_visualize_front(card:Card, radius:int):
-	var position = card.slot
+	var position = card.slot % player_field.field_width
+	radius -= card.slot / player_field.field_width
+	
+	# Obstructed
+	if card.slot > player_field.field_width && \
+	!player_field.get_at(card.slot - player_field.field_width).is_empty():
+		return
 	
 	var offset = enemy_field.field_width
 	var boundary_low = max(position - radius, 0) + offset
 	var boundary_high = min(position + radius, enemy_field.field_width) + offset
+	
+	var boundary_low_back = max(position - radius - 1, 0)
+	var boundary_high_back = min(position + radius - 1, enemy_field.field_width)
 	# get front row of the enemy field
-	var enemy_row = enemy_field.grid.slice(boundary_low, boundary_high)
-	for slot : CardSlot in enemy_row:
+	var enemy_front_row = enemy_field.grid.slice(boundary_low, boundary_high)
+	for slot : CardSlot in enemy_front_row:
 		if !slot.is_empty():
 			slot.card_ref.set_outline(Card.Outline.ENEMY_FULL)
+			continue
+		
+		# get back row
+		var back_slot_n = slot.slot_number - offset
+		if back_slot_n >= boundary_low_back and back_slot_n <= boundary_high_back: # one less
+			var back_slot = enemy_field.get_at(back_slot_n)
+			if !back_slot.is_empty(): # back line attack
+				back_slot.card_ref.set_outline(Card.Outline.ENEMY_FULL)
+
+
+func attack_visualize_archer(card:Card):
+	var position = card.slot % player_field.field_width
+	var free_shot = card.slot < player_field.field_width ||\
+	 player_field.get_at(card.slot - player_field.field_width).is_empty()
+	
+	for slot : CardSlot in enemy_field.grid.slice(enemy_field.field_width, enemy_field.field_width * 2):
+		var slot_back = enemy_field.get_at(slot.slot_number - enemy_field.field_width)
+		if !slot.is_empty():
+			slot.card_ref.set_outline(Card.Outline.ENEMY_FULL if free_shot else Card.Outline.ENEMY_PENALTY)
+			if !slot_back.is_empty():
+				slot_back.card_ref.set_outline(Card.Outline.ENEMY_PENALTY)
+			continue
+		
+		# No one in front
+		if !slot_back.is_empty():
+			slot_back.card_ref.set_outline(Card.Outline.ENEMY_FULL if free_shot else Card.Outline.ENEMY_PENALTY)
+		
 
 func try_attack_at(slot_idx:int)->bool:
 	if !attacker_card: return false
 	
 	var card = enemy_field.grid[slot_idx].card_ref
 	if card:
-		match card.card_state:
-			Card.Outline.ENEMY_FULL:
-				var damage = attacker_card.unit.attack * attacker_card.number				
-				make_turn.rpc(multiplayer.get_unique_id(), 
-				{	
-					"action":ActionTaken.ATTACK,
-					"target" : card.slot,
-					"damage" : damage
-				})
-				return true
+		var damage = attacker_card.unit.attack * attacker_card.number				
+		make_turn.rpc(multiplayer.get_unique_id(), 
+		{	
+			"action":ActionTaken.ATTACK,
+			"target" : card.slot,
+			"damage" : damage if card.card_state == Card.Outline.ENEMY_FULL 
+			else max(damage / 2, 1)
+		})
 		return true
 	return false
 
@@ -63,6 +99,13 @@ func move_to_slot(slot:CardSlot):
 				{	
 					"action":ActionTaken.MOVE,
 					"target" : slot.slot_number,
+				})
+
+func wait():
+	if !attacker_card: return
+	make_turn.rpc(multiplayer.get_unique_id(), 
+				{	
+					"action":ActionTaken.WAIT
 				})
 
 func take_damage(target_card : Card, damage: int):
@@ -93,15 +136,10 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			var target_slot : int = turn_desc["target"]
 			var slot : CardSlot = opposite_field.get_at(target_slot, invert)
 			var attacker:TurnScale.CardRef = atb_bar.first()
-			opposite_field.get_at(attacker.ref.slot, !invert).reset_card()
+			opposite_field.get_at(attacker.ref.slot, invert).reset_card()
 			slot.set_card(attacker.ref)
 			
-			var new_first : TurnScale.CardRef = atb_bar.action()
-			reset_vizualize()
-			if new_first.belongs_to_player:
-				on_card_turn(new_first.ref)
-			else:
-				attacker_card = null
+			atb_bar.action()
 
 		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
 			var attacker:TurnScale.CardRef = atb_bar.first()
@@ -124,10 +162,21 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 				atb_bar.trim_card(target_card)
 				target_card.queue_free()
 			
-			var new_first : TurnScale.CardRef = atb_bar.action()
-			reset_vizualize()
-			if new_first.belongs_to_player:
-				on_card_turn(new_first.ref)
-			else:
-				attacker_card = null
-	
+			atb_bar.action()
+
+		ActionTaken.WAIT:
+			atb_bar.wait()
+
+	# Exec for all
+	var new_first : TurnScale.CardRef = atb_bar.first()
+	reset_vizualize()
+	if new_first.belongs_to_player:
+		on_card_turn(new_first.ref)
+		wait_button.disabled = false
+	else:
+		attacker_card = null
+		wait_button.disabled = true
+
+
+func _on_wait_pressed() -> void:
+	wait()

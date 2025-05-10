@@ -8,6 +8,7 @@ extends Resource
 @export var health: int
 @export var attack: int
 @export var initiative: float
+@export var meele: bool
 
 @export_group("Shop Stats")
 @export var max_count: int

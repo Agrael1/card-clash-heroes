@@ -51,7 +51,7 @@ func _ready() -> void:
 	area.collision_mask = 1 << collision_mask
 	area.collision_layer = 1 << collision_mask
 	outline.bg_color = Color.TRANSPARENT
-	outline.set_expand_margin_all(2)
+	outline.set_expand_margin_all(6)
 	$Outline.add_theme_stylebox_override("panel", outline)
 	
 	number_panel.number = _number
@@ -80,7 +80,7 @@ func set_outline(xoutline : Outline):
 	card_state = xoutline
 	match xoutline:
 		Outline.CURRENT:
-			outline.bg_color = Color.YELLOW
+			outline.bg_color = Color.FOREST_GREEN
 		Outline.ENEMY_FULL:
 			outline.bg_color = Color.RED
 		Outline.ENEMY_PENALTY:
