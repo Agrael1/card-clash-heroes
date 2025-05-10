@@ -28,7 +28,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
-			raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY)
+			raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY | SLOT_MASK)
 		if event.is_released():
 			if dragged_card:
 				on_drag_end()
@@ -39,6 +39,9 @@ func on_raycast_card(card:Card):
 		
 func on_raycast_enemy(card:Card):
 	battle_field.try_attack_at(card.slot)
+
+func on_raycast_slot(slot:CardSlot):
+	battle_field.move_to_slot(slot)
 
 # Drag logic
 func on_drag_start(card: Card):
@@ -101,6 +104,8 @@ func raycast_at_cursor(collision_mask:int = CARD_MASK):
 				on_raycast_card(output)
 			CARD_MASK_ENEMY:
 				on_raycast_enemy(output)
+			SLOT_MASK:
+				on_raycast_slot(output)
 				
 func raycast_slot() -> CardSlot:
 	var space_state = get_world_2d().direct_space_state

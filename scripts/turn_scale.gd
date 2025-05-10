@@ -4,7 +4,7 @@ extends Control
 @export var player_field: PlayerField
 @export var enemy_field: PlayerField
 
-@onready var card_parent: Node = $Panel/MarginContainer/HBoxContainer
+@onready var card_parent: Node = $Panel/ScrollContainer/MarginContainer/HBoxContainer
 @onready var current_turn_card: Card = $Panel2/Card
 @onready var card_manager : CardManager = $"../CardManager"
 @onready var battle_field : BattleField = $"../BattleField"
@@ -69,9 +69,6 @@ func advance(insert_idx:int):
 			unit.current_atb = 0.0
 		elif unit.current_atb > 0.9999:
 			unit.current_atb = 0.9999
-
-func repredict():
-	pass
 
 func populate_atb_bar() -> void:
 	_card_refs = []
@@ -170,7 +167,7 @@ func trim_card(card : Card):
 	_ui_compensate(new_size)
 
 func _ui_trim(card : Card):
-	for i in range(1, _cache_refs.size()):
+	for i in range(_cache_refs.size() - 1, 0, -1):
 		var ref : CardRef = _cache_refs[i]
 		if ref.ref == card:
 			# -1 because 0th ref is in other panel

@@ -57,6 +57,14 @@ func try_attack_at(slot_idx:int)->bool:
 		return true
 	return false
 
+func move_to_slot(slot:CardSlot):
+	if !attacker_card or !slot.is_empty(): return
+	make_turn.rpc(multiplayer.get_unique_id(), 
+				{	
+					"action":ActionTaken.MOVE,
+					"target" : slot.slot_number,
+				})
+
 func take_damage(target_card : Card, damage: int):
 	var target_overall_hp = (target_card.number - 1) * target_card.unit.health + target_card.current_health
 	var remaining_hp = max(target_overall_hp - damage, 0)
@@ -73,12 +81,28 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 	var recv_id = multiplayer.get_unique_id()
 	var action : ActionTaken = turn_desc["action"]
 	var target_field : PlayerField = player_field
+	var opposite_field : PlayerField = enemy_field
 	var invert : bool = true
 	if recv_id == send_id:
 		target_field = enemy_field # Called from and on command host
+		opposite_field = player_field
 		invert = false
 	
 	match action:
+		ActionTaken.MOVE:
+			var target_slot : int = turn_desc["target"]
+			var slot : CardSlot = opposite_field.get_at(target_slot, invert)
+			var attacker:TurnScale.CardRef = atb_bar.first()
+			opposite_field.get_at(attacker.ref.slot, !invert).reset_card()
+			slot.set_card(attacker.ref)
+			
+			var new_first : TurnScale.CardRef = atb_bar.action()
+			reset_vizualize()
+			if new_first.belongs_to_player:
+				on_card_turn(new_first.ref)
+			else:
+				attacker_card = null
+
 		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
 			var attacker:TurnScale.CardRef = atb_bar.first()
 			var damage : int = turn_desc["damage"]
