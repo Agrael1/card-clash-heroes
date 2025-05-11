@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0nu1n6wbjeug"]
+[gd_scene load_steps=3 format=3 uid="uid://c0nu1n6wbjeug"]
 
 [ext_resource type="Script" uid="uid://dpslxhofkwxwe" path="res://scripts/unit_shop.gd" id="1_8ajov"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7r41"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 7
 
 [node name="Shop" type="Panel"]
 custom_minimum_size = Vector2(300, 0)
@@ -30,3 +34,41 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 34
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 40.0
+color = Color(1, 0.596078, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="ColorRect/HBoxContainer"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxFlat_l7r41")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(40.24, 0)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "50
+"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1

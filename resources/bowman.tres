@@ -12,4 +12,5 @@ attack = 2
 initiative = 7.0
 meele = false
 max_count = 22
+cost = 2
 metadata/_custom_type_script = "uid://umlu675s31ui"

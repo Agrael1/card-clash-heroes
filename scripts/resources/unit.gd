@@ -12,3 +12,4 @@ extends Resource
 
 @export_group("Shop Stats")
 @export var max_count: int
+@export var cost: int

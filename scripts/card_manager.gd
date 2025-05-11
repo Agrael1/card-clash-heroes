@@ -26,16 +26,26 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.is_pressed():
-			raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY | SLOT_MASK)
-		if event.is_released():
-			if dragged_card:
-				on_drag_end()
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.is_pressed():
+				raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY | SLOT_MASK)
+			if event.is_released():
+				if dragged_card:
+					on_drag_end()
+		if event.button_index == MOUSE_BUTTON_RIGHT and !block_free_move:
+			if event.is_pressed():
+				raycast_at_cursor(CARD_MASK, MOUSE_BUTTON_RIGHT)
+		
 
-func on_raycast_card(card:Card):
+func on_raycast_card(card:Card, right_click:bool = false):
 	if !block_free_move: # prep phase
-		on_drag_start(card)
+		if !right_click:
+			on_drag_start(card)
+		else:
+			card.number-=1
+			if card.number == 0:
+				card.queue_free()
 		
 func on_raycast_enemy(card:Card):
 	battle_field.try_attack_at(card.slot)
@@ -87,7 +97,7 @@ func first_by_z(cards):
 			first = cards[i]
 	return first
 
-func raycast_at_cursor(collision_mask:int = CARD_MASK):
+func raycast_at_cursor(collision_mask:int = CARD_MASK, button:int = MOUSE_BUTTON_LEFT):
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()
@@ -101,7 +111,7 @@ func raycast_at_cursor(collision_mask:int = CARD_MASK):
 		var output = first.collider.get_parent()
 		match result_mask:
 			CARD_MASK:
-				on_raycast_card(output)
+				on_raycast_card(output, button == MOUSE_BUTTON_RIGHT)
 			CARD_MASK_ENEMY:
 				on_raycast_enemy(output)
 			SLOT_MASK:

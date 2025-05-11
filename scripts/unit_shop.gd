@@ -8,6 +8,16 @@ var card_db_ref : CardDB = preload("res://resources/card_db.tres")
 var card_instance : PackedScene = preload("res://objects/card.tscn")
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var card_manager = $"../CardManager"
+@onready var gold_label = $ColorRect/HBoxContainer/RichTextLabel2
+
+var _gold : int = 50
+var gold : int :
+	set(value):
+		_gold = value
+		if gold_label:
+			gold_label.text = str(_gold)
+	get:
+		return _gold
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,7 +36,13 @@ func _ready() -> void:
 
 func on_card_clicked(card: Card, bind : int):
 	var same_card : Card = player_field.find_card(card.unit.tag)
+	var price = card.unit.cost
+	if gold - price < 0:
+		print("no money")
+		return
+	
 	if same_card != null:
+		gold -= price
 		same_card.number = same_card.number + 1
 		return
 	
@@ -36,6 +52,7 @@ func on_card_clicked(card: Card, bind : int):
 		print("No empty space")
 		return
 	
+	gold -= price
 	var new_card : Card = card.duplicate();
 	card_manager.add_child(new_card)
 	new_card.number = 1
