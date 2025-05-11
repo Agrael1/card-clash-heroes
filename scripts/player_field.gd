@@ -52,7 +52,12 @@ func return_to_slot(card:Card):
 	var slot : CardSlot = grid[slot_num]
 	if slot_num >= 0 and slot_num < grid.size():
 		slot.place_card(card)
-	
+
+func is_empty():
+	for slot:CardSlot in grid:
+		if !slot.is_empty():
+			return false
+	return true
 
 func try_place_card(card:Card, slot_num:int) -> bool:
 	var slot = grid[slot_num]

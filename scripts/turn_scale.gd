@@ -26,7 +26,6 @@ class CardRef:
 		return x
 
 var _card_refs: Array[CardRef]
-
 var _cache_refs : Array[CardRef]
 var _last_state : Array[CardRef]
 	
@@ -40,8 +39,39 @@ func predict():
 	
 	for i in range(0, _cache_refs.size()):
 		advance(i)
-		
 	
+	# Replicate 1st move on og cards
+	advance_original() 
+
+func advance_original():
+	var next_turn_times = []
+	for j in range(0, _card_refs.size()):
+		var unit = _card_refs[j]
+		var time_needed = (1.0 - unit.current_atb) / unit.atb_increment
+		next_turn_times.append({"index": j, "time": time_needed})
+		
+	# sort
+	next_turn_times.sort_custom(func(a,b):return a["time"]<b["time"])
+	
+	# get the smallest
+	var next_unit_turn = next_turn_times[0]
+	var time_to_next = next_unit_turn["time"]
+	var next_unit_idx = next_unit_turn["index"]
+		
+	# Advance time for all units
+	for j in range(0, _card_refs.size()):
+		var unit = _card_refs[j]
+		unit.current_atb += unit.atb_increment * time_to_next
+		
+		if next_unit_idx == j:
+			unit.current_atb = 1.0
+		elif unit.current_atb > 0.9999:
+			unit.current_atb = 0.9999
+	
+	# sort 
+	_card_refs.sort_custom(func(a,b): return a.current_atb>b.current_atb)
+	
+
 func advance(insert_idx:int):
 	# Get least time
 	var next_turn_times = []
@@ -50,17 +80,17 @@ func advance(insert_idx:int):
 		var time_needed = (1.0 - unit.current_atb) / unit.atb_increment
 		next_turn_times.append({"index": j, "time": time_needed})
 		
-		# sort
+	# sort
 	next_turn_times.sort_custom(func(a,b):return a["time"]<b["time"])
 		
-		# get the smallest
+	# get the smallest
 	var next_unit_turn = next_turn_times[0]
 	var time_to_next = next_unit_turn["time"]
 	var next_unit_idx = next_unit_turn["index"]
 		
 	_cache_refs[insert_idx] = _last_state[next_unit_idx].duplicate()
 		
-		# Advance time for all units
+	# Advance time for all units
 	for j in range(0, _last_state.size()):
 		var unit = _last_state[j]
 		unit.current_atb += unit.atb_increment * time_to_next
@@ -147,13 +177,18 @@ func action():
 	# simple path - remove first and calculate next
 	_cache_refs.pop_front()
 	_cache_refs.push_back(null)
+	_card_refs[0].current_atb = 0.0
 	advance(_cache_refs.size() - 1)
+	advance_original()
 	_ui_advance()
 	return first()
 
 func wait():
-	# complex path - recalculate placement of the same ref
-	pass
+	# complex path
+	_card_refs[0].current_atb = 0.5
+	predict() # reset the whole ATB :(
+	_make_ui_respect_state(false)
+	return first()
 
 func trim_card(card : Card):
 	_last_state = _last_state.filter(func(x: CardRef): return x.ref != card)
@@ -197,7 +232,7 @@ func _ui_advance()->void:
 	child.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED
 	card_parent.move_child(child, card_parent.get_child_count() - 1)
 
-func _make_ui_respect_state() -> void:
+func _make_ui_respect_state(instantiate:bool = true) -> void:
 	assert(not _card_refs.is_empty())	
 	
 	var current = first()
@@ -207,12 +242,14 @@ func _make_ui_respect_state() -> void:
 	
 	for i in range(1, _cache_refs.size()):
 		var ref : CardRef = _cache_refs[i]
-		var instance : Card = Card.SELF_SCENE.instantiate()
+		var instance : Card = Card.SELF_SCENE.instantiate() if instantiate else card_parent.get_child(i - 1)
 		instance.collision_mask = ref.ref.collision_mask
 		instance.unit = ref.ref.unit
 		instance.number = ref.ref.number
 		
 		# it is still a card
-		card_parent.add_child(instance)
+		if instantiate:
+			card_parent.add_child(instance)
+			card_manager.connect_card(instance)
+			
 		instance.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED
-		card_manager.connect_card(instance)

@@ -12,6 +12,7 @@ var main_scene : PackedScene = preload("res://scenes/main.tscn")
 @export var address : String = "localhost"
 
 var peer = ENetMultiplayerPeer.new()
+var main_scene_instance : Main
 
 func load_main_scene(is_host:bool = false) -> void:
 	menu.visible = false
@@ -20,6 +21,7 @@ func load_main_scene(is_host:bool = false) -> void:
 		multiplayer.peer_connected.connect(xscene.on_peer_connected)
 		multiplayer.peer_disconnected.connect(xscene.on_peer_disconnected)
 	add_child(xscene)
+	main_scene_instance = xscene
 
 func _on_join_pressed() -> void:
 	peer.create_client(address, port)
@@ -33,3 +35,7 @@ func _on_host_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
+
+func load_main_menu():
+	menu.visible = true
+	main_scene_instance.queue_free()

@@ -7,6 +7,7 @@ enum ActionTaken{ATTACK, MOVE, WAIT}
 @onready var enemy_field : PlayerField = $"../MarginContainer2/EnemyField"
 @onready var atb_bar : TurnScale = $"../TurnScale"
 @onready var wait_button : Button = $"../FloatingMenu/Wait"
+@onready var end_screen : GameOver = $"../GameOver"
 
 var attacker_card : Card
 
@@ -160,7 +161,18 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			
 			if target_card.number == 0: # Remove
 				atb_bar.trim_card(target_card)
+				target.reset_card()
 				target_card.queue_free()
+				
+				
+				# Check win condition
+				if attacker.belongs_to_player: # We may win
+					if enemy_field.is_empty():
+						end_screen.win()
+				else: # We might have lost
+					if player_field.is_empty():
+						end_screen.loose()
+					
 			
 			atb_bar.action()
 

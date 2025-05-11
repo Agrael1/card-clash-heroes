@@ -5,15 +5,15 @@
 Core:
 - [x] Fix ATB and make it run on both peers.
 - [x] Sync Attack
-- [ ] Wait button + sync
+- [x] Wait button + sync
 - [x] Move cards to the right place on the board
 - [ ] Limit the number of cards in stacks and add currency for each player
-- [ ] Win if all cards are destroyed
+- [x] Win if all cards are destroyed
 - [x] Fix the attack pattern, check if the card can shoot
 
 Auxiliary:
 - [ ] Split cards into two decks with reevaluation of ATB (if needed)
 - [ ] Add animation for the cards on the board + sync + wait
-- [ ] Win screen + sync
+- [x] Win screen + sync
 - [ ] Add card abilities (e.g. heal, attack, etc.) + sync
 - [ ] Add events for the field with
