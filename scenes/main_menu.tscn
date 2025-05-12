@@ -56,7 +56,7 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TextEdit" type="LineEdit" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+[node name="LineEdit" type="LineEdit" parent="MenuContainer/MarginContainer/JoinSubmenu"]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 placeholder_text = "User OID or IP"
@@ -166,7 +166,7 @@ text = "Join Game"
 layout_mode = 2
 text = "Exit"
 
-[connection signal="text_submitted" from="MenuContainer/MarginContainer/JoinSubmenu/TextEdit" to="." method="_on_text_edit_text_submitted"]
+[connection signal="text_submitted" from="MenuContainer/MarginContainer/JoinSubmenu/LineEdit" to="." method="_on_text_edit_text_submitted"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinOID" to="." method="_on_join_oid_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinBack" to="." method="_on_join_back_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]

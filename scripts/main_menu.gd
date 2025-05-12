@@ -10,7 +10,7 @@ var main_scene : PackedScene = preload("res://scenes/main.tscn")
 @onready var main_submenu : Control = $MenuContainer/MarginContainer/MainSubmenu
 
 @onready var host_oid : TextEdit = $MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/TextEdit
-@onready var join_oid : TextEdit = $MenuContainer/MarginContainer/JoinSubmenu/LineEdit
+@onready var join_oid : LineEdit = $MenuContainer/MarginContainer/JoinSubmenu/LineEdit
 
 @onready var port_box : RichTextLabel = $MenuContainer/MarginContainer/HostSubmenu/PanelContainer/VBoxContainer/MarginContainer/RichTextLabel
 

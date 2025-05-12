@@ -12,9 +12,11 @@ Core:
 - [x] Fix the attack pattern, check if the card can shoot
 
 Step 1:
-- [ ] Add a lobby system with an IP address
+- [x] Add a lobby system with an IP address
 - [ ] Balance armies
-- [ ] Make normal multiplayer
+- [x] Make normal multiplayer
+- [ ] Add all the remaining cards
+- [ ] Add choose race
 
 Auxiliary:
 - [ ] Split cards into two decks with reevaluation of ATB (if needed)
