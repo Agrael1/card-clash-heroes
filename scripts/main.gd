@@ -17,13 +17,6 @@ var remote_player_id = 0
 @onready var card_manager : CardManager = $CardManager
 @onready var floating_menu : Node2D = $FloatingMenu
 
-
-
-func on_peer_connected(peer_id:int)->void:
-	print("successfuly connected")
-	
-func on_peer_disconnected(peer_id:int)->void:
-	print("disconnected")
 	
 func on_local_ready_changed()->void:
 	shop.visible = !local_player_ready

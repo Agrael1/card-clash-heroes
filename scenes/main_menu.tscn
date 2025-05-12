@@ -109,28 +109,24 @@ text = "Copy"
 layout_mode = 2
 text = "Back"
 
-[node name="PanelContainer" type="PanelContainer" parent="MenuContainer/MarginContainer/HostSubmenu"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MenuContainer/MarginContainer/HostSubmenu/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu/PanelContainer/VBoxContainer/MarginContainer"]
-custom_minimum_size = Vector2(0, 78.145)
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 34.29)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "PORT: --------
-IP: ---------
 "
 vertical_alignment = 1
+
+[node name="CopyPort" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Copy"
 
 [node name="MainSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 layout_mode = 2
@@ -171,6 +167,7 @@ text = "Exit"
 [connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinBack" to="." method="_on_join_back_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HostBack" to="." method="_on_host_back_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer/CopyPort" to="." method="_on_copy_port_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Exit" to="." method="_on_exit_pressed"]

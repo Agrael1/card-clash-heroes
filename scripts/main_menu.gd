@@ -12,7 +12,7 @@ var main_scene : PackedScene = preload("res://scenes/main.tscn")
 @onready var host_oid : TextEdit = $MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/TextEdit
 @onready var join_oid : LineEdit = $MenuContainer/MarginContainer/JoinSubmenu/LineEdit
 
-@onready var port_box : RichTextLabel = $MenuContainer/MarginContainer/HostSubmenu/PanelContainer/VBoxContainer/MarginContainer/RichTextLabel
+@onready var port_box : RichTextLabel = $MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer/RichTextLabel
 
 var main_scene_instance : Main
 
@@ -70,3 +70,6 @@ func _on_text_edit_text_submitted(new_text: String) -> void:
 		multiplayer.connected_to_server.connect(
 			load_main_scene
 		)
+
+func _on_copy_port_pressed() -> void:
+	DisplayServer.clipboard_set(":"+str(Noray.local_port))

@@ -36,12 +36,12 @@ func unhost():
 
 func join(oid : String):
 	var parts = oid.split(":")
-	if parts.size() == 2 and parts[0].is_valid_ip_address():
+	if parts.size() == 2 and (parts[0].is_valid_ip_address() or parts[0].is_empty()):
 		# LAN connect
 		var ip : String = parts[0]
 		var port : String = parts[1]
 		var peer = ENetMultiplayerPeer.new()
-		var result = peer.create_client(ip, port.to_int())
+		var result = peer.create_client(ip if !ip.is_empty() else "localhost", port.to_int())
 		multiplayer.multiplayer_peer = peer
 		return result == OK
 		
