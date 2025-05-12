@@ -3,16 +3,25 @@ extends Control
 
 var main_scene : PackedScene = preload("res://scenes/main.tscn")
 
-@onready var host : Button = $MenuContainer/MarginContainer/VBoxContainer/Host
-@onready var join : Button = $MenuContainer/MarginContainer/VBoxContainer/Join
-@onready var exit : Button = $MenuContainer/MarginContainer/VBoxContainer/Exit
 @onready var menu : Control = $MenuContainer
+
+@onready var host_submenu : Control = $MenuContainer/MarginContainer/HostSubmenu
+@onready var join_submenu : Control = $MenuContainer/MarginContainer/JoinSubmenu
+@onready var main_submenu : Control = $MenuContainer/MarginContainer/MainSubmenu
+
+@onready var host_oid : TextEdit = $MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/TextEdit
+@onready var join_oid : TextEdit = $MenuContainer/MarginContainer/JoinSubmenu/TextEdit
 
 @export var port : int = 1234
 @export var address : String = "localhost"
 
 var peer = ENetMultiplayerPeer.new()
 var main_scene_instance : Main
+
+func _ready() -> void:
+	await Multiplayer.noray_connected
+	host_oid.text = Noray.oid
+
 
 func load_main_scene(is_host:bool = false) -> void:
 	menu.visible = false
@@ -24,11 +33,16 @@ func load_main_scene(is_host:bool = false) -> void:
 	main_scene_instance = xscene
 
 func _on_join_pressed() -> void:
-	peer.create_client(address, port)
-	multiplayer.multiplayer_peer = peer
-	load_main_scene()
+	main_submenu.visible = false
+	join_submenu.visible = true
 
 func _on_host_pressed() -> void:
+	Multiplayer.host()
+	main_submenu.visible = false
+	host_submenu.visible = true
+
+	
+func _on_start_pressed()-> void:
 	peer.create_server(port, 1)
 	multiplayer.multiplayer_peer = peer
 	load_main_scene(true)
@@ -39,3 +53,12 @@ func _on_exit_pressed() -> void:
 func load_main_menu():
 	menu.visible = true
 	main_scene_instance.queue_free()
+
+
+func _on_copy_oid_pressed() -> void:
+	DisplayServer.clipboard_set(Noray.oid)
+
+
+func _on_join_oid_pressed() -> void:
+	Multiplayer.join(join_oid.text)
+	#load_main_scene()

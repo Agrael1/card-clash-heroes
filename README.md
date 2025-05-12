@@ -11,6 +11,11 @@ Core:
 - [x] Win if all cards are destroyed
 - [x] Fix the attack pattern, check if the card can shoot
 
+Step 1:
+- [ ] Add a lobby system with an IP address
+- [ ] Balance armies
+- [ ] Make normal multiplayer
+
 Auxiliary:
 - [ ] Split cards into two decks with reevaluation of ATB (if needed)
 - [ ] Add animation for the cards on the board + sync + wait
