@@ -31,6 +31,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
 
 [node name="JoinSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 visible = false
@@ -55,16 +56,16 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TextEdit" type="TextEdit" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+[node name="TextEdit" type="LineEdit" parent="MenuContainer/MarginContainer/JoinSubmenu"]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-placeholder_text = "User OID"
+placeholder_text = "User OID or IP"
 
 [node name="JoinOID" type="Button" parent="MenuContainer/MarginContainer/JoinSubmenu"]
 layout_mode = 2
 text = "Join Game"
 
-[node name="Back" type="Button" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+[node name="JoinBack" type="Button" parent="MenuContainer/MarginContainer/JoinSubmenu"]
 layout_mode = 2
 text = "Back"
 
@@ -104,14 +105,32 @@ editable = false
 layout_mode = 2
 text = "Copy"
 
-[node name="Start" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu"]
-layout_mode = 2
-disabled = true
-text = "Awaiting opponent..."
-
-[node name="Back" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu"]
+[node name="HostBack" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu"]
 layout_mode = 2
 text = "Back"
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuContainer/MarginContainer/HostSubmenu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu/PanelContainer/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 78.145)
+layout_mode = 2
+size_flags_vertical = 3
+text = "PORT: --------
+IP: ---------
+"
+vertical_alignment = 1
 
 [node name="MainSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 layout_mode = 2
@@ -147,8 +166,11 @@ text = "Join Game"
 layout_mode = 2
 text = "Exit"
 
+[connection signal="text_submitted" from="MenuContainer/MarginContainer/JoinSubmenu/TextEdit" to="." method="_on_text_edit_text_submitted"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinOID" to="." method="_on_join_oid_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinBack" to="." method="_on_join_back_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HostBack" to="." method="_on_host_back_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Exit" to="." method="_on_exit_pressed"]

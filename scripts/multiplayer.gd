@@ -1,6 +1,7 @@
 extends Node
 
 signal noray_connected
+signal join_connected
 
 const NORAY_ADDRESS = "tomfol.io"
 const NORAY_PORT = 8890
@@ -12,7 +13,6 @@ func _ready():
 	Noray.on_connect_to_host.connect(on_noray_connected)
 	Noray.on_connect_nat.connect(handle_nat_connection)
 	Noray.on_connect_relay.connect(handle_relay_connection)
-	
 	Noray.connect_to_host(NORAY_ADDRESS, NORAY_PORT)
 
 func on_noray_connected():
@@ -25,15 +25,30 @@ func on_noray_connected():
 
 func host():
 	print("Hosting")
-	
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(Noray.local_port)
 	multiplayer.multiplayer_peer = peer
 	is_host = true
 
-func join(oid):
+func unhost():
+	is_host = false
+	multiplayer.multiplayer_peer = null
+
+func join(oid : String):
+	var parts = oid.split(":")
+	if parts.size() == 2 and parts[0].is_valid_ip_address():
+		# LAN connect
+		var ip : String = parts[0]
+		var port : String = parts[1]
+		var peer = ENetMultiplayerPeer.new()
+		var result = peer.create_client(ip, port.to_int())
+		multiplayer.multiplayer_peer = peer
+		return result == OK
+		
+	
 	Noray.connect_nat(oid)
 	external_oid = oid
+	return true
 
 func handle_nat_connection(address, port):
 	var err = await connect_to_server(address, port)
