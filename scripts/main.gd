@@ -4,6 +4,7 @@ extends PanelContainer
 signal player_ready_changed(peer_id, is_ready)
 signal both_players_ready
 
+var race : String
 var local_player_ready = false
 var remote_player_ready = false
 var remote_player_id = 0
@@ -17,13 +18,15 @@ var remote_player_id = 0
 @onready var card_manager : CardManager = $CardManager
 @onready var floating_menu : Node2D = $FloatingMenu
 
-	
+func _ready() -> void:
+	shop.open_for(race)
+
 func on_local_ready_changed()->void:
 	shop.visible = !local_player_ready
 	card_manager.block_free_move = local_player_ready
 	
 func on_both_ready()->void:
-	sync_fields.rpc(multiplayer.get_unique_id(), player_field.export())
+	sync_fields.rpc(multiplayer.get_unique_id(), race, player_field.export())
 	turn_scale.visible = true
 	floating_menu.visible = true
 
@@ -65,10 +68,10 @@ func update_ready_status(is_ready:bool, unique_id:int):
 		check_both_ready()
 	
 @rpc("any_peer", "call_local", "reliable")
-func sync_fields(emitter_id:int, field_data):
+func sync_fields(emitter_id:int, race: String, field_data:Array):
 	var receiver_id : int = multiplayer.get_unique_id()
 	if emitter_id != receiver_id:
-		enemy_field.import(field_data)
+		enemy_field.import(race, field_data)
 		if emitter_id != 1:
 			turn_scale.populate_atb_bar()
 			sync_atb.rpc_id(emitter_id, turn_scale.export())

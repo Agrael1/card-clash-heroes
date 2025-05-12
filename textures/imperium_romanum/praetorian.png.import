@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3xm8he2fdek4"
-path="res://.godot/imported/preist.png-3fa6dc3458cf234addf0faaff727a012.ctex"
+uid="uid://045xvlb0e576"
+path="res://.godot/imported/praetorian.png-52c9791eb1079479541cafd843ab83c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/preist.png"
-dest_files=["res://.godot/imported/preist.png-3fa6dc3458cf234addf0faaff727a012.ctex"]
+source_file="res://textures/imperium_romanum/praetorian.png"
+dest_files=["res://.godot/imported/praetorian.png-52c9791eb1079479541cafd843ab83c5.ctex"]
 
 [params]
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cahns5mqsn7le"]
+[gd_scene load_steps=3 format=3 uid="uid://cahns5mqsn7le"]
 
 [ext_resource type="Script" uid="uid://8ac1s2xk3u8x" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://c02odu47h8l7g" path="res://scenes/race_select.tscn" id="2_ekxnf"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -69,6 +70,26 @@ text = "Join Game"
 layout_mode = 2
 text = "Back"
 
+[node name="HSeparator2" type="HSeparator" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+text = "Select Race:"
+vertical_alignment = 1
+
+[node name="RaceSelect" parent="MenuContainer/MarginContainer/JoinSubmenu" instance=ExtResource("2_ekxnf")]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="HostSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 visible = false
 layout_mode = 2
@@ -127,6 +148,26 @@ vertical_alignment = 1
 [node name="CopyPort" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Copy"
+
+[node name="HSeparator2" type="HSeparator" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+text = "Select Race:"
+vertical_alignment = 1
+
+[node name="RaceSelect" parent="MenuContainer/MarginContainer/HostSubmenu" instance=ExtResource("2_ekxnf")]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="MainSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 layout_mode = 2

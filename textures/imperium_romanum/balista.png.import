@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bn30jnxgdgn07"
-path="res://.godot/imported/copy-svgrepo-com.svg-9e366fe77ef4959d0c77977b428e16b8.ctex"
+uid="uid://bjdv7r7262qsl"
+path="res://.godot/imported/balista.png-aa0ac2e5872f4dd4551e515d52c6dfee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/copy-svgrepo-com.svg"
-dest_files=["res://.godot/imported/copy-svgrepo-com.svg-9e366fe77ef4959d0c77977b428e16b8.ctex"]
+source_file="res://textures/imperium_romanum/balista.png"
+dest_files=["res://.godot/imported/balista.png-aa0ac2e5872f4dd4551e515d52c6dfee.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

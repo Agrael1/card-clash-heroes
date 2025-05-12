@@ -13,6 +13,7 @@ var main_scene : PackedScene = preload("res://scenes/main.tscn")
 @onready var join_oid : LineEdit = $MenuContainer/MarginContainer/JoinSubmenu/LineEdit
 
 @onready var port_box : RichTextLabel = $MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer/RichTextLabel
+var race_box : RaceSelect
 
 var main_scene_instance : Main
 
@@ -24,17 +25,21 @@ func _ready() -> void:
 func load_main_scene(is_host:bool = false) -> void:
 	menu.visible = false
 	var xscene : Main = main_scene.instantiate()
+	xscene.race = race_box.pick_race()
+	
 	add_child(xscene)
 	main_scene_instance = xscene
 
 func _on_join_pressed() -> void:
 	main_submenu.visible = false
 	join_submenu.visible = true
+	race_box = $MenuContainer/MarginContainer/JoinSubmenu/RaceSelect
 
 func _on_host_pressed() -> void:
 	Multiplayer.host()
 	main_submenu.visible = false
 	host_submenu.visible = true
+	race_box = $MenuContainer/MarginContainer/HostSubmenu/RaceSelect
 	multiplayer.peer_connected.connect(
 		func(peer_id:int): load_main_scene()
 	)

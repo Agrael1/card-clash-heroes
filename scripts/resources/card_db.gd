@@ -1,5 +1,5 @@
 class_name CardDB
 extends Resource
 
-@export var units_egypt : Dictionary[String, Unit]
-@export var units_egypt_names : Array[String]
+@export var races : Dictionary[String, Dictionary]
+@export var races_unit_names : Dictionary[String, Array]

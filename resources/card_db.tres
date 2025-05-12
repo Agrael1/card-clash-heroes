@@ -1,21 +1,50 @@
-[gd_resource type="Resource" script_class="CardDB" load_steps=8 format=3 uid="uid://di7ut2mg4v2pi"]
+[gd_resource type="Resource" script_class="CardDB" load_steps=17 format=3 uid="uid://di7ut2mg4v2pi"]
 
 [ext_resource type="Script" uid="uid://dnvpngbkhhmc0" path="res://scripts/resources/card_db.gd" id="1_07eaj"]
-[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="2_mbu6g"]
-[ext_resource type="Resource" uid="uid://dfxg1nquu644t" path="res://resources/peasant.tres" id="3_mgiy7"]
-[ext_resource type="Resource" uid="uid://du6ly4yrk8unl" path="res://resources/bowman.tres" id="4_07eaj"]
-[ext_resource type="Resource" uid="uid://lxkw4arvh14q" path="res://resources/chariot.tres" id="5_14gpq"]
-[ext_resource type="Resource" uid="uid://b56g4jpn10smr" path="res://resources/priest.tres" id="6_pebk4"]
-[ext_resource type="Resource" uid="uid://bp6h008uvrb52" path="res://resources/royal_guard.tres" id="7_252m2"]
+[ext_resource type="Resource" uid="uid://du6ly4yrk8unl" path="res://resources/aegyptus/bowman.tres" id="1_h3v6c"]
+[ext_resource type="Resource" uid="uid://lxkw4arvh14q" path="res://resources/aegyptus/chariot.tres" id="2_7hyya"]
+[ext_resource type="Resource" uid="uid://dfxg1nquu644t" path="res://resources/aegyptus/peasant.tres" id="3_sftud"]
+[ext_resource type="Resource" uid="uid://b56g4jpn10smr" path="res://resources/aegyptus/priest.tres" id="4_65q30"]
+[ext_resource type="Resource" uid="uid://bp6h008uvrb52" path="res://resources/aegyptus/royal_guard.tres" id="5_h1jwh"]
+[ext_resource type="Resource" uid="uid://camnxdag73wsx" path="res://resources/mesopotamia/archer.tres" id="6_ld5j4"]
+[ext_resource type="Resource" uid="uid://btxwu7y0nj8xh" path="res://resources/mesopotamia/sparabara.tres" id="7_7upfs"]
+[ext_resource type="Resource" uid="uid://beigwnydvif37" path="res://resources/mesopotamia/cavalry.tres" id="8_h2ptm"]
+[ext_resource type="Resource" uid="uid://sfq4tygojymi" path="res://resources/mesopotamia/elephant.tres" id="9_tioxn"]
+[ext_resource type="Resource" uid="uid://dieuierik1vc1" path="res://resources/mesopotamia/immortal.tres" id="10_3ydbm"]
+[ext_resource type="Resource" uid="uid://2joap0476nqc" path="res://resources/imperium_romanum/auxilia.tres" id="11_qy4wc"]
+[ext_resource type="Resource" uid="uid://c5avkf5m13vyq" path="res://resources/imperium_romanum/legionary.tres" id="12_fxv2r"]
+[ext_resource type="Resource" uid="uid://y0m7wdl0uivi" path="res://resources/imperium_romanum/centurion.tres" id="13_jx1t7"]
+[ext_resource type="Resource" uid="uid://djujqjfnow5qf" path="res://resources/imperium_romanum/ballista.tres" id="14_ihsoe"]
+[ext_resource type="Resource" uid="uid://dmytj41lgxx64" path="res://resources/imperium_romanum/praetorian.tres" id="15_2tkrr"]
 
 [resource]
 script = ExtResource("1_07eaj")
-units_egypt = Dictionary[String, ExtResource("2_mbu6g")]({
-"bowman": ExtResource("4_07eaj"),
-"chariot": ExtResource("5_14gpq"),
-"peasant": ExtResource("3_mgiy7"),
-"priest": ExtResource("6_pebk4"),
-"royal_guard": ExtResource("7_252m2")
+races = Dictionary[String, Dictionary]({
+"Aegyptus": {
+"bowman": ExtResource("1_h3v6c"),
+"chariot": ExtResource("2_7hyya"),
+"peasant": ExtResource("3_sftud"),
+"priest": ExtResource("4_65q30"),
+"royal_guard": ExtResource("5_h1jwh")
+},
+"Imperium Romanum": {
+"auxilia": ExtResource("11_qy4wc"),
+"ballista": ExtResource("14_ihsoe"),
+"centurion": ExtResource("13_jx1t7"),
+"legionary": ExtResource("12_fxv2r"),
+"praetorian": ExtResource("15_2tkrr")
+},
+"Mesopotamia": {
+"archer": ExtResource("6_ld5j4"),
+"cavalry": ExtResource("8_h2ptm"),
+"elephant": ExtResource("9_tioxn"),
+"immortal": ExtResource("10_3ydbm"),
+"sparabara": ExtResource("7_7upfs")
+}
 })
-units_egypt_names = Array[String](["peasant", "bowman", "chariot", "priest", "royal_guard"])
+races_unit_names = Dictionary[String, Array]({
+"Aegyptus": ["peasant", "bowman", "chariot", "priest", "royal_guard"],
+"Imperium Romanum": ["auxilia", "legionary", "centurion", "ballista", "praetorian"],
+"Mesopotamia": ["archer", "sparabara", "cavalry", "elephant", "immortal"]
+})
 metadata/_custom_type_script = "uid://dnvpngbkhhmc0"

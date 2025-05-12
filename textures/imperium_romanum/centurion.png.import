@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sqc8j8leofu8"
-path="res://.godot/imported/chariot.png-81205bf122ac8b11f136097b6ec65567.ctex"
+uid="uid://urojw4f2mlbl"
+path="res://.godot/imported/centurion.png-bc74b8bb6954fee3cd5e7ab2bb400d51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/chariot.png"
-dest_files=["res://.godot/imported/chariot.png-81205bf122ac8b11f136097b6ec65567.ctex"]
+source_file="res://textures/imperium_romanum/centurion.png"
+dest_files=["res://.godot/imported/centurion.png-bc74b8bb6954fee3cd5e7ab2bb400d51.ctex"]
 
 [params]
 

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://btxwu7y0nj8xh"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_dvsip"]
+[ext_resource type="Texture2D" uid="uid://p7m5msnmgwks" path="res://textures/mesopotamia/immortal.png" id="2_xwxtv"]
+
+[resource]
+script = ExtResource("1_dvsip")
+sprite = ExtResource("2_xwxtv")
+tag = "sparabara"
+health = 2
+attack = 2
+initiative = 10.0
+meele = true
+max_count = 0
+cost = 2
+metadata/_custom_type_script = "uid://umlu675s31ui"

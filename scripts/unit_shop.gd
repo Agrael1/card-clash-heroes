@@ -9,6 +9,7 @@ var card_instance : PackedScene = preload("res://objects/card.tscn")
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var card_manager = $"../CardManager"
 @onready var gold_label = $ColorRect/HBoxContainer/RichTextLabel2
+@onready var container_array = $MarginContainer/GridContainer
 
 var _gold : int = 50
 var gold : int :
@@ -20,14 +21,13 @@ var gold : int :
 		return _gold
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	var container_array = $MarginContainer/GridContainer
-	var card_array : Array[String] = card_db_ref.units_egypt_names
+func open_for(race:String) -> void:
+	var card_array : Array = card_db_ref.races_unit_names[race]
 	for i in range(0, card_array.size()):
 		var card_name = card_array[i]
 		var card : Card = card_instance.instantiate()
 		card.name = card_name + "_" + str(i)
-		card.unit = card_db_ref.units_egypt[card_name]
+		card.unit = card_db_ref.races[race][card_name]
 		card.collision_mask = SHOP_MASK
 		card.connect("mouse_click", on_card_clicked.bind(i))
 

@@ -15,8 +15,8 @@ Step 1:
 - [x] Add a lobby system with an IP address
 - [ ] Balance armies
 - [x] Make normal multiplayer
-- [ ] Add all the remaining cards
-- [ ] Add choose race
+- [x] Add all the remaining cards
+- [x] Add choose race
 
 Auxiliary:
 - [ ] Split cards into two decks with reevaluation of ATB (if needed)

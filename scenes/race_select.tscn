@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://c02odu47h8l7g"]
+
+[ext_resource type="Script" uid="uid://lamdjpl8xv5k" path="res://scripts/race_select.gd" id="1_ayq28"]
+
+[node name="RaceSelect" type="Control"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 3
+anchor_right = 0.067
+anchor_bottom = 0.037
+offset_right = -0.639999
+offset_bottom = 0.0400009
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ayq28")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Back" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = " < "
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(216, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="Forth" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = " > "
+
+[connection signal="pressed" from="HBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="HBoxContainer/Forth" to="." method="_on_forth_pressed"]

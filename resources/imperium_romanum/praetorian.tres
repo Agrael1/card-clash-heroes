@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://dmytj41lgxx64"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_yp1ls"]
+[ext_resource type="Texture2D" uid="uid://045xvlb0e576" path="res://textures/imperium_romanum/praetorian.png" id="2_l2luu"]
+
+[resource]
+script = ExtResource("1_yp1ls")
+sprite = ExtResource("2_l2luu")
+tag = "praetorian"
+health = 6
+attack = 7
+initiative = 7.0
+meele = true
+max_count = 0
+cost = 7
+metadata/_custom_type_script = "uid://umlu675s31ui"

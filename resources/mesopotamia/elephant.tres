@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://sfq4tygojymi"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_w6m0e"]
+[ext_resource type="Texture2D" uid="uid://ds7p48o82ac0l" path="res://textures/mesopotamia/elephant.png" id="2_fra0c"]
+
+[resource]
+script = ExtResource("1_w6m0e")
+sprite = ExtResource("2_fra0c")
+tag = "elephant"
+health = 7
+attack = 4
+initiative = 7.0
+meele = true
+max_count = 0
+cost = 5
+metadata/_custom_type_script = "uid://umlu675s31ui"

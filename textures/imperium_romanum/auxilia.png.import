@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daal0f6e3nimc"
-path="res://.godot/imported/peasant.png-037ba83bd6f04c980dd573f4be0c873b.ctex"
+uid="uid://c2ertyond0c07"
+path="res://.godot/imported/auxilia.png-21f45c9b72cdf4c3e471c5990e58580b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/peasant.png"
-dest_files=["res://.godot/imported/peasant.png-037ba83bd6f04c980dd573f4be0c873b.ctex"]
+source_file="res://textures/imperium_romanum/auxilia.png"
+dest_files=["res://.godot/imported/auxilia.png-21f45c9b72cdf4c3e471c5990e58580b.ctex"]
 
 [params]
 

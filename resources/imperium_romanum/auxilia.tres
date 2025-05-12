@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://2joap0476nqc"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_asfu3"]
+[ext_resource type="Texture2D" uid="uid://c2ertyond0c07" path="res://textures/imperium_romanum/auxilia.png" id="2_ksnq7"]
+
+[resource]
+script = ExtResource("1_asfu3")
+sprite = ExtResource("2_ksnq7")
+tag = "auxilia"
+health = 1
+attack = 1
+initiative = 8.0
+meele = true
+max_count = 0
+cost = 1
+metadata/_custom_type_script = "uid://umlu675s31ui"
