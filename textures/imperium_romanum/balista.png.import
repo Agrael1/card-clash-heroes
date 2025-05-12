@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4jjmh3akumww"
-path="res://.godot/imported/royal_guard.png-4216533624bd5ebee8d7762b96e62d83.ctex"
+uid="uid://bjdv7r7262qsl"
+path="res://.godot/imported/balista.png-aa0ac2e5872f4dd4551e515d52c6dfee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/royal_guard.png"
-dest_files=["res://.godot/imported/royal_guard.png-4216533624bd5ebee8d7762b96e62d83.ctex"]
+source_file="res://textures/imperium_romanum/balista.png"
+dest_files=["res://.godot/imported/balista.png-aa0ac2e5872f4dd4551e515d52c6dfee.ctex"]
 
 [params]
 

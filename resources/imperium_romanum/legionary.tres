@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://c5avkf5m13vyq"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_6kka6"]
+[ext_resource type="Texture2D" uid="uid://b4x8jttr40hg4" path="res://textures/imperium_romanum/legioner.png" id="2_pxwdx"]
+
+[resource]
+script = ExtResource("1_6kka6")
+sprite = ExtResource("2_pxwdx")
+tag = "legionary"
+health = 3
+attack = 4
+initiative = 9.0
+meele = true
+max_count = 0
+cost = 5
+metadata/_custom_type_script = "uid://umlu675s31ui"

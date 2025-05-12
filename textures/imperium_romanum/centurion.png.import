@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bewbrgmsamehp"
-path="res://.godot/imported/bowman.png-ebe707033946ef51775e49495111abef.ctex"
+uid="uid://urojw4f2mlbl"
+path="res://.godot/imported/centurion.png-bc74b8bb6954fee3cd5e7ab2bb400d51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/bowman.png"
-dest_files=["res://.godot/imported/bowman.png-ebe707033946ef51775e49495111abef.ctex"]
+source_file="res://textures/imperium_romanum/centurion.png"
+dest_files=["res://.godot/imported/centurion.png-bc74b8bb6954fee3cd5e7ab2bb400d51.ctex"]
 
 [params]
 

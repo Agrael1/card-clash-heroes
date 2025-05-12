@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://dieuierik1vc1"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_t75cn"]
+[ext_resource type="Texture2D" uid="uid://dk3imjnkcw4hb" path="res://textures/mesopotamia/royal_immortal.png" id="2_db1k6"]
+
+[resource]
+script = ExtResource("1_t75cn")
+sprite = ExtResource("2_db1k6")
+tag = "immortal"
+health = 5
+attack = 5
+initiative = 10.0
+meele = true
+max_count = 0
+cost = 6
+metadata/_custom_type_script = "uid://umlu675s31ui"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://beigwnydvif37"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_h2nmm"]
+[ext_resource type="Texture2D" uid="uid://cmct4de0fe2ve" path="res://textures/mesopotamia/cavalry.png" id="2_ouxgd"]
+
+[resource]
+script = ExtResource("1_h2nmm")
+sprite = ExtResource("2_ouxgd")
+tag = "cavalry"
+health = 3
+attack = 2
+initiative = 10.0
+meele = false
+max_count = 0
+cost = 3
+metadata/_custom_type_script = "uid://umlu675s31ui"

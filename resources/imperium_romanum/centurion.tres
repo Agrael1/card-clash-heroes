@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://y0m7wdl0uivi"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_rkrvy"]
+[ext_resource type="Texture2D" uid="uid://urojw4f2mlbl" path="res://textures/imperium_romanum/centurion.png" id="2_kbyog"]
+
+[resource]
+script = ExtResource("1_rkrvy")
+sprite = ExtResource("2_kbyog")
+tag = "centurion"
+health = 3
+attack = 3
+initiative = 6.0
+meele = true
+max_count = 0
+cost = 3
+metadata/_custom_type_script = "uid://umlu675s31ui"

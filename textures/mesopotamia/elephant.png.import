@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3xm8he2fdek4"
-path="res://.godot/imported/preist.png-3fa6dc3458cf234addf0faaff727a012.ctex"
+uid="uid://ds7p48o82ac0l"
+path="res://.godot/imported/elephant.png-5a3031480245579de2fbd315823a50d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/preist.png"
-dest_files=["res://.godot/imported/preist.png-3fa6dc3458cf234addf0faaff727a012.ctex"]
+source_file="res://textures/mesopotamia/elephant.png"
+dest_files=["res://.godot/imported/elephant.png-5a3031480245579de2fbd315823a50d0.ctex"]
 
 [params]
 

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://djujqjfnow5qf"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_o1qpt"]
+[ext_resource type="Texture2D" uid="uid://bjdv7r7262qsl" path="res://textures/imperium_romanum/balista.png" id="2_3x8fr"]
+
+[resource]
+script = ExtResource("1_o1qpt")
+sprite = ExtResource("2_3x8fr")
+tag = "ballista"
+health = 2
+attack = 5
+initiative = 10.0
+meele = false
+max_count = 0
+cost = 5
+metadata/_custom_type_script = "uid://umlu675s31ui"

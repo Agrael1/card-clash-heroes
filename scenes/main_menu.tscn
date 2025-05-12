@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cahns5mqsn7le"]
+[gd_scene load_steps=3 format=3 uid="uid://cahns5mqsn7le"]
 
 [ext_resource type="Script" uid="uid://8ac1s2xk3u8x" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://c02odu47h8l7g" path="res://scenes/race_select.tscn" id="2_ekxnf"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -31,12 +32,148 @@ layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
+[node name="JoinSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 30
+text = "Join
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LineEdit" type="LineEdit" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+placeholder_text = "User OID or IP"
+
+[node name="JoinOID" type="Button" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+layout_mode = 2
+text = "Join Game"
+
+[node name="JoinBack" type="Button" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="HSeparator2" type="HSeparator" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MenuContainer/MarginContainer/JoinSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+text = "Select Race:"
+vertical_alignment = 1
+
+[node name="RaceSelect" parent="MenuContainer/MarginContainer/JoinSubmenu" instance=ExtResource("2_ekxnf")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HostSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 30
+text = "Host"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Loading..."
+editable = false
+
+[node name="CopyOID" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer"]
+layout_mode = 2
+text = "Copy"
+
+[node name="HostBack" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 34.29)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "PORT: --------
+"
+vertical_alignment = 1
+
+[node name="CopyPort" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Copy"
+
+[node name="HSeparator2" type="HSeparator" parent="MenuContainer/MarginContainer/HostSubmenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+text = "Select Race:"
+vertical_alignment = 1
+
+[node name="RaceSelect" parent="MenuContainer/MarginContainer/HostSubmenu" instance=ExtResource("2_ekxnf")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MainSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuContainer/MarginContainer/MainSubmenu"]
 clip_contents = false
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -50,22 +187,28 @@ text = "Card Clash: Heroes
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MenuContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MenuContainer/MarginContainer/MainSubmenu"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Host" type="Button" parent="MenuContainer/MarginContainer/VBoxContainer"]
+[node name="Host" type="Button" parent="MenuContainer/MarginContainer/MainSubmenu"]
 layout_mode = 2
 text = "Host Game"
 
-[node name="Join" type="Button" parent="MenuContainer/MarginContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="MenuContainer/MarginContainer/MainSubmenu"]
 layout_mode = 2
 text = "Join Game"
 
-[node name="Exit" type="Button" parent="MenuContainer/MarginContainer/VBoxContainer"]
+[node name="Exit" type="Button" parent="MenuContainer/MarginContainer/MainSubmenu"]
 layout_mode = 2
 text = "Exit"
 
-[connection signal="pressed" from="MenuContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="MenuContainer/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="MenuContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="text_submitted" from="MenuContainer/MarginContainer/JoinSubmenu/LineEdit" to="." method="_on_text_edit_text_submitted"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinOID" to="." method="_on_join_oid_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinBack" to="." method="_on_join_back_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/HostBack" to="." method="_on_host_back_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer/CopyPort" to="." method="_on_copy_port_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="MenuContainer/MarginContainer/MainSubmenu/Exit" to="." method="_on_exit_pressed"]

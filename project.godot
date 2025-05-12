@@ -15,9 +15,19 @@ run/main_scene="uid://cahns5mqsn7le"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Multiplayer="*res://scripts/multiplayer.gd"
+Noray="*res://addons/netfox.noray/noray.gd"
+PacketHandshake="*res://addons/netfox.noray/packet-handshake.gd"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/netfox.internals/plugin.cfg", "res://addons/netfox.noray/plugin.cfg")

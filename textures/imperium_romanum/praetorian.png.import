@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daal0f6e3nimc"
-path="res://.godot/imported/peasant.png-037ba83bd6f04c980dd573f4be0c873b.ctex"
+uid="uid://045xvlb0e576"
+path="res://.godot/imported/praetorian.png-52c9791eb1079479541cafd843ab83c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/peasant.png"
-dest_files=["res://.godot/imported/peasant.png-037ba83bd6f04c980dd573f4be0c873b.ctex"]
+source_file="res://textures/imperium_romanum/praetorian.png"
+dest_files=["res://.godot/imported/praetorian.png-52c9791eb1079479541cafd843ab83c5.ctex"]
 
 [params]
 

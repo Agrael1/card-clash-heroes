@@ -13,6 +13,7 @@ const CARD_MASK_ENEMY = 4
 
 var card_db_ref : CardDB = preload("res://resources/card_db.tres")
 var card_object : PackedScene = preload("res://objects/card.tscn")
+var race : String
 
 var grid : Array[CardSlot] = []
 
@@ -88,7 +89,7 @@ func export():
 			export_data[i] = null
 	return export_data
 	
-func import(data):
+func import(race : String,  data : Array):
 	for i in range(0, grid.size()):
 		var slot = grid[grid.size() - i - 1] # Mirror
 		var card_data = data[i]
@@ -98,7 +99,7 @@ func import(data):
 		# Instantiate card
 		var card : Card = card_object.instantiate()
 		card.collision_mask = CARD_MASK_ENEMY
-		card.unit = card_db_ref.units_egypt[card_data["unit"]]
+		card.unit = card_db_ref.races[race][card_data["unit"]]
 		card.number = card_data["number"]
 		
 		card_manager.add_child(card)
