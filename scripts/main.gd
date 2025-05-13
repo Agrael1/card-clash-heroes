@@ -17,7 +17,7 @@ var remote_player_id = 0
 @onready var turn_scale : TurnScale = $TurnScale
 @onready var card_manager : CardManager = $CardManager
 @onready var floating_menu : Node2D = $FloatingMenu
-
+@onready var combat_log : CombatLog = $"CombatLog"
 
 func _ready() -> void:
 	shop.open_for(race)
@@ -30,6 +30,7 @@ func on_both_ready()->void:
 	sync_fields.rpc(multiplayer.get_unique_id(), race, player_field.export())
 	turn_scale.visible = true
 	floating_menu.visible = true
+	combat_log.visible = true
 
 
 func _on_attack_pressed() -> void:

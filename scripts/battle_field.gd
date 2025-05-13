@@ -8,6 +8,7 @@ enum ActionTaken{ATTACK, MOVE, WAIT}
 @onready var atb_bar : TurnScale = $"../TurnScale"
 @onready var wait_button : Button = $"../FloatingMenu/Wait"
 @onready var end_screen : GameOver = $"../GameOver"
+@onready var combat_log : CombatLog = $"../CombatLog"
 
 var attacker_card : Card
 
@@ -156,11 +157,12 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			take_damage(target_card, damage)
 			var units_killed = before - target_card.number
 			
-			print("{unit_a} attacked {unit_t}, dealt {dmg} damage, killed {kill}"
-				.format({"unit_a":attacker.ref.unit.tag,
-				"unit_t":target.card_ref.unit.tag,
-				"dmg":damage,
-				"kill":units_killed}))
+			if recv_id == send_id:
+				combat_log.add_combat_event("{unit_a} attacked {unit_t}, dealt {dmg} damage, killed {kill}"
+					.format({"unit_a":attacker.ref.unit.tag.to_upper(),
+					"unit_t":target.card_ref.unit.tag.to_upper(),
+					"dmg":damage,
+					"kill":units_killed}))
 			
 			if target_card.number == 0: # Remove
 				atb_bar.trim_card(target_card)
