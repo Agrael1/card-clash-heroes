@@ -45,6 +45,7 @@ var slot:int = -1
 @onready var number_panel = $Panel
 @onready var sprite = $Sprite2D
 @onready var area :Area2D = $Area2D
+@onready var pointer : Sprite2D = $Triangle
 @onready var outline:StyleBoxFlat = StyleBoxFlat.new()
 
 func _ready() -> void:
@@ -64,14 +65,14 @@ func _ready() -> void:
 
 
 func _on_area_2d_mouse_entered() -> void:
-	emit_signal("mouse_enter", self) # pass the card
+	mouse_enter.emit(self) # pass the card
 
 func _on_area_2d_mouse_exited() -> void:
-	emit_signal("mouse_exit", self)
+	mouse_exit.emit(self)
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
-		emit_signal("mouse_click", self)
+		mouse_click.emit(self)
 		
 func export():
 	return { "unit": unit.tag, "number" : _number, "slot" : slot }

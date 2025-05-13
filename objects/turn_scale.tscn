@@ -19,6 +19,7 @@ layout_mode = 0
 offset_left = -1656.0
 offset_top = 931.0
 offset_bottom = 1077.0
+mouse_filter = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
 layout_mode = 1
@@ -35,7 +36,7 @@ theme_override_constants/margin_top = 9
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer"]
 layout_mode = 2
-mouse_filter = 0
+mouse_filter = 2
 
 [node name="Triangle" type="Sprite2D" parent="."]
 z_index = 2
@@ -49,6 +50,7 @@ offset_left = -1917.0
 offset_top = 805.0
 offset_right = -1654.0
 offset_bottom = 1076.0
+mouse_filter = 2
 
 [node name="Card" parent="Panel2" instance=ExtResource("1_4rcqu")]
 offset_left = 68.0

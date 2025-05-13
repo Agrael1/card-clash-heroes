@@ -201,6 +201,14 @@ func trim_card(card : Card):
 		advance(i)
 	_ui_compensate(new_size)
 
+func _ui_follow_card(card : Card):
+	card.pointer.visible = true
+	card.mouse_enter.emit(card)
+	
+func _ui_unfollow_card(card : Card):
+	card.pointer.visible = false
+	card.mouse_exit.emit(card)
+
 func _ui_trim(card : Card):
 	for i in range(_cache_refs.size() - 1, 0, -1):
 		var ref : CardRef = _cache_refs[i]
@@ -251,5 +259,11 @@ func _make_ui_respect_state(instantiate:bool = true) -> void:
 		if instantiate:
 			card_parent.add_child(instance)
 			card_manager.connect_card(instance)
+			instance.mouse_enter.connect(
+				func(card : Card): _ui_follow_card(ref.ref)
+			)
+			instance.mouse_exit.connect(
+				func(card : Card): _ui_unfollow_card(ref.ref)
+			)
 			
 		instance.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED

@@ -6,6 +6,9 @@ const SLOT_MASK = 1 << 1
 const SHOP_MASK = 1 << 2
 const CARD_MASK_ENEMY = 1 << 4
 
+const Z_DRAG = 4
+const Z_NORMAL = 0
+
 var dragged_card : Card
 var card_hovered : Card
 var screen_size : Vector2
@@ -57,19 +60,27 @@ func on_raycast_slot(slot:CardSlot):
 func on_drag_start(card: Card):
 	dragged_card = card
 	dragged_card.scale = Vector2(1,1)
+	dragged_card.z_index = Z_DRAG
 	
 func on_drag_end():
 	var saved_card : Card = dragged_card;
+	dragged_card.z_index = Z_NORMAL
 	dragged_card = null
 	
 	saved_card.scale = Vector2(1.05,1.05)
 	var card_slot = raycast_slot()
 	if !card_slot or card_slot.slot_number == saved_card.slot or !player_field.try_place_card(saved_card, card_slot.slot_number):
 		player_field.return_to_slot(saved_card)
+	
+	# Raycast underneath
+	var result : Card = raycast_at_cursor(CARD_MASK, 0, true)
+	if result:
+		on_card_hovered(result)
+		
 
 # Card logic
 func on_card_hovered(card: Card):
-	if !card_hovered:
+	if !dragged_card:
 		card.scale = Vector2(1.05,1.05)
 		card_hovered = card
 		card.z_index = 2
@@ -80,11 +91,11 @@ func on_card_hovered_off(card: Card):
 		card.z_index = 1
 		if card_hovered == card:
 			card_hovered = null
+		
 
 func connect_card(card: Card):
-	card.connect("mouse_enter", on_card_hovered)
-	card.connect("mouse_exit", on_card_hovered_off)
-
+	card.mouse_enter.connect(on_card_hovered)
+	card.mouse_exit.connect(on_card_hovered_off)
 
 # Function to sort by y position
 func first_by_z(cards):
@@ -97,7 +108,7 @@ func first_by_z(cards):
 			first = cards[i]
 	return first
 
-func raycast_at_cursor(collision_mask:int = CARD_MASK, button:int = MOUSE_BUTTON_LEFT):
+func raycast_at_cursor(collision_mask:int = CARD_MASK, button:int = MOUSE_BUTTON_LEFT, block : bool = false):
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()
@@ -109,13 +120,17 @@ func raycast_at_cursor(collision_mask:int = CARD_MASK, button:int = MOUSE_BUTTON
 		var first = first_by_z(result)
 		var result_mask = first.collider.collision_mask
 		var output = first.collider.get_parent()
-		match result_mask:
-			CARD_MASK:
-				on_raycast_card(output, button == MOUSE_BUTTON_RIGHT)
-			CARD_MASK_ENEMY:
-				on_raycast_enemy(output)
-			SLOT_MASK:
-				on_raycast_slot(output)
+		if !block:
+			match result_mask:
+				CARD_MASK:
+					on_raycast_card(output, button == MOUSE_BUTTON_RIGHT)
+				CARD_MASK_ENEMY:
+					on_raycast_enemy(output)
+				SLOT_MASK:
+					on_raycast_slot(output)
+		return output
+	return null
+	
 				
 func raycast_slot() -> CardSlot:
 	var space_state = get_world_2d().direct_space_state

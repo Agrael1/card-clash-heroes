@@ -24,7 +24,6 @@ shadow_size = 1
 shadow_offset = Vector2(1.51, 2.24)
 
 [node name="Card" type="Control"]
-z_index = 1
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 3
 anchors_preset = 0
@@ -41,6 +40,7 @@ unit = ExtResource("2_nsn7b")
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
+mouse_filter = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(64, 64)
@@ -48,8 +48,11 @@ scale = Vector2(0.128, 0.128)
 texture = ExtResource("3_nsn7b")
 
 [node name="Area2D" type="Area2D" parent="."]
+process_priority = 1
+priority = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+process_priority = 1
 texture_filter = 1
 position = Vector2(64, 64)
 scale = Vector2(11, 11)
@@ -57,19 +60,18 @@ shape = SubResource("RectangleShape2D_k5eb0")
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color(0.566531, 0.25297, 0, 1)
-z_index = 1
 texture_filter = 1
 layout_mode = 0
 offset_left = 80.0
 offset_top = 96.0
 offset_right = 120.0
 offset_bottom = 120.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_77oaa")
 script = ExtResource("3_ebvaf")
 number = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
-z_index = 1
 texture_filter = 1
 layout_mode = 0
 offset_right = 40.0

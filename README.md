@@ -23,8 +23,9 @@ Auxiliary:
 - [ ] Add animation for the cards on the board + sync + wait
 - [x] Win screen + sync
 - [ ] Add card abilities (e.g. heal, attack, etc.) + sync
-- [ ] Add events for the field with
+- [ ] Add events for the field
 
 UI:
 - [ ] Refactor the UI of the shop
-- [ ] Make mouse hover over the ATB bar point to the card
+- [x] Make mouse hover over the ATB bar point to the card
+- [ ] Add a card description + actual info
