@@ -18,6 +18,7 @@ var remote_player_id = 0
 @onready var card_manager : CardManager = $CardManager
 @onready var floating_menu : Node2D = $FloatingMenu
 
+
 func _ready() -> void:
 	shop.open_for(race)
 

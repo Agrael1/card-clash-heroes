@@ -11,11 +11,13 @@ const Z_NORMAL = 0
 
 var dragged_card : Card
 var card_hovered : Card
+var watched_card : Card
 var screen_size : Vector2
 var block_free_move : bool = false
 
 @onready var player_field: PlayerField = $"../MarginContainer/PlayerField"
 @onready var battle_field : BattleField = $"../BattleField"
+@onready var card_info : CardInfo = $"../CardInfo"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -36,9 +38,15 @@ func _input(event: InputEvent) -> void:
 			if event.is_released():
 				if dragged_card:
 					on_drag_end()
-		if event.button_index == MOUSE_BUTTON_RIGHT and !block_free_move:
+					
+		if event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.is_pressed():
-				raycast_at_cursor(CARD_MASK, MOUSE_BUTTON_RIGHT)
+				raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY | CARD_MASK, MOUSE_BUTTON_RIGHT)
+				return
+				
+			if event.is_released() and watched_card:
+				watched_card = null
+				card_info.visible = false
 		
 
 func on_raycast_card(card:Card, right_click:bool = false):
@@ -49,8 +57,19 @@ func on_raycast_card(card:Card, right_click:bool = false):
 			card.number-=1
 			if card.number == 0:
 				card.queue_free()
+	else: # fight phase
+		if right_click:
+			watched_card = card
+			card_info.visible = true
+			card_info.project_card(watched_card)
 		
-func on_raycast_enemy(card:Card):
+func on_raycast_enemy(card:Card, right_click:bool = false):
+	if right_click:
+		watched_card = card
+		card_info.visible = true
+		card_info.project_card(watched_card)
+		return
+		
 	battle_field.try_attack_at(card.slot)
 
 func on_raycast_slot(slot:CardSlot):
@@ -91,7 +110,6 @@ func on_card_hovered_off(card: Card):
 		card.z_index = 1
 		if card_hovered == card:
 			card_hovered = null
-		
 
 func connect_card(card: Card):
 	card.mouse_enter.connect(on_card_hovered)
@@ -125,7 +143,7 @@ func raycast_at_cursor(collision_mask:int = CARD_MASK, button:int = MOUSE_BUTTON
 				CARD_MASK:
 					on_raycast_card(output, button == MOUSE_BUTTON_RIGHT)
 				CARD_MASK_ENEMY:
-					on_raycast_enemy(output)
+					on_raycast_enemy(output, button == MOUSE_BUTTON_RIGHT)
 				SLOT_MASK:
 					on_raycast_slot(output)
 		return output

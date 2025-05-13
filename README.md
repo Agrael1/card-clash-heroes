@@ -28,4 +28,5 @@ Auxiliary:
 UI:
 - [ ] Refactor the UI of the shop
 - [x] Make mouse hover over the ATB bar point to the card
-- [ ] Add a card description + actual info
+- [x] Add a card description + actual info
+- [ ] Add combat log
