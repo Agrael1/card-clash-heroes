@@ -20,7 +20,7 @@ Step 1:
 
 Auxiliary:
 - [ ] Split cards into two decks with reevaluation of ATB (if needed)
-- [ ] Add animation for the cards on the board + sync + wait
+- [x] Add animation for the cards on the board + sync + wait
 - [x] Win screen + sync
 - [ ] Add card abilities (e.g. heal, attack, etc.) + sync
 - [ ] Add events for the field

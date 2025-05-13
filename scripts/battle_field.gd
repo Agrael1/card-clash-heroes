@@ -151,14 +151,31 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			var damage : int = turn_desc["damage"]
 			var target_slot : int = turn_desc["target"]
 			var target : CardSlot = target_field.get_at(target_slot, invert) # inverted
-			var target_card : Card = target.card_ref			
+			var target_card : Card = target.card_ref
+			
+			
+			var prev_attacker_pos = attacker.ref.position
+			
+			attacker.ref.z_index = CardManager.Z_DRAG
+			
+			var tween = get_tree().create_tween()
+			tween.tween_property(attacker.ref, "position", target_card.position, 0.2)
+			var timer = get_tree().create_timer(0.2)
+			await timer.timeout
+			
 			
 			var before : int = target_card.number
 			take_damage(target_card, damage)
 			var units_killed = before - target_card.number
 			
 			if recv_id == send_id:
-				combat_log.add_combat_event("{unit_a} attacked {unit_t}, dealt {dmg} damage, killed {kill}"
+				combat_log.add_combat_event("{unit_a} attacked enemy {unit_t}, dealt {dmg} damage, killed {kill}"
+					.format({"unit_a":attacker.ref.unit.tag.to_upper(),
+					"unit_t":target.card_ref.unit.tag.to_upper(),
+					"dmg":damage,
+					"kill":units_killed}))
+			else:
+				combat_log.add_combat_event("{unit_a} attacked your {unit_t}, dealt {dmg} damage, killed {kill}"
 					.format({"unit_a":attacker.ref.unit.tag.to_upper(),
 					"unit_t":target.card_ref.unit.tag.to_upper(),
 					"dmg":damage,
@@ -178,6 +195,12 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 					if player_field.is_empty():
 						end_screen.loose()
 					
+			var tween2 = get_tree().create_tween()
+			tween2.tween_property(attacker.ref, "position", prev_attacker_pos, 0.3)
+			var timer2 = get_tree().create_timer(0.3)
+			await timer2.timeout
+			
+			attacker.ref.z_index = CardManager.Z_NORMAL
 			
 			atb_bar.action()
 
