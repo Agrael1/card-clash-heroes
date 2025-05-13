@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgvammbnay7fb"]
+[gd_scene load_steps=11 format=3 uid="uid://cgvammbnay7fb"]
 
 [ext_resource type="Script" uid="uid://b76fpo1woutd2" path="res://scripts/card_manager.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dor8dwf0om2sr" path="res://objects/player_field.tscn" id="1_tbgi4"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dn3o8fl7ukp58" path="res://scenes/game_over.tscn" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://dajiboyk64xc" path="res://scripts/battle_field.gd" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://n8sne3otbj1l" path="res://scenes/card_info.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://c502vh2hqtbti" path="res://scenes/tooltip.tscn" id="10_choun"]
 
 [node name="Root" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -90,6 +91,13 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 mouse_filter = 2
+
+[node name="Tooltip" parent="." instance=ExtResource("10_choun")]
+visible = false
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [connection signal="pressed" from="MarginContainer3/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="FloatingMenu/Wait" to="BattleField" method="_on_wait_pressed"]

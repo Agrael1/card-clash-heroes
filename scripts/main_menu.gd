@@ -65,10 +65,12 @@ func _on_host_back_pressed() -> void:
 	main_submenu.visible = true
 	host_submenu.visible = false
 	Multiplayer.unhost()
+	
 
 func _on_join_back_pressed() -> void:
 	main_submenu.visible = true
 	join_submenu.visible = false
+	multiplayer.connected_to_server.disconnect(load_main_scene)
 
 func _on_text_edit_text_submitted(new_text: String) -> void:
 	if Multiplayer.join(new_text):

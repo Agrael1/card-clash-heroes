@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c502vh2hqtbti"]
+
+[ext_resource type="Script" uid="uid://djeg5xnw2oxlr" path="res://scripts/tooltip.gd" id="1_7dicn"]
+
+[node name="Tooltip" type="PanelContainer"]
+z_index = 10
+anchors_preset = -1
+anchor_right = 0.167
+anchor_bottom = 0.064
+offset_right = -0.640015
+offset_bottom = -0.120003
+mouse_filter = 2
+script = ExtResource("1_7dicn")
+
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 2
+text = "This is a tooltip"
+fit_content = true

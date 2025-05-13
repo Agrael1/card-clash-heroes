@@ -83,7 +83,11 @@ func try_attack_at(slot_idx:int)->bool:
 	
 	var card = enemy_field.grid[slot_idx].card_ref
 	if card:
-		var damage = attacker_card.unit.attack * attacker_card.number				
+		# check if we can deal damage
+		if attacker_card.unit.meele and card.card_state == Card.Outline.NONE: # can't reach
+			return false
+		
+		var damage = attacker_card.unit.attack * attacker_card.number
 		make_turn.rpc(multiplayer.get_unique_id(), 
 		{	
 			"action":ActionTaken.ATTACK,
@@ -137,9 +141,8 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			var target_slot : int = turn_desc["target"]
 			var slot : CardSlot = opposite_field.get_at(target_slot, invert)
 			var attacker:TurnScale.CardRef = atb_bar.first()
-			opposite_field.get_at(attacker.ref.slot, invert).reset_card()
+			opposite_field.get_at(attacker.ref.slot, false).reset_card()				
 			slot.set_card(attacker.ref)
-			
 			atb_bar.action()
 
 		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
@@ -192,3 +195,16 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 
 func _on_wait_pressed() -> void:
 	wait()
+
+func on_enemy_hover(target_card:Card):
+	if !attacker_card: return null
+	var damage : int = attacker_card.unit.attack * attacker_card.number
+	
+	var unit = target_card._unit
+	var target_overall_hp = (target_card.number - 1) * target_card.unit.health + target_card.current_health
+	var remaining_hp = max(target_overall_hp - damage, 0)
+	
+	var units_remain = remaining_hp / target_card.unit.health
+	var health_remain = remaining_hp % target_card.unit.health
+	
+	return [damage, target_card.number - units_remain - int(health_remain > 0)]
