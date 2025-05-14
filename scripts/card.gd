@@ -40,6 +40,7 @@ var _unit:Unit = null
 
 var card_state: Outline = Outline.NONE
 var current_health
+var max_units
 
 var slot:int = -1
 @onready var number_panel = $Panel

@@ -44,8 +44,11 @@ func attack_visualize_front(card:Card, radius:int):
 	var boundary_low = max(position - radius, 0) + offset
 	var boundary_high = min(position + radius, enemy_field.field_width) + offset
 	
-	var boundary_low_back = max(position - radius - 1, 0)
+	var boundary_low_back = max(position - radius + 1, 0)
 	var boundary_high_back = min(position + radius - 1, enemy_field.field_width)
+	
+	print(str(boundary_low_back) + ":" + str(boundary_high_back) + ":" + str(position))
+	
 	# get front row of the enemy field
 	var enemy_front_row = enemy_field.grid.slice(boundary_low, boundary_high)
 	for slot : CardSlot in enemy_front_row:

@@ -104,3 +104,8 @@ func import(race : String,  data : Array):
 		
 		card_manager.add_child(card)
 		slot.set_card(card)
+
+func settle():
+	for slot:CardSlot in grid:
+		if !slot.is_empty():
+			slot.card_ref.max_units = slot.card_ref.number
