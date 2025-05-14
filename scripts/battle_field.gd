@@ -36,7 +36,7 @@ func attack_visualize_front(card:Card, radius:int):
 	radius -= card.slot / player_field.field_width
 	
 	# Obstructed
-	if card.slot > player_field.field_width && \
+	if card.slot >= player_field.field_width && \
 	!player_field.get_at(card.slot - player_field.field_width).is_empty():
 		return
 	
