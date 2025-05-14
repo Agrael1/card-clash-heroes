@@ -108,4 +108,7 @@ func import(race : String,  data : Array):
 func settle():
 	for slot:CardSlot in grid:
 		if !slot.is_empty():
-			slot.card_ref.max_units = slot.card_ref.number
+			var ref = slot.card_ref
+			ref.max_units = ref.number
+			for a in ref.unit.abilities:
+				a.init(ref)

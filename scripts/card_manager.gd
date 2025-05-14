@@ -18,17 +18,12 @@ var block_free_move : bool = false
 @onready var player_field: PlayerField = $"../MarginContainer/PlayerField"
 @onready var battle_field : BattleField = $"../BattleField"
 @onready var card_info : CardInfo = $"../CardInfo"
-@onready var tooltip : Tooltip = $"../Tooltip"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if dragged_card:
 		var mouse_pos = get_global_mouse_position()
 		dragged_card.position = Vector2(clamp(mouse_pos.x, 0, screen_size.x), clamp(mouse_pos.y, 0, screen_size.y)) - dragged_card.size / 2
-		
-	if tooltip.visible:
-		var mouse_pos = get_viewport().get_mouse_position()
-		tooltip.position = mouse_pos + Vector2(10, 10) 
 		
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,7 +32,6 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			tooltip.visible = false
 			if event.is_pressed():
 				raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY | SLOT_MASK)
 			if event.is_released():
@@ -108,13 +102,9 @@ func on_card_hovered(card: Card):
 		card.scale = Vector2(1.05,1.05)
 		card_hovered = card
 		card.z_index = 2
-		if block_free_move and card.card_state == Card.Outline.ENEMY_FULL:
-			var dmg_kills : Array = battle_field.on_enemy_hover(card)
-			if dmg_kills:
-				var dmg = dmg_kills[0]
-				var kills = dmg_kills[1]
-				tooltip.label.text = "Damage: {dmg}\nKills: {kills}".format({"dmg": dmg, "kills":kills})
-				tooltip.visible = true
+		if block_free_move:
+			battle_field.on_card_hovered_battle(card)
+			
 
 func on_card_hovered_off(card: Card):
 	if !dragged_card:
@@ -122,7 +112,8 @@ func on_card_hovered_off(card: Card):
 		card.z_index = 1
 		if card_hovered == card:
 			card_hovered = null
-	tooltip.visible = false
+			if block_free_move:
+				battle_field.on_card_hovered_off_battle(card)
 
 func connect_card(card: Card):
 	card.mouse_enter.connect(on_card_hovered)

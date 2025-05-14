@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Cleave" load_steps=2 format=3 uid="uid://cr05p8f1fhss0"]
+
+[ext_resource type="Script" uid="uid://bw67id8s1enur" path="res://scripts/abilities/cleave.gd" id="1_ppkkv"]
+
+[resource]
+script = ExtResource("1_ppkkv")
+ability_name = "Piercing Strike"
+description = ""
+viz_type = 2
+metadata/_custom_type_script = "uid://bw67id8s1enur"

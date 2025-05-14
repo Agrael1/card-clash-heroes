@@ -31,6 +31,8 @@ func on_both_ready()->void:
 	turn_scale.visible = true
 	floating_menu.visible = true
 	combat_log.visible = true
+	player_field.settle()
+	enemy_field.settle()
 
 
 func _on_attack_pressed() -> void:

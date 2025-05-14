@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://djujqjfnow5qf"]
+[gd_resource type="Resource" script_class="Unit" load_steps=4 format=3 uid="uid://djujqjfnow5qf"]
 
 [ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_o1qpt"]
 [ext_resource type="Texture2D" uid="uid://bjdv7r7262qsl" path="res://textures/imperium_romanum/balista.png" id="2_3x8fr"]
+[ext_resource type="Resource" uid="uid://cr05p8f1fhss0" path="res://resources/abilities/cleave.tres" id="2_le4hl"]
 
 [resource]
 script = ExtResource("1_o1qpt")
@@ -11,6 +12,7 @@ health = 2
 attack = 5
 initiative = 10.0
 meele = false
+abilities = [ExtResource("2_le4hl")]
 max_count = 0
 cost = 5
 metadata/_custom_type_script = "uid://umlu675s31ui"
