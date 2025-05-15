@@ -32,6 +32,12 @@ func on_card_turn(card:Card):
 	
 	attacker_card = card	
 	
+	# Visualize passive abilities
+	if !attacker_card: return
+	for a : Ability in attacker_card._unit.abilities:
+		if a.viz_type == Ability.VizType.PASSIVE:
+			a.visualize(attacker_card, self, card)
+	
 	if card.unit.meele:
 		attack_visualize_front(card, 4)
 	else:

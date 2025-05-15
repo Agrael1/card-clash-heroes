@@ -55,7 +55,7 @@ var _card_state := CardSelection.NONE
 		_card_state = value
 		if !outline: return
 		match value:
-			CardSelection.CURRENT, CardSelection.HEAL:
+			CardSelection.HEAL:
 				outline.bg_color = Color.FOREST_GREEN
 			CardSelection.ENEMY_FULL:
 				outline.bg_color = Color.RED

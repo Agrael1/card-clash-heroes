@@ -3,18 +3,22 @@ extends Ability
 
 @export var amount = 1
 
+var targets:Array[Card]
+
 #region overrides
 func init(_parent):
-	pass
+	targets.resize(1)
 
 func visualize(caster : Card, battlefield : BattleField, _target : Card):
 	var target_card: Card = get_target_card(caster, battlefield)
 	if !target_card: return false
-	target_card.card_state = Card.CardSelection.CURRENT
+	target_card.card_state = Card.CardSelection.HEAL
+	targets[0] = target_card
 	return true
 
 func reset_visualize():
-	pass
+	for t in targets:
+		t.card_state = Card.CardSelection.NONE
 
 # Executed on both peers
 func execute(caster : Card, battlefield : BattleField, _target : Card):
