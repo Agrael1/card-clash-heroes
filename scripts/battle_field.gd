@@ -205,13 +205,12 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			await tween.finished
 			
 			assert(att_card != target.card_ref)
-			attack_card(att_card, target, damage, recv_id == send_id)
 			
-			# Use attack modifiers
-			if is_instance_valid(target_card):
-				for a : Ability in att_card._unit.abilities:
-					if a.viz_type == Ability.VizType.TARGET:
-						a.execute(att_card, self, target_card)
+			for a : Ability in att_card._unit.abilities:
+				if a.viz_type == Ability.VizType.TARGET:
+					a.execute(att_card, self, target_card)
+					
+			attack_card(att_card, target, damage, recv_id == send_id)
 			
 			
 			# Check win condition
@@ -239,7 +238,10 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 
 	# Exec for all
 	var new_first : TurnScale.CardRef = atb_bar.first()
-	reset_vizualize()
+	if recv_id == send_id:
+		reset_visualize_attacker()
+		reset_vizualize()
+		
 	if new_first.belongs_to_player:
 		on_card_turn(new_first.ref)
 		wait_button.disabled = false
