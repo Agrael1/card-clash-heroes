@@ -11,6 +11,7 @@ health = 6
 attack = 7
 initiative = 7.0
 meele = true
+abilities = []
 max_count = 0
 cost = 7
 metadata/_custom_type_script = "uid://umlu675s31ui"

@@ -3,8 +3,6 @@ extends Node2D
 
 enum ActionTaken{ATTACK, MOVE, WAIT, ABILITY}
 
-signal turn_ended
-
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var enemy_field : PlayerField = $"../MarginContainer2/EnemyField"
 @onready var atb_bar : TurnScale = $"../TurnScale"
@@ -30,11 +28,9 @@ func on_card_turn(card:Card):
 	# first color the selected card
 	card.set_outline(Card.Outline.CURRENT)
 	wait_button.disabled = false
+	wait_button.text = "Wait"
 	
-	attacker_card = card
-	
-	# Activate passive abilities
-	
+	attacker_card = card	
 	
 	if card.unit.meele:
 		attack_visualize_front(card, 4)
@@ -259,7 +255,6 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 	# Exec for all
 	var new_first : TurnScale.CardRef = atb_bar.first()
 	reset_vizualize()
-	turn_ended.emit(attacker_card)
 	if new_first.belongs_to_player:
 		on_card_turn(new_first.ref)
 		wait_button.disabled = false
