@@ -202,8 +202,7 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			
 			var tween = get_tree().create_tween()
 			tween.tween_property(att_card, "position", target_card.position, 0.2)
-			var timer = get_tree().create_timer(0.2)
-			await timer.timeout
+			await tween.finished
 			
 			attack_card(att_card, target, damage, recv_id == send_id)
 			
@@ -223,11 +222,9 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 					
 			var tween2 = get_tree().create_tween()
 			tween2.tween_property(att_card, "position", prev_attacker_pos, 0.3)
-			var timer2 = get_tree().create_timer(0.3)
-			await timer2.timeout
+			await tween2.finished
 			
-			if is_instance_valid(att_card):
-				att_card.z_index = CardManager.Z_NORMAL
+			att_card.z_index = CardManager.Z_NORMAL
 			
 			atb_bar.action()
 

@@ -1,10 +1,11 @@
 class_name Cleave
 extends Ability
 
-var line = Line2D.new()
+var line : Line2D
 
 func init(parent):
 	# Configure the line
+	line = Line2D.new()
 	line.default_color = Color(1, 0, 0)  # Blue color
 	line.width = 8.0
 	
