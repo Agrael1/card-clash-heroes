@@ -111,6 +111,11 @@ func settle():
 			var ref = slot.card_ref
 			ref.max_units = ref.number
 			# unique unit and abiltiies per battle card
+			var original_abilities: Array = ref.unit.abilities
 			ref.unit = ref.unit.duplicate(true)
+			ref.unit.abilities = []
+			for ability: Resource in original_abilities:
+				ref.unit.abilities.append(ability.duplicate())
+			
 			for a in ref.unit.abilities:
 				a.init(ref)
