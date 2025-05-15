@@ -77,15 +77,15 @@ func on_raycast_slot(slot:CardSlot):
 # Drag logic
 func on_drag_start(card: Card):
 	dragged_card = card
-	dragged_card.scale = Vector2(1,1)
 	dragged_card.z_index = Z_DRAG
+	dragged_card.drag_began()
 	
 func on_drag_end():
 	var saved_card : Card = dragged_card;
 	dragged_card.z_index = Z_NORMAL
 	dragged_card = null
+	saved_card.drag_ended()
 	
-	saved_card.scale = Vector2(1.05,1.05)
 	var card_slot = raycast_slot()
 	if !card_slot or card_slot.slot_number == saved_card.slot or !player_field.try_place_card(saved_card, card_slot.slot_number):
 		player_field.return_to_slot(saved_card)
@@ -99,7 +99,6 @@ func on_drag_end():
 # Card logic
 func on_card_hovered(card: Card):
 	if !dragged_card:
-		card.scale = Vector2(1.05,1.05)
 		card_hovered = card
 		card.z_index = 2
 		if block_free_move:
@@ -108,7 +107,6 @@ func on_card_hovered(card: Card):
 
 func on_card_hovered_off(card: Card):
 	if !dragged_card:
-		card.scale = Vector2(1,1)
 		card.z_index = 1
 		if card_hovered == card:
 			card_hovered = null
