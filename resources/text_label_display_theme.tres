@@ -1,19 +1,28 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://756h6emk64xw"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://756h6emk64xw"]
 
 [ext_resource type="StyleBox" uid="uid://cotiujweimyax" path="res://resources/ui_styles/marble_background_stylebox.tres" id="1_245bc"]
+[ext_resource type="Texture2D" uid="uid://b7q21qdtr86iv" path="res://textures/tiles/y2k/128/y2k_stone.png" id="1_ljvhy"]
 [ext_resource type="FontFile" uid="uid://dpgvpabatpm" path="res://fonts/MorrisRoman-Black.ttf" id="1_s0s56"]
 [ext_resource type="StyleBox" uid="uid://dfgyd6uxaxlol" path="res://resources/ui_styles/marble_background_stylebox_dark.tres" id="2_f6nn1"]
 [ext_resource type="StyleBox" uid="uid://cgmuen2r12bdg" path="res://resources/ui_styles/wood_background_stylebox.tres" id="3_qri7y"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xk3jr"]
+texture = ExtResource("1_ljvhy")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.509286, 0.509286, 0.509286, 1)
 
 [resource]
 default_font = ExtResource("1_s0s56")
 default_font_size = 30
 BoxContainer/constants/separation = 10
 Button/colors/font_color = Color(0.0923971, 0.0923971, 0.0923969, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.0295062, 0.0295067, 0.0295066, 1)
 Button/colors/font_hover_color = Color(0.157781, 0.221436, 0.518065, 1)
 Button/colors/font_hover_pressed_color = Color(0.0605303, 0.0605303, 0.0605303, 1)
 Button/colors/font_pressed_color = Color(0.283668, 0.223905, 0.850813, 1)
+Button/styles/disabled = SubResource("StyleBoxTexture_xk3jr")
 Button/styles/focus = ExtResource("1_245bc")
 Button/styles/hover = ExtResource("1_245bc")
 Button/styles/normal = ExtResource("1_245bc")

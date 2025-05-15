@@ -12,6 +12,11 @@ var main_scene : PackedScene = preload("res://scenes/main.tscn")
 @onready var host_oid : TextEdit = $MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/TextEdit
 @onready var join_oid : LineEdit = $MenuContainer/MarginContainer/JoinSubmenu/LineEdit
 
+@onready var main_bg_texture_rect: TextureRect = $MainBGTextureRect
+@onready var join_bg_texture_rect: TextureRect = $JoinBGTextureRect
+@onready var host_bg_texture_rect: TextureRect = $HostBGTextureRect
+@onready var battle_bg_texture_rect: TextureRect = $BattleBGTextureRect
+
 @onready var port_box : RichTextLabel = $MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer/RichTextLabel
 var race_box : RaceSelect
 
@@ -24,6 +29,9 @@ func _ready() -> void:
 
 func load_main_scene(is_host:bool = false) -> void:
 	menu.visible = false
+	battle_bg_texture_rect.visible = true
+	host_bg_texture_rect.visible = false
+	join_bg_texture_rect.visible = false
 	var xscene : Main = main_scene.instantiate()
 	xscene.race = race_box.pick_race()
 	
@@ -32,11 +40,15 @@ func load_main_scene(is_host:bool = false) -> void:
 
 func _on_join_pressed() -> void:
 	main_submenu.visible = false
+	main_bg_texture_rect.visible = false
+	join_bg_texture_rect.visible = true
 	join_submenu.visible = true
 	race_box = $MenuContainer/MarginContainer/JoinSubmenu/RaceSelect
 
 func _on_host_pressed() -> void:
 	Multiplayer.host()
+	main_bg_texture_rect.visible = false
+	host_bg_texture_rect.visible = true
 	main_submenu.visible = false
 	host_submenu.visible = true
 	race_box = $MenuContainer/MarginContainer/HostSubmenu/RaceSelect
@@ -50,6 +62,16 @@ func _on_exit_pressed() -> void:
 
 func load_main_menu():
 	menu.visible = true
+	main_bg_texture_rect.visible = false
+	host_bg_texture_rect.visible = false
+	join_bg_texture_rect.visible = false
+	battle_bg_texture_rect.visible = false
+	if host_submenu.visible:
+		host_bg_texture_rect.visible = true
+	elif join_submenu.visible:
+		join_bg_texture_rect.visible = true
+	else:
+		main_bg_texture_rect.visible = true
 	main_scene_instance.queue_free()
 
 func _on_copy_oid_pressed() -> void:
@@ -64,12 +86,16 @@ func _on_join_oid_pressed() -> void:
 func _on_host_back_pressed() -> void:
 	main_submenu.visible = true
 	host_submenu.visible = false
+	main_bg_texture_rect.visible = true
+	host_bg_texture_rect.visible = false
 	Multiplayer.unhost()
 	
 
 func _on_join_back_pressed() -> void:
 	main_submenu.visible = true
 	join_submenu.visible = false
+	main_bg_texture_rect.visible = true
+	join_bg_texture_rect.visible = false
 	multiplayer.connected_to_server.disconnect(load_main_scene)
 
 func _on_text_edit_text_submitted(new_text: String) -> void:

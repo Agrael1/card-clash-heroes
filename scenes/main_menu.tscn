@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://cahns5mqsn7le"]
+[gd_scene load_steps=8 format=3 uid="uid://cahns5mqsn7le"]
 
 [ext_resource type="Script" uid="uid://8ac1s2xk3u8x" path="res://scripts/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="PackedScene" uid="uid://c02odu47h8l7g" path="res://scenes/race_select.tscn" id="2_ekxnf"]
 [ext_resource type="Theme" uid="uid://756h6emk64xw" path="res://resources/text_label_display_theme.tres" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://cyiqswnmchkdv" path="res://textures/backgrounds/oldbookartdotcom/Bethlehem_April_6th_1839.jpg" id="4_wu84c"]
+[ext_resource type="Texture2D" uid="uid://bcb1qsou4phco" path="res://textures/backgrounds/oldbookartdotcom/Church_of_the_Purification_Jerusalem_April_5th_1839.jpg" id="5_8ln24"]
+[ext_resource type="Texture2D" uid="uid://c8cvb0snhyj08" path="res://textures/backgrounds/oldbookartdotcom/Descent_upon_the_Valley_of_Jordan.jpg" id="5_oa1go"]
+[ext_resource type="Texture2D" uid="uid://b54bmwhcn33jv" path="res://textures/backgrounds/oldbookartdotcom/Convent_of_St__Saba_April_4th_1839.jpg" id="6_rtw2f"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -216,6 +220,53 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("3_bqqt6")
 text = "Exit"
+
+[node name="MainBGTextureRect" type="TextureRect" parent="."]
+z_index = -3
+layout_mode = 0
+offset_left = -101.0
+offset_top = -84.0
+offset_right = 2728.0
+offset_bottom = 1464.0
+mouse_filter = 2
+texture = ExtResource("4_wu84c")
+stretch_mode = 4
+
+[node name="BattleBGTextureRect" type="TextureRect" parent="."]
+visible = false
+z_index = -3
+layout_mode = 0
+offset_left = -129.0
+offset_top = -112.0
+offset_right = 2689.0
+offset_bottom = 1408.0
+mouse_filter = 2
+texture = ExtResource("5_oa1go")
+stretch_mode = 4
+
+[node name="JoinBGTextureRect" type="TextureRect" parent="."]
+visible = false
+z_index = -3
+layout_mode = 0
+offset_left = -101.0
+offset_top = -84.0
+offset_right = 2517.0
+offset_bottom = 1340.0
+mouse_filter = 2
+texture = ExtResource("5_8ln24")
+stretch_mode = 4
+
+[node name="HostBGTextureRect" type="TextureRect" parent="."]
+visible = false
+z_index = -3
+layout_mode = 0
+offset_left = -40.0
+offset_top = -23.0
+offset_right = 2522.0
+offset_bottom = 1390.0
+mouse_filter = 2
+texture = ExtResource("6_rtw2f")
+stretch_mode = 4
 
 [connection signal="text_submitted" from="MenuContainer/MarginContainer/JoinSubmenu/LineEdit" to="." method="_on_text_edit_text_submitted"]
 [connection signal="pressed" from="MenuContainer/MarginContainer/JoinSubmenu/JoinOID" to="." method="_on_join_oid_pressed"]
