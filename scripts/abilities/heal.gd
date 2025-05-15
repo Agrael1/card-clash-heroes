@@ -17,7 +17,7 @@ func visualize(caster : Card, battlefield : BattleField, _target : Card):
 	return true
 
 func reset_visualize():
-	for t in targets:
+	for t in targets.filter(func(c): return c != null):
 		t.card_state = Card.CardSelection.NONE
 
 # Executed on both peers

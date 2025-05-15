@@ -204,12 +204,14 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			tween.tween_property(att_card, "position", target_card.position, 0.2)
 			await tween.finished
 			
+			assert(att_card != target.card_ref)
 			attack_card(att_card, target, damage, recv_id == send_id)
 			
 			# Use attack modifiers
-			for a : Ability in att_card._unit.abilities:
-				if a.viz_type == Ability.VizType.TARGET:
-					a.execute(att_card, self, target_card)
+			if is_instance_valid(target_card):
+				for a : Ability in att_card._unit.abilities:
+					if a.viz_type == Ability.VizType.TARGET:
+						a.execute(att_card, self, target_card)
 			
 			
 			# Check win condition
@@ -315,4 +317,4 @@ func attack_card(attacker : Card, target : CardSlot, damage : int, local:bool):
 	if target_card.number == 0: # Remove
 		atb_bar.trim_card(target_card)
 		target.reset_card()
-		target_card.queue_free()
+		target_card.free()
