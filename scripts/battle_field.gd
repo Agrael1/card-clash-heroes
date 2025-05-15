@@ -262,9 +262,11 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 	if new_first.belongs_to_player:
 		on_card_turn(new_first.ref)
 		wait_button.disabled = false
+		wait_button.text = "Wait"
 	else:
 		attacker_card = null
 		wait_button.disabled = true
+		wait_button.text = "Opponent's turn..."
 
 
 func _on_wait_pressed() -> void:

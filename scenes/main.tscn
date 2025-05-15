@@ -78,7 +78,7 @@ script = ExtResource("8_tipki")
 visible = false
 
 [node name="Wait" type="Button" parent="FloatingMenu"]
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(250, 50)
 offset_left = 1670.0
 offset_top = 713.0
 offset_right = 1714.0
@@ -87,8 +87,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("1_eb6dy")
 disabled = true
-text = "Wait
-"
+text = "Opponent's turn..."
 
 [node name="GameOver" parent="." instance=ExtResource("8_85g3d")]
 layout_mode = 2
