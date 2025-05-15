@@ -5,6 +5,7 @@ enum CardSelection {NONE, CURRENT, ENEMY_FULL, ENEMY_PENALTY, HEAL}
 
 const SELF_SCENE := preload("res://objects/card.tscn")
 const HOVERED_SCALE := 1.1
+const CARD_MASK_ENEMY_OFFSET = 4
 
 #region signals
 signal mouse_enter(card : Card)
@@ -123,6 +124,7 @@ func tween_scale(new_scale_percent: float, time := 0.1, trans := Tween.TRANS_LIN
 	scale_tween = get_tree().create_tween()
 	scale_tween.tween_property(self, "scale", base_scale * new_scale_percent, time).set_trans(trans)
 
+
 # returns [a, b, c] where a is new number of card and b is new current health, c is oveall heal
 func calc_heal(heal : int, resurrect : bool = true) -> Array:
 	var target_overall_hp = (number - 1) * unit.health + current_health
@@ -148,6 +150,36 @@ func set_heal(heal : int, resurrect : bool = true) -> Array:
 	number = heal_result[0]
 	current_health = heal_result[1]
 	return heal_result
+
+# returns [a, b, c] where a is new number of card and b is new current health, c is oveall damage
+func calc_damage(damage: int) -> Array:
+	# Calculate total current HP across all units
+	var target_overall_hp = (number - 1) * unit.health + current_health
+	var remaining_hp = max(target_overall_hp - damage, 0)
+	
+	# Calculate how many full units we can have
+	var units_remain = int(remaining_hp / unit.health)
+	var health_remain = remaining_hp % unit.health
+	
+	var new_number = units_remain + int(health_remain > 0)
+	var new_current_health = 0
+	if units_remain != 0 || health_remain != 0:
+		new_current_health = health_remain if health_remain > 0 else unit.health
+	
+	return [new_number, new_current_health, target_overall_hp - remaining_hp]
+
+
+# returns [a, b, c] where a is new number of card and b is new current health, c is oveall heal
+func set_damage(damage: int):
+	var damage_result := calc_damage(damage)
+	
+	# Update card properties
+	number = damage_result[0]
+	current_health = damage_result[1]
+	return damage_result
+
+func is_enemy():
+	return collision_mask == CARD_MASK_ENEMY_OFFSET
 
 #region private slots
 func _on_area_2d_mouse_entered() -> void:

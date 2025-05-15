@@ -139,7 +139,7 @@ func export():
 	data.resize(_card_refs.size())
 	for i in range(0, _card_refs.size()):
 		var ref = _card_refs[i]
-		data[i] = {"slot": player_field.grid.size() - ref.ref.slot - 1, 
+		data[i] = {"slot": ref.ref.slot, 
 		"enemy":ref.belongs_to_player, 
 		"current_atb":ref.current_atb} # intentional enemy is caught on the other side
 	return data

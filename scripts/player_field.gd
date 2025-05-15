@@ -1,9 +1,7 @@
 class_name PlayerField
 extends Container
 
-const CARD_MASK = 0
-const CARD_MASK_ENEMY = 4
-
+@export var mirrored : bool = false
 @export var field_width : int = 5
 @export var field_height : int = 2
 @export var slot_object = preload("res://objects/card_slot.tscn")
@@ -12,10 +10,9 @@ const CARD_MASK_ENEMY = 4
 @onready var root : GridContainer = $"."
 
 var card_db_ref : CardDB = preload("res://resources/card_db.tres")
-var card_object : PackedScene = preload("res://objects/card.tscn")
 var race : String
-
 var grid : Array[CardSlot] = []
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,11 +22,19 @@ func _ready() -> void:
 		var slot = slot_object.instantiate()
 		slot.name = "slot_" + str(i)
 		slot.slot_number = i
-		grid[i] = slot
+		
+		# Mirror slots in the grid
+		if mirrored:
+			grid[grid.size() - i - 1] = slot
+		else:
+			grid[i] = slot
+			
 		add_child(slot)
 	
 	root.columns = field_width
+	
 
+#region public
 func reset_slot(slot_num:int):
 	if slot_num >= 0 and slot_num < grid.size():
 		grid[slot_num].reset_card()
@@ -72,10 +77,37 @@ func try_place_card(card:Card, slot_num:int) -> bool:
 		card.queue_free()
 		return true
 	return false
+
+func get_at(index:int) -> CardSlot:
+	return grid[index]
 	
-func get_at(slot_num:int, inverted : bool = false):
-	return grid[grid.size() - slot_num - 1] if inverted else grid[slot_num]
+func get_in_front(index : int) -> CardSlot:
+	var new_idx = index - field_width
+	return null if new_idx < 0 else grid[new_idx]
+
+func get_behind(index : int) -> CardSlot:
+	var new_idx = index + field_width
+	return null if new_idx > grid.size() else grid[new_idx]
 	
+func settle():
+	for slot:CardSlot in grid:
+		if slot.is_empty(): continue
+		
+		var ref = slot.card_ref
+		ref.max_units = ref.number
+		# unique unit and abiltiies per battle card
+		var original_abilities: Array = ref.unit.abilities
+		ref.unit = ref.unit.duplicate(true)
+		ref.unit.abilities = []
+		for ability: Resource in original_abilities:
+			ref.unit.abilities.append(ability.duplicate())
+		
+		for a in ref.unit.abilities:
+			a.init(ref)
+#endregion
+
+
+#region serialize
 func export():
 	# Export the current state of the field to an array
 	var export_data = []
@@ -88,34 +120,20 @@ func export():
 		else:
 			export_data[i] = null
 	return export_data
-	
+
 func import(race : String,  data : Array):
 	for i in range(0, grid.size()):
-		var slot = grid[grid.size() - i - 1] # Mirror
+		var slot = grid[i]
 		var card_data = data[i]
 		if card_data == null:
 			continue;
 		
 		# Instantiate card
-		var card : Card = card_object.instantiate()
-		card.collision_mask = CARD_MASK_ENEMY
+		var card : Card = Card.SELF_SCENE.instantiate()
+		card.collision_mask = Card.CARD_MASK_ENEMY_OFFSET
 		card.unit = card_db_ref.races[race][card_data["unit"]]
 		card.number = card_data["number"]
 		
 		card_manager.add_child(card)
 		slot.set_card(card)
-
-func settle():
-	for slot:CardSlot in grid:
-		if !slot.is_empty():
-			var ref = slot.card_ref
-			ref.max_units = ref.number
-			# unique unit and abiltiies per battle card
-			var original_abilities: Array = ref.unit.abilities
-			ref.unit = ref.unit.duplicate(true)
-			ref.unit.abilities = []
-			for ability: Resource in original_abilities:
-				ref.unit.abilities.append(ability.duplicate())
-			
-			for a in ref.unit.abilities:
-				a.init(ref)
+#endregion

@@ -7,16 +7,21 @@ extends Resource
 
 enum VizType{NONE, PASSIVE, TARGET}
 
-func init(parent):
+func init(parent : Node) -> void:
 	pass
 
-func execute(caster : Card, _battlefield : BattleField, _target : Card):
-	print(ability_name + " executed by " + caster.name)
-	return true
+func visualize(_caster : Card, _target : Card, _battlefield : BattleField) -> void:
+	pass
 
-func visualize(caster : Card, _battlefield : BattleField, _target : Card):
-	print(ability_name + " executed by " + caster.name)
-	return true
-	
-func reset_visualize():
+func reset_visualize() -> void:
+	pass
+
+func validate(_caster : Card, _target : Card, _battlefield : BattleField) -> bool:
+	return false
+
+func predict(_caster : Card, _target : Card, _battlefield : BattleField) -> Dictionary:
+	return {}
+
+# Called on both attacker and defender
+func apply(_caster : Card, _target : Card, _battlefield : BattleField, state : Dictionary) -> void:
 	pass

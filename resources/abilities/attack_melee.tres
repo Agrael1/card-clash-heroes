@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackMelee" load_steps=2 format=3 uid="uid://bdiokf1jsjl82"]
+
+[ext_resource type="Script" uid="uid://dqbm8my3fdn3g" path="res://scripts/abilities/attack_melee.gd" id="1_cu1hi"]
+
+[resource]
+script = ExtResource("1_cu1hi")
+ability_name = "Unnamed Ability"
+description = ""
+viz_type = 0
+metadata/_custom_type_script = "uid://dqbm8my3fdn3g"

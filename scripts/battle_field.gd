@@ -34,14 +34,14 @@ func on_card_turn(card:Card):
 	
 	# Visualize passive abilities
 	if !attacker_card: return
-	for a : Ability in attacker_card._unit.abilities:
+	for a : Ability in attacker_card.unit.abilities:
 		if a.viz_type == Ability.VizType.PASSIVE:
-			a.visualize(attacker_card, self, card)
+			a.visualize(attacker_card, null, self)
 	
-	if card.unit.meele:
-		attack_visualize_front(card, 4)
-	else:
-		attack_visualize_archer(card)
+	#if card.unit.meele:
+		#attack_visualize_front(card, 4)
+	#else:
+		#attack_visualize_archer(card)
 
 func reset_vizualize():
 	if attacker_card:
@@ -138,30 +138,6 @@ func wait():
 					"action":ActionTaken.WAIT
 				})
 
-func take_damage(target_card : Card, damage: int):
-	# Calculate total current HP across all units
-	var target_overall_hp = (target_card.number - 1) * target_card.unit.health + target_card.current_health
-	
-	# Apply damage, with a minimum of 0 HP
-	var remaining_hp = max(target_overall_hp - damage, 0)
-	
-	# Calculate how many full units we can have
-	var units_remain = int(remaining_hp / target_card.unit.health)
-	
-	# Calculate remaining HP for the last partial unit
-	var health_remain = remaining_hp % target_card.unit.health
-
-	# Update card properties
-	target_card.number = units_remain + int(health_remain > 0)
-	
-	# If there are no units left, set current_health to 0
-	if units_remain == 0 && health_remain == 0:
-		target_card.current_health = 0
-	else:
-		target_card.current_health = health_remain if health_remain > 0 else target_card.unit.health
-
-
-
 @rpc("any_peer", "call_local","reliable")
 func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTaken,"target":int, "?damage":int}
 	var recv_id = multiplayer.get_unique_id()
@@ -184,18 +160,16 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 	match action:
 		ActionTaken.MOVE:
 			var target_slot : int = turn_desc["target"]
-			var slot : CardSlot = opposite_field.get_at(target_slot, invert)
-			opposite_field.get_at(att_card.slot, false).reset_card()				
+			var slot : CardSlot = opposite_field.get_at(target_slot)
+			opposite_field.get_at(att_card.slot).reset_card()				
 			slot.set_card(att_card)
 			atb_bar.action()
 
 		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
 			var damage : int = turn_desc["damage"]
 			var target_slot : int = turn_desc["target"]
-			var target : CardSlot = target_field.get_at(target_slot, invert) # inverted
+			var target : CardSlot = target_field.get_at(target_slot) # inverted
 			var target_card : Card = target.card_ref
-			
-			
 			var prev_attacker_pos = att_card.position
 			
 			att_card.z_index = CardManager.Z_DRAG
@@ -273,9 +247,9 @@ func is_enemy(card:Card):
 
 func on_card_hovered_battle(card: Card):
 	if !attacker_card: return
-	for a : Ability in attacker_card._unit.abilities:
-		if a.viz_type == Ability.VizType.TARGET:
-			a.visualize(attacker_card, self, card)
+	#for a : Ability in attacker_card._unit.abilities:
+		#if a.viz_type == Ability.VizType.TARGET:
+			#a.visualize(attacker_card, self, card)
 			
 	if card.card_state == Card.CardSelection.ENEMY_FULL:
 		var dmg_kills : Array = on_enemy_hover(card)
@@ -300,7 +274,7 @@ func reset_visualize_attacker():
 func attack_card(attacker : Card, target : CardSlot, damage : int, local:bool):
 	var target_card : Card = target.card_ref
 	var before : int = target_card.number
-	take_damage(target_card, damage)
+	target_card.set_damage(damage)
 	var units_killed = before - target_card.number
 	
 	if local:

@@ -4,7 +4,7 @@ extends Node2D
 const CARD_MASK = 1 << 0
 const SLOT_MASK = 1 << 1
 const SHOP_MASK = 1 << 2
-const CARD_MASK_ENEMY = 1 << 4
+const CARD_MASK_ENEMY = 1 << Card.CARD_MASK_ENEMY_OFFSET
 
 const Z_DRAG = 4
 const Z_NORMAL = 0

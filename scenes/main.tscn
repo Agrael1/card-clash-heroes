@@ -48,6 +48,7 @@ theme_override_constants/margin_top = 32
 
 [node name="EnemyField" parent="MarginContainer2" instance=ExtResource("1_tbgi4")]
 layout_mode = 2
+mirrored = true
 slot_object = ExtResource("3_tbgi4")
 
 [node name="MarginContainer3" type="MarginContainer" parent="."]
