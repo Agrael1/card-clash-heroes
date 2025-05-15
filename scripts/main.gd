@@ -2,7 +2,6 @@ class_name Main
 extends PanelContainer
 
 signal player_ready_changed(peer_id, is_ready)
-signal both_players_ready
 
 var race : String
 var local_player_ready = false

@@ -283,7 +283,7 @@ func on_card_hovered_battle(card: Card):
 			tooltip.label.text = "Damage: {dmg}\nKills: {kills}".format({"dmg": dmg, "kills":kills})
 			tooltip.visible = true
 			
-func on_card_hovered_off_battle(card: Card):
+func on_card_hovered_off_battle(_card: Card):
 	tooltip.visible = false
 	if !attacker_card: return
 	for a : Ability in attacker_card._unit.abilities:

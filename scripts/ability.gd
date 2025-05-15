@@ -10,11 +10,11 @@ enum VizType{NONE, PASSIVE, TARGET}
 func init(parent):
 	pass
 
-func execute(caster : Card, battlefield : BattleField, target : Card):
+func execute(caster : Card, _battlefield : BattleField, _target : Card):
 	print(ability_name + " executed by " + caster.name)
 	return true
 
-func visualize(caster : Card, battlefield : BattleField, target : Card):
+func visualize(caster : Card, _battlefield : BattleField, _target : Card):
 	print(ability_name + " executed by " + caster.name)
 	return true
 	

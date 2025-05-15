@@ -27,7 +27,7 @@ func _ready() -> void:
 	host_oid.text = Noray.oid
 	port_box.text = "Port: " + str(Noray.local_port)
 
-func load_main_scene(is_host:bool = false) -> void:
+func load_main_scene() -> void:
 	menu.visible = false
 	battle_bg_texture_rect.visible = true
 	host_bg_texture_rect.visible = false

@@ -29,12 +29,12 @@ func open_for(race:String) -> void:
 		card.name = card_name + "_" + str(i)
 		card.unit = card_db_ref.races[race][card_name]
 		card.collision_mask = SHOP_MASK
-		card.mouse_click.connect(func(card, btn):on_card_clicked(card, btn, i))
+		card.mouse_click.connect(on_card_clicked)
 
 		# Add the card to the container
 		container_array.add_child(card)
 
-func on_card_clicked(card: Card, mouse_button:int, bind : int):
+func on_card_clicked(card: Card, mouse_button:int):
 	if !mouse_button == MOUSE_BUTTON_RIGHT: return
 	
 	var same_card : Card = player_field.find_card(card.unit.tag)

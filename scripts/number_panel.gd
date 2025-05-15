@@ -12,6 +12,7 @@ var _number: int = 0
 			panel.hide()
 			return;
 		if value > 1000:
+			# warning-ignore:integer_division
 			label.text = str(int(value / 1000)) + "K"
 		else:
 			label.text = str(value)

@@ -15,7 +15,7 @@ func init(parent):
 	parent.add_child(line)
 	line.visible = false
 
-func visualize(caster : Card, battlefield : BattleField, target : Card):
+func visualize(_caster : Card, battlefield : BattleField, target : Card):
 	var slot = target.slot
 	var field = battlefield.enemy_field
 	if !battlefield.is_enemy(target) || slot < field.field_width:
@@ -49,6 +49,7 @@ func execute(caster : Card, battlefield : BattleField, target : Card):
 	if behind.is_empty():
 		return
 	
+	# warning-ignore:integer_division
 	var damage = caster._unit.attack * caster.number / 2
 	
 	# If enemy -> local execution
