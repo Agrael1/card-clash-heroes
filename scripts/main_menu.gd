@@ -45,6 +45,9 @@ func _on_join_pressed() -> void:
 	join_submenu.visible = true
 	race_box = $MenuContainer/MarginContainer/JoinSubmenu/RaceSelect
 
+func host_connect(_peer_id:int):
+	load_main_scene()
+
 func _on_host_pressed() -> void:
 	Multiplayer.host()
 	main_bg_texture_rect.visible = false
@@ -53,7 +56,7 @@ func _on_host_pressed() -> void:
 	host_submenu.visible = true
 	race_box = $MenuContainer/MarginContainer/HostSubmenu/RaceSelect
 	multiplayer.peer_connected.connect(
-		func(peer_id:int): load_main_scene()
+		host_connect
 	)
 
 
@@ -77,18 +80,15 @@ func load_main_menu():
 func _on_copy_oid_pressed() -> void:
 	DisplayServer.clipboard_set(Noray.oid)
 
-func _on_join_oid_pressed() -> void:
-	if Multiplayer.join(join_oid.text):
-		multiplayer.connected_to_server.connect(
-			load_main_scene
-		)
-
 func _on_host_back_pressed() -> void:
 	main_submenu.visible = true
 	host_submenu.visible = false
 	main_bg_texture_rect.visible = true
 	host_bg_texture_rect.visible = false
 	Multiplayer.unhost()
+	multiplayer.peer_connected.disconnect(
+		host_connect
+	)
 	
 
 func _on_join_back_pressed() -> void:
@@ -97,6 +97,12 @@ func _on_join_back_pressed() -> void:
 	main_bg_texture_rect.visible = true
 	join_bg_texture_rect.visible = false
 	multiplayer.connected_to_server.disconnect(load_main_scene)
+
+func _on_join_oid_pressed() -> void:
+	if Multiplayer.join(join_oid.text):
+		multiplayer.connected_to_server.connect(
+			load_main_scene
+		)
 
 func _on_text_edit_text_submitted(new_text: String) -> void:
 	if Multiplayer.join(new_text):

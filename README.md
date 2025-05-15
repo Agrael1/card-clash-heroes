@@ -34,4 +34,4 @@ UI:
 
 Bugs:
 - [ ] Fix the wait button disappearing
-- [ ] Fix join-after-hosting
+- [x] Fix join-after-hosting
