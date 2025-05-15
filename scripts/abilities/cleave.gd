@@ -45,8 +45,9 @@ func execute(caster : Card, battlefield : BattleField, target : Card):
 	var slot = target.slot
 	var field = battlefield.enemy_field
 	var enemy = battlefield.is_enemy(target)
+	var opponent_field : PlayerField = battlefield.enemy_field if !enemy else battlefield.player_field
 	
-	var behind : CardSlot = battlefield.enemy_field.get_at(slot % field.field_width)
+	var behind : CardSlot = opponent_field.get_at(slot % field.field_width, !enemy)
 	if behind.is_empty():
 		return
 	
