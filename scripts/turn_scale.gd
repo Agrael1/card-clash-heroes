@@ -33,9 +33,10 @@ var _last_state : Array[CardRef]
 func predict():
 	_cache_refs.resize(15)	
 	
-	_last_state.resize(_card_refs.size())
-	for i in range(0, _card_refs.size()):
-		_last_state[i] = _card_refs[i].duplicate()
+	_last_state.clear()
+	for ref in _card_refs:
+		if is_instance_valid(ref.ref):
+			_last_state.append(ref.duplicate())
 	
 	for i in range(0, _cache_refs.size()):
 		advance(i)
@@ -260,10 +261,14 @@ func _make_ui_respect_state(instantiate:bool = true) -> void:
 			card_parent.add_child(instance)
 			card_manager.connect_card(instance)
 			instance.mouse_enter.connect(
-				func(card : Card): _ui_follow_card(ref.ref)
+				func(card : Card):
+					if is_instance_valid(ref.ref):
+						_ui_follow_card(ref.ref)
 			)
 			instance.mouse_exit.connect(
-				func(card : Card): _ui_unfollow_card(ref.ref)
+				func(card : Card):
+					if is_instance_valid(ref.ref):
+						_ui_unfollow_card(ref.ref)
 			)
 			
 		instance.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED
