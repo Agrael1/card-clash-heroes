@@ -195,16 +195,17 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 		invert = false
 	
 	var attacker:TurnScale.CardRef = atb_bar.first()
-	for a : Ability in attacker.ref._unit.abilities:
+	var att_card = attacker.ref
+	for a : Ability in att_card._unit.abilities:
 		if a.viz_type == Ability.VizType.PASSIVE:
-			a.execute(attacker.ref, self, null)
+			a.execute(att_card, self, null)
 	
 	match action:
 		ActionTaken.MOVE:
 			var target_slot : int = turn_desc["target"]
 			var slot : CardSlot = opposite_field.get_at(target_slot, invert)
-			opposite_field.get_at(attacker.ref.slot, false).reset_card()				
-			slot.set_card(attacker.ref)
+			opposite_field.get_at(att_card.slot, false).reset_card()				
+			slot.set_card(att_card)
 			atb_bar.action()
 
 		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
@@ -214,21 +215,21 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			var target_card : Card = target.card_ref
 			
 			
-			var prev_attacker_pos = attacker.ref.position
+			var prev_attacker_pos = att_card.position
 			
-			attacker.ref.z_index = CardManager.Z_DRAG
+			att_card.z_index = CardManager.Z_DRAG
 			
 			var tween = get_tree().create_tween()
-			tween.tween_property(attacker.ref, "position", target_card.position, 0.2)
+			tween.tween_property(att_card, "position", target_card.position, 0.2)
 			var timer = get_tree().create_timer(0.2)
 			await timer.timeout
 			
-			attack_card(attacker.ref, target, damage, recv_id == send_id)
+			attack_card(att_card, target, damage, recv_id == send_id)
 			
 			# Use attack modifiers
-			for a : Ability in attacker.ref._unit.abilities:
+			for a : Ability in att_card._unit.abilities:
 				if a.viz_type == Ability.VizType.TARGET:
-					a.execute(attacker.ref, self, target_card)
+					a.execute(att_card, self, target_card)
 			
 			
 			# Check win condition
@@ -240,11 +241,11 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 					end_screen.loose()
 					
 			var tween2 = get_tree().create_tween()
-			tween2.tween_property(attacker.ref, "position", prev_attacker_pos, 0.3)
+			tween2.tween_property(att_card, "position", prev_attacker_pos, 0.3)
 			var timer2 = get_tree().create_timer(0.3)
 			await timer2.timeout
 			
-			attacker.ref.z_index = CardManager.Z_NORMAL
+			att_card.z_index = CardManager.Z_NORMAL
 			
 			atb_bar.action()
 
