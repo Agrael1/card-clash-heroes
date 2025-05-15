@@ -226,7 +226,8 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			var timer2 = get_tree().create_timer(0.3)
 			await timer2.timeout
 			
-			att_card.z_index = CardManager.Z_NORMAL
+			if is_instance_valid(att_card):
+				att_card.z_index = CardManager.Z_NORMAL
 			
 			atb_bar.action()
 
