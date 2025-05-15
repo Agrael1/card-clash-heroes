@@ -110,5 +110,7 @@ func settle():
 		if !slot.is_empty():
 			var ref = slot.card_ref
 			ref.max_units = ref.number
+			# unique unit and abiltiies per battle card
+			ref.unit = ref.unit.duplicate(true)
 			for a in ref.unit.abilities:
 				a.init(ref)
