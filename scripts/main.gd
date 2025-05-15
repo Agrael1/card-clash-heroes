@@ -32,7 +32,6 @@ func on_both_ready()->void:
 	floating_menu.visible = true
 	combat_log.visible = true
 	player_field.settle()
-	enemy_field.settle()
 
 
 func _on_attack_pressed() -> void:
@@ -76,6 +75,7 @@ func sync_fields(emitter_id:int, race: String, field_data:Array):
 	var receiver_id : int = multiplayer.get_unique_id()
 	if emitter_id != receiver_id:
 		enemy_field.import(race, field_data)
+		enemy_field.settle()
 		if emitter_id != 1:
 			turn_scale.populate_atb_bar()
 			sync_atb.rpc_id(emitter_id, turn_scale.export())

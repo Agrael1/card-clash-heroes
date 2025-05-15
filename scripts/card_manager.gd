@@ -18,6 +18,7 @@ var block_free_move : bool = false
 @onready var player_field: PlayerField = $"../MarginContainer/PlayerField"
 @onready var battle_field : BattleField = $"../BattleField"
 @onready var card_info : CardInfo = $"../CardInfo"
+@onready var card_shop : Shop = $"../Shop"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -53,9 +54,10 @@ func on_raycast_card(card:Card, right_click:bool = false):
 		if !right_click:
 			on_drag_start(card)
 		else:
-			card.number-=1
+			card_shop.sell(card)
 			if card.number == 0:
-				card.queue_free()
+				card.queue_free() # Card is owned by the card_manager
+
 	else: # fight phase
 		if right_click:
 			watched_card = card

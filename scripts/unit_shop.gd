@@ -29,12 +29,14 @@ func open_for(race:String) -> void:
 		card.name = card_name + "_" + str(i)
 		card.unit = card_db_ref.races[race][card_name]
 		card.collision_mask = SHOP_MASK
-		card.connect("mouse_click", on_card_clicked.bind(i))
+		card.mouse_click.connect(func(card, btn):on_card_clicked(card, btn, i))
 
 		# Add the card to the container
 		container_array.add_child(card)
 
-func on_card_clicked(card: Card, bind : int):
+func on_card_clicked(card: Card, mouse_button:int, bind : int):
+	if !mouse_button == MOUSE_BUTTON_RIGHT: return
+	
 	var same_card : Card = player_field.find_card(card.unit.tag)
 	var price = card.unit.cost
 	if gold - price < 0:
@@ -58,3 +60,7 @@ func on_card_clicked(card: Card, bind : int):
 	new_card.number = 1
 	new_card.collision_mask = CARD_MASK
 	empty_slot.set_card(new_card)
+
+func sell(card:Card):
+	card.number -= 1
+	gold += card.unit.cost

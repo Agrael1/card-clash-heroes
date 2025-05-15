@@ -26,7 +26,7 @@ func _input(event: InputEvent) -> void:
 
 func on_card_turn(card:Card):
 	# first color the selected card
-	card.set_outline(Card.Outline.CURRENT)
+	card.card_state = Card.CardSelection.CURRENT
 	wait_button.disabled = false
 	wait_button.text = "Wait"
 	
@@ -39,10 +39,10 @@ func on_card_turn(card:Card):
 
 func reset_vizualize():
 	if attacker_card:
-		attacker_card.set_outline(Card.Outline.NONE)
+		attacker_card.card_state = (Card.CardSelection.NONE)
 		for slot : CardSlot in enemy_field.grid:
 			if !slot.is_empty():
-				slot.card_ref.set_outline(Card.Outline.NONE)
+				slot.card_ref.card_state = (Card.CardSelection.NONE)
 
 # for fighter
 func attack_visualize_front(card:Card, radius:int):
@@ -61,13 +61,13 @@ func attack_visualize_front(card:Card, radius:int):
 	var boundary_low_back = max(position - radius + 1, 0)
 	var boundary_high_back = min(position + radius - 1, enemy_field.field_width)
 	
-	print(str(boundary_low_back) + ":" + str(boundary_high_back) + ":" + str(position))
+	# print(str(boundary_low_back) + ":" + str(boundary_high_back) + ":" + str(position))
 	
 	# get front row of the enemy field
 	var enemy_front_row = enemy_field.grid.slice(boundary_low, boundary_high)
 	for slot : CardSlot in enemy_front_row:
 		if !slot.is_empty():
-			slot.card_ref.set_outline(Card.Outline.ENEMY_FULL)
+			slot.card_ref.card_state = (Card.CardSelection.ENEMY_FULL)
 			continue
 		
 		# get back row
@@ -75,7 +75,7 @@ func attack_visualize_front(card:Card, radius:int):
 		if back_slot_n >= boundary_low_back and back_slot_n <= boundary_high_back: # one less
 			var back_slot = enemy_field.get_at(back_slot_n)
 			if !back_slot.is_empty(): # back line attack
-				back_slot.card_ref.set_outline(Card.Outline.ENEMY_FULL)
+				back_slot.card_ref.card_state = (Card.CardSelection.ENEMY_FULL)
 
 
 func attack_visualize_archer(card:Card):
@@ -86,14 +86,14 @@ func attack_visualize_archer(card:Card):
 	for slot : CardSlot in enemy_field.grid.slice(enemy_field.field_width, enemy_field.field_width * 2):
 		var slot_back = enemy_field.get_at(slot.slot_number - enemy_field.field_width)
 		if !slot.is_empty():
-			slot.card_ref.set_outline(Card.Outline.ENEMY_FULL if free_shot else Card.Outline.ENEMY_PENALTY)
+			slot.card_ref.card_state = (Card.CardSelection.ENEMY_FULL if free_shot else Card.CardSelection.ENEMY_PENALTY)
 			if !slot_back.is_empty():
-				slot_back.card_ref.set_outline(Card.Outline.ENEMY_PENALTY)
+				slot_back.card_ref.card_state = (Card.CardSelection.ENEMY_PENALTY)
 			continue
 		
 		# No one in front
 		if !slot_back.is_empty():
-			slot_back.card_ref.set_outline(Card.Outline.ENEMY_FULL if free_shot else Card.Outline.ENEMY_PENALTY)
+			slot_back.card_ref.card_state = (Card.CardSelection.ENEMY_FULL if free_shot else Card.CardSelection.ENEMY_PENALTY)
 		
 
 # abilities
@@ -103,7 +103,7 @@ func try_attack_at(slot_idx:int)->bool:
 	var card = enemy_field.grid[slot_idx].card_ref
 	if card:
 		# check if we can deal damage
-		if attacker_card.unit.meele and card.card_state == Card.Outline.NONE: # can't reach
+		if attacker_card.unit.meele and card.card_state == Card.CardSelection.NONE: # can't reach
 			return false
 		
 		var damage = attacker_card.unit.attack * attacker_card.number
@@ -111,7 +111,7 @@ func try_attack_at(slot_idx:int)->bool:
 		{	
 			"action":ActionTaken.ATTACK,
 			"target" : card.slot,
-			"damage" : damage if card.card_state == Card.Outline.ENEMY_FULL 
+			"damage" : damage if card.card_state == Card.CardSelection.ENEMY_FULL 
 			else max(damage / 2, 1)
 		})
 		return true
@@ -153,27 +153,6 @@ func take_damage(target_card : Card, damage: int):
 		target_card.current_health = 0
 	else:
 		target_card.current_health = health_remain if health_remain > 0 else target_card.unit.health
-		
-	
-func heal(target_card : Card, heal : int, resurrect : bool = true):
-	# Calculate total current HP across all units
-	var target_overall_hp = (target_card.number - 1) * target_card.unit.health + target_card.current_health
-	
-	# Calculate maximum possible HP based on resurrection setting
-	var max_target_hp = (target_card.max_units if resurrect else target_card.number) * target_card.unit.health
-	
-	# Apply healing, capped at maximum
-	var remaining_hp = min(target_overall_hp + heal, max_target_hp)
-	
-	# Calculate how many full units we can have
-	var units_remain = int(remaining_hp / target_card.unit.health)
-	
-	# Calculate remaining HP for the last partial unit
-	var health_remain = remaining_hp % target_card.unit.health
-
-	# Update card properties
-	target_card.number = units_remain + int(health_remain > 0)
-	target_card.current_health = health_remain if health_remain > 0 else target_card.unit.health
 
 
 
@@ -290,7 +269,7 @@ func on_card_hovered_battle(card: Card):
 		if a.viz_type == Ability.VizType.TARGET:
 			a.visualize(attacker_card, self, card)
 			
-	if card.card_state == Card.Outline.ENEMY_FULL:
+	if card.card_state == Card.CardSelection.ENEMY_FULL:
 		var dmg_kills : Array = on_enemy_hover(card)
 		if dmg_kills:
 			var dmg = dmg_kills[0]
@@ -333,22 +312,3 @@ func attack_card(attacker : Card, target : CardSlot, damage : int, local:bool):
 		atb_bar.trim_card(target_card)
 		target.reset_card()
 		target_card.queue_free()
-
-func heal_card(attacker : Card, target : CardSlot, damage : int, local:bool):
-	var target_card : Card = target.card_ref
-	var before : int = target_card.number
-	heal(target_card, damage)
-	var units_killed = target_card.number - before
-	
-	if local:
-		combat_log.add_combat_event("{unit_a} healed enemy {unit_t} for {dmg}, resurrected {kill}"
-			.format({"unit_a":attacker._unit.tag.to_upper(),
-			"unit_t":target.card_ref.unit.tag.to_upper(),
-			"dmg":damage,
-			"kill":units_killed}))
-	else:
-		combat_log.add_combat_event("{unit_a} healed your {unit_t} for {dmg}, resurrected {kill}"
-			.format({"unit_a":attacker._unit.tag.to_upper(),
-			"unit_t":target.card_ref.unit.tag.to_upper(),
-			"dmg":damage,
-			"kill":units_killed}))

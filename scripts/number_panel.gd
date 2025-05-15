@@ -12,7 +12,7 @@ var _number: int = 0
 			panel.hide()
 			return;
 		if value > 1000:
-			label.text = str(value / 1000) + "K"
+			label.text = str(int(value / 1000)) + "K"
 		else:
 			label.text = str(value)
 		if !panel.visible:
