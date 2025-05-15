@@ -1,7 +1,9 @@
 class_name Card
-extends Node
+extends Control
 
 const SELF_SCENE = preload("res://objects/card.tscn")
+const SELECTED_Z_IDX_JUMP := 2
+const HOVERED_SCALE := 1.2
 
 signal mouse_enter
 signal mouse_exit
@@ -42,6 +44,9 @@ var card_state: Outline = Outline.NONE
 var current_health
 var max_units : int
 
+var scale_tween: Tween
+var sprite_base_scale: Vector2
+
 var slot:int = -1
 @onready var number_panel = $Panel
 @onready var sprite = $Sprite2D
@@ -50,6 +55,9 @@ var slot:int = -1
 @onready var outline:StyleBoxFlat = StyleBoxFlat.new()
 
 func _ready() -> void:
+	sprite_base_scale = sprite.scale
+	sprite.scale = Vector2(0.0, 0.0)
+	tween_scale(1.0, 0.4, Tween.TRANS_ELASTIC)
 	area.collision_mask = 1 << collision_mask
 	area.collision_layer = 1 << collision_mask
 	outline.bg_color = Color.TRANSPARENT
@@ -64,11 +72,21 @@ func _ready() -> void:
 	if parent is CardManager:
 		parent.connect_card(self)
 
+func tween_scale(new_scale_percent: float, time := 0.1, trans := Tween.TRANS_LINEAR) -> void:
+	if scale_tween and scale_tween.is_valid():
+		scale_tween.stop()
+		scale_tween.kill()
+	scale_tween = get_tree().create_tween()
+	scale_tween.tween_property(sprite, "scale", sprite_base_scale * new_scale_percent, time).set_trans(trans)
 
 func _on_area_2d_mouse_entered() -> void:
+	tween_scale(HOVERED_SCALE)
+	z_index += SELECTED_Z_IDX_JUMP
 	mouse_enter.emit(self) # pass the card
 
 func _on_area_2d_mouse_exited() -> void:
+	tween_scale(1.0)
+	z_index -= SELECTED_Z_IDX_JUMP
 	mouse_exit.emit(self)
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
