@@ -2,7 +2,7 @@ class_name Card
 extends Control
 
 const SELF_SCENE = preload("res://objects/card.tscn")
-const HOVERED_SCALE := 1.2
+const HOVERED_SCALE := 1.1
 
 signal mouse_enter
 signal mouse_exit
