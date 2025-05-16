@@ -24,7 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-mouse_filter = 2
+mouse_filter = 1
 theme = ExtResource("1_eb6dy")
 script = ExtResource("1_tefeu")
 metadata/_edit_use_anchors_ = true
@@ -39,6 +39,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+mouse_filter = 2
 theme_override_constants/margin_bottom = 202
 
 [node name="PlayerField" parent="MarginContainer" instance=ExtResource("1_tbgi4")]
@@ -48,6 +49,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_top = 32
 
 [node name="EnemyField" parent="MarginContainer2" instance=ExtResource("1_tbgi4")]
@@ -57,6 +59,7 @@ slot_object = ExtResource("3_tbgi4")
 
 [node name="MarginContainer3" type="MarginContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_bottom = 170
 
 [node name="Attack" type="Button" parent="MarginContainer3"]
@@ -123,6 +126,8 @@ custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 bbcode_enabled = true
 scroll_following = true
+
+[node name="Node" type="Node2D" parent="."]
 
 [connection signal="pressed" from="MarginContainer3/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="FloatingMenu/Wait" to="BattleField" method="_on_wait_pressed"]
