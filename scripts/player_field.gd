@@ -8,6 +8,7 @@ extends Container
 
 @onready var card_manager = $"../../CardManager"
 @onready var root : GridContainer = $"."
+@onready var ability_db_ref = $"../../AbilityDB"
 
 var card_db_ref : CardDB = preload("res://resources/card_db.tres")
 var race : String
@@ -21,14 +22,10 @@ func _ready() -> void:
 	for i in range(field_width * field_height):
 		var slot = slot_object.instantiate()
 		slot.name = "slot_" + str(i)
-		slot.slot_number = i
+		slot.slot_number = grid.size() - i - 1 if mirrored else i
 		
 		# Mirror slots in the grid
-		if mirrored:
-			grid[grid.size() - i - 1] = slot
-		else:
-			grid[i] = slot
-			
+		grid[slot.slot_number] = slot
 		add_child(slot)
 	
 	root.columns = field_width
@@ -92,18 +89,7 @@ func get_behind(index : int) -> CardSlot:
 func settle():
 	for slot:CardSlot in grid:
 		if slot.is_empty(): continue
-		
-		var ref = slot.card_ref
-		ref.max_units = ref.number
-		# unique unit and abiltiies per battle card
-		var original_abilities: Array = ref.unit.abilities
-		ref.unit = ref.unit.duplicate(true)
-		ref.unit.abilities = []
-		for ability: Resource in original_abilities:
-			ref.unit.abilities.append(ability.duplicate())
-		
-		for a in ref.unit.abilities:
-			a.init(ref)
+		slot.card_ref.settle(ability_db_ref)
 #endregion
 
 

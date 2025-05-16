@@ -9,7 +9,7 @@ extends Resource
 @export var attack: int = 0
 @export var initiative: float = 0.0
 @export var meele: bool = false
-@export var abilities : Array = []
+@export var abilities : Array[String] = []
 
 @export_group("Shop Stats")
 @export var max_count: int = 0

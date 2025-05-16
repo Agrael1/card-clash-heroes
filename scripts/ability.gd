@@ -1,14 +1,13 @@
 class_name Ability
-extends Resource
+extends Node
 
 @export var ability_name: String = "Unnamed Ability"
 @export var description: String = ""
 @export var viz_type : VizType = VizType.NONE
+@export var ability_type : AbilityType = AbilityType.PASSIVE
 
 enum VizType{NONE, PASSIVE, TARGET}
-
-func init(parent : Node) -> void:
-	pass
+enum AbilityType{PASSIVE, TARGET, }
 
 func visualize(_caster : Card, _target : Card, _battlefield : BattleField) -> void:
 	pass

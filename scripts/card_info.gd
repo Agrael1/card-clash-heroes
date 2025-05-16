@@ -32,5 +32,5 @@ func project_card(card:Card):
 	
 	aux_info.text = "Melee" if card.unit.meele else "Shooter";
 	
-	for a: Ability in card._unit.abilities:
+	for a: Ability in card.abilities:
 		aux_info.text += ", " + a.ability_name

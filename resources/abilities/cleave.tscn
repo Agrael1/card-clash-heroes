@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu14mbvd85wf5"]
+
+[ext_resource type="Script" uid="uid://bw67id8s1enur" path="res://scripts/abilities/cleave.gd" id="1_n1byn"]
+
+[node name="Cleave" type="Node"]
+script = ExtResource("1_n1byn")
+ability_name = "Piercing Strike"
+viz_type = 2
+ability_type = 1
+metadata/_custom_type_script = "uid://bw67id8s1enur"

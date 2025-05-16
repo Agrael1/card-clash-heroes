@@ -28,97 +28,44 @@ func on_card_turn(card:Card):
 	# first color the selected card
 	card.card_state = Card.CardSelection.CURRENT
 	wait_button.disabled = false
+	wait_button.focus_mode = Control.FOCUS_NONE
 	wait_button.text = "Wait"
 	
 	attacker_card = card	
 	
 	# Visualize passive abilities
 	if !attacker_card: return
-	for a : Ability in attacker_card.unit.abilities:
+	for a : Ability in attacker_card.abilities:
 		if a.viz_type == Ability.VizType.PASSIVE:
 			a.visualize(attacker_card, null, self)
-	
-	#if card.unit.meele:
-		#attack_visualize_front(card, 4)
-	#else:
-		#attack_visualize_archer(card)
-
-func reset_vizualize():
-	if attacker_card:
-		attacker_card.card_state = (Card.CardSelection.NONE)
-		for slot : CardSlot in enemy_field.grid:
-			if !slot.is_empty():
-				slot.card_ref.card_state = (Card.CardSelection.NONE)
-
-# for fighter
-func attack_visualize_front(card:Card, radius:int):
-	var position = card.slot % player_field.field_width
-	radius -= card.slot / player_field.field_width
-	
-	# Obstructed
-	if card.slot >= player_field.field_width && \
-	!player_field.get_at(card.slot - player_field.field_width).is_empty():
-		return
-	
-	var offset = enemy_field.field_width
-	var boundary_low = max(position - radius, 0) + offset
-	var boundary_high = min(position + radius, enemy_field.field_width) + offset
-	
-	var boundary_low_back = max(position - radius + 1, 0)
-	var boundary_high_back = min(position + radius - 1, enemy_field.field_width)
-	
-	# print(str(boundary_low_back) + ":" + str(boundary_high_back) + ":" + str(position))
-	
-	# get front row of the enemy field
-	var enemy_front_row = enemy_field.grid.slice(boundary_low, boundary_high)
-	for slot : CardSlot in enemy_front_row:
-		if !slot.is_empty():
-			slot.card_ref.card_state = (Card.CardSelection.ENEMY_FULL)
-			continue
-		
-		# get back row
-		var back_slot_n = slot.slot_number - offset
-		if back_slot_n >= boundary_low_back and back_slot_n <= boundary_high_back: # one less
-			var back_slot = enemy_field.get_at(back_slot_n)
-			if !back_slot.is_empty(): # back line attack
-				back_slot.card_ref.card_state = (Card.CardSelection.ENEMY_FULL)
 
 
-func attack_visualize_archer(card:Card):
-	var position = card.slot % player_field.field_width
-	var free_shot = card.slot < player_field.field_width ||\
-	 player_field.get_at(card.slot - player_field.field_width).is_empty()
-	
-	for slot : CardSlot in enemy_field.grid.slice(enemy_field.field_width, enemy_field.field_width * 2):
-		var slot_back = enemy_field.get_at(slot.slot_number - enemy_field.field_width)
-		if !slot.is_empty():
-			slot.card_ref.card_state = (Card.CardSelection.ENEMY_FULL if free_shot else Card.CardSelection.ENEMY_PENALTY)
-			if !slot_back.is_empty():
-				slot_back.card_ref.card_state = (Card.CardSelection.ENEMY_PENALTY)
-			continue
-		
-		# No one in front
-		if !slot_back.is_empty():
-			slot_back.card_ref.card_state = (Card.CardSelection.ENEMY_FULL if free_shot else Card.CardSelection.ENEMY_PENALTY)
-		
-
-# abilities
 func try_attack_at(slot_idx:int)->bool:
 	if !attacker_card: return false
 	
 	var card = enemy_field.grid[slot_idx].card_ref
 	if card:
-		# check if we can deal damage
-		if attacker_card.unit.meele and card.card_state == Card.CardSelection.NONE: # can't reach
-			return false
+		var ability_out : Array[Dictionary] = []
 		
-		var damage = attacker_card.unit.attack * attacker_card.number
+		var target_abilities = attacker_card.abilities.filter(func(x):return x.ability_type == Ability.AbilityType.TARGET)
+		var validate_target = false
+		for i in range(0, target_abilities.size()):
+			var ta : Ability = target_abilities[i]
+			var valid = ta.validate(attacker_card, card, self)
+			validate_target = validate_target || valid
+			
+			if valid:
+				var result = ta.predict(attacker_card, card, self)
+				ability_out.append({"index":i, "result":result})
+				
+		# Only execute if some ability proc
+		if !validate_target:return false
+		
 		make_turn.rpc(multiplayer.get_unique_id(), 
 		{	
-			"action":ActionTaken.ATTACK,
+			"action" : ActionTaken.ATTACK,
 			"target" : card.slot,
-			"damage" : damage if card.card_state == Card.CardSelection.ENEMY_FULL 
-			else max(damage / 2, 1)
+			"result" : ability_out
 		})
 		return true
 	return false
@@ -145,17 +92,18 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 	var target_field : PlayerField = player_field
 	var opposite_field : PlayerField = enemy_field
 	var invert : bool = true
+	
+	var attacker : TurnScale.CardRef = atb_bar.first()
+	var att_card = attacker.ref
+	
 	if recv_id == send_id:
-		reset_visualize_attacker()
+		# reset viz
+		for a : Ability in att_card.abilities:
+			a.reset_visualize()
+
 		target_field = enemy_field # Called from and on command host
 		opposite_field = player_field
 		invert = false
-	
-	var attacker:TurnScale.CardRef = atb_bar.first()
-	var att_card = attacker.ref
-	for a : Ability in att_card._unit.abilities:
-		if a.viz_type == Ability.VizType.PASSIVE:
-			a.execute(att_card, self, null)
 	
 	match action:
 		ActionTaken.MOVE:
@@ -165,28 +113,19 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 			slot.set_card(att_card)
 			atb_bar.action()
 
-		ActionTaken.ATTACK: # This is called on enemy turn, so everything is mirrored
-			var damage : int = turn_desc["damage"]
+		ActionTaken.ATTACK:
 			var target_slot : int = turn_desc["target"]
-			var target : CardSlot = target_field.get_at(target_slot) # inverted
-			var target_card : Card = target.card_ref
-			var prev_attacker_pos = att_card.position
+			var result : Array[Dictionary] = turn_desc["result"]
+			var target : CardSlot = target_field.get_at(target_slot)
 			
-			att_card.z_index = CardManager.Z_DRAG
+			for r: Dictionary in result:
+				var index : int = r["index"] # Ability idx
+				var ab_result : Dictionary = r["result"]
+				var ability : Ability = att_card.abilities[index]
+				await ability.apply(att_card, target.card_ref, self, ab_result)
+				
 			
-			var tween = get_tree().create_tween()
-			tween.tween_property(att_card, "position", target_card.position, 0.2)
-			await tween.finished
-			
-			assert(att_card != target.card_ref)
-			
-			for a : Ability in att_card._unit.abilities:
-				if a.viz_type == Ability.VizType.TARGET:
-					a.execute(att_card, self, target_card)
-					
-			attack_card(att_card, target, damage, recv_id == send_id)
-			
-			
+
 			# Check win condition
 			if attacker.belongs_to_player: # We may win
 				if enemy_field.is_empty():
@@ -195,11 +134,6 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 				if player_field.is_empty():
 					end_screen.loose()
 					
-			var tween2 = get_tree().create_tween()
-			tween2.tween_property(att_card, "position", prev_attacker_pos, 0.3)
-			await tween2.finished
-			
-			att_card.z_index = CardManager.Z_NORMAL
 			
 			atb_bar.action()
 
@@ -212,10 +146,6 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 
 	# Exec for all
 	var new_first : TurnScale.CardRef = atb_bar.first()
-	if recv_id == send_id:
-		reset_visualize_attacker()
-		reset_vizualize()
-		
 	if new_first.belongs_to_player:
 		on_card_turn(new_first.ref)
 		wait_button.disabled = false
@@ -226,71 +156,43 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 		wait_button.text = "Opponent's turn..."
 
 
-func _on_wait_pressed() -> void:
-	wait()
+func get_opponent_field_for(card:Card)->PlayerField:
+	if card.is_enemy():
+		return player_field
+	else:
+		return enemy_field
+		
+func get_field_of(card:Card)->PlayerField:
+	if !card.is_enemy():
+		return player_field
+	else:
+		return enemy_field
 
-func on_enemy_hover(target_card:Card):
-	if !attacker_card: return null
-	var damage : int = attacker_card.unit.attack * attacker_card.number
-	
-	var unit = target_card._unit
-	var target_overall_hp = (target_card.number - 1) * target_card.unit.health + target_card.current_health
-	var remaining_hp = max(target_overall_hp - damage, 0)
-	
-	var units_remain = remaining_hp / target_card.unit.health
-	var health_remain = remaining_hp % target_card.unit.health
-	
-	return [damage, target_card.number - units_remain - int(health_remain > 0)]
 
-func is_enemy(card:Card):
-	return enemy_field.grid[card.slot].card_ref == card
-
+#region public slots
 func on_card_hovered_battle(card: Card):
 	if !attacker_card: return
-	#for a : Ability in attacker_card._unit.abilities:
-		#if a.viz_type == Ability.VizType.TARGET:
-			#a.visualize(attacker_card, self, card)
-			
-	if card.card_state == Card.CardSelection.ENEMY_FULL:
-		var dmg_kills : Array = on_enemy_hover(card)
-		if dmg_kills:
-			var dmg = dmg_kills[0]
-			var kills = dmg_kills[1]
-			tooltip.label.text = "Damage: {dmg}\nKills: {kills}".format({"dmg": dmg, "kills":kills})
-			tooltip.visible = true
-			
+	for a : Ability in attacker_card.abilities.filter(func(x):return x.viz_type == Ability.VizType.TARGET):
+		a.visualize(attacker_card, card, self)
+	
+	var damage : int = attacker_card.unit.attack * attacker_card.number
+	if card.is_enemy() &&\
+	 (card.card_state == Card.CardSelection.ENEMY_FULL ||\
+	 card.card_state == Card.CardSelection.ENEMY_PENALTY):
+		var calc_dmg : Array = card.calc_damage(damage)
+		tooltip.label.text = "Damage: {dmg}\nKills: {kills}"\
+		.format({"dmg": calc_dmg[2], "kills": card.number - calc_dmg[0]})
+		tooltip.visible = true
+
+
 func on_card_hovered_off_battle(_card: Card):
 	tooltip.visible = false
 	if !attacker_card: return
-	for a : Ability in attacker_card._unit.abilities:
-		if a.viz_type == Ability.VizType.TARGET:
-			a.reset_visualize()
-
-func reset_visualize_attacker():
-	if !attacker_card: return
-	for a : Ability in attacker_card._unit.abilities:
+	for a : Ability in attacker_card.abilities.filter(func(x):return x.viz_type == Ability.VizType.TARGET):
 		a.reset_visualize()
+#endregion
 
-func attack_card(attacker : Card, target : CardSlot, damage : int, local:bool):
-	var target_card : Card = target.card_ref
-	var before : int = target_card.number
-	target_card.set_damage(damage)
-	var units_killed = before - target_card.number
-	
-	if local:
-		combat_log.add_combat_event("{unit_a} attacked enemy {unit_t}, dealt {dmg} damage, killed {kill}"
-			.format({"unit_a":attacker._unit.tag.to_upper(),
-			"unit_t":target.card_ref.unit.tag.to_upper(),
-			"dmg":damage,
-			"kill":units_killed}))
-	else:
-		combat_log.add_combat_event("{unit_a} attacked your {unit_t}, dealt {dmg} damage, killed {kill}"
-			.format({"unit_a":attacker._unit.tag.to_upper(),
-			"unit_t":target.card_ref.unit.tag.to_upper(),
-			"dmg":damage,
-			"kill":units_killed}))
-	
-	if target_card.number == 0: # Remove
-		atb_bar.trim_card(target_card)
-		target.reset_card()
-		target_card.free()
+
+
+func _on_wait_pressed() -> void:
+	wait()

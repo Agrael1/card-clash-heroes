@@ -4,6 +4,7 @@ extends Control
 enum CardSelection {NONE, CURRENT, ENEMY_FULL, ENEMY_PENALTY, HEAL}
 
 const SELF_SCENE := preload("res://objects/card.tscn")
+const ABILITY_PATH := "res://resources/abilities"
 const HOVERED_SCALE := 1.1
 const CARD_MASK_ENEMY_OFFSET = 4
 
@@ -69,7 +70,7 @@ var _card_state := CardSelection.NONE
 		return _card_state
 #endregion
 
-
+var abilities : Array[Node] = []
 var current_health : int
 var max_units : int
 var scale_tween: Tween
@@ -180,6 +181,15 @@ func set_damage(damage: int):
 
 func is_enemy():
 	return collision_mask == CARD_MASK_ENEMY_OFFSET
+	
+func settle(adb:AbilityDB):
+	max_units = number
+	
+	# Inst abilities
+	for ab : String in unit.abilities:
+		var ability : Ability = adb.abilities[ab].instantiate()
+		abilities.append(ability)
+		add_child(ability)
 
 #region private slots
 func _on_area_2d_mouse_entered() -> void:

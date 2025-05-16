@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="Unit" load_steps=4 format=3 uid="uid://du6ly4yrk8unl"]
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://du6ly4yrk8unl"]
 
-[ext_resource type="Resource" uid="uid://b27ig07vmabk2" path="res://resources/abilities/attack_ranged.tres" id="1_7g4yu"]
 [ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_fr572"]
 [ext_resource type="Texture2D" uid="uid://bewbrgmsamehp" path="res://textures/aegyptus/bowman.png" id="2_ttgxr"]
 
@@ -12,7 +11,7 @@ health = 1
 attack = 2
 initiative = 7.0
 meele = false
-abilities = [ExtResource("1_7g4yu")]
+abilities = Array[String](["attack_ranged"])
 max_count = 22
 cost = 2
 metadata/_custom_type_script = "uid://umlu675s31ui"

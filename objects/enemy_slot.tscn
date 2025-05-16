@@ -16,3 +16,12 @@ script = ExtResource("1_l1qfj")
 scale = Vector2(0.627451, 0.627451)
 texture = ExtResource("2_eltp8")
 centered = false
+
+[node name="DEBUG_SlotNum" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+theme_override_font_sizes/normal_font_size = 90
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1
