@@ -89,8 +89,8 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 1.51
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/normal_font_size = 20
-text = "Select Race:"
+theme_override_font_sizes/normal_font_size = 35
+text = "Select Race"
 vertical_alignment = 1
 
 [node name="RaceSelect" parent="MenuContainer/MarginContainer/JoinSubmenu" instance=ExtResource("2_ekxnf")]
@@ -110,7 +110,7 @@ size_flags_stretch_ratio = 1.51
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/table_v_separation = 0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 50
 text = "Host"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -168,7 +168,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 1.51
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/normal_font_size = 35
 text = "Select Race"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -177,6 +177,25 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="MenuContainer/MarginContainer/HostSubmenu"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 35
+text = "Select amount of money"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RaceSelect2" parent="MenuContainer/MarginContainer/HostSubmenu" instance=ExtResource("2_ekxnf")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+races = Array[String](["Normal", "Big", "Grand"])
 
 [node name="MainSubmenu" type="VBoxContainer" parent="MenuContainer/MarginContainer"]
 layout_mode = 2
