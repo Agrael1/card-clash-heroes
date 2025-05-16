@@ -100,10 +100,15 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 		# reset viz
 		for a : Ability in att_card.abilities:
 			a.reset_visualize()
+		att_card.card_state = Card.CardSelection.NONE # Reset arrow above head
 
 		target_field = enemy_field # Called from and on command host
 		opposite_field = player_field
 		invert = false
+		
+	# Activate passive abilities
+	for passive : Ability in att_card.abilities.filter(func(x):return x.ability_type == Ability.AbilityType.PASSIVE):
+		await passive.apply(att_card, null, self, {})
 	
 	match action:
 		ActionTaken.MOVE:

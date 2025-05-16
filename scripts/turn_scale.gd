@@ -207,8 +207,9 @@ func _ui_follow_card(card : Card):
 	card.mouse_enter.emit(card)
 	
 func _ui_unfollow_card(card : Card):
-	card.pointer.visible = false
-	card.mouse_exit.emit(card)
+	if card != battle_field.attacker_card:
+		card.pointer.visible = false
+		card.mouse_exit.emit(card)
 
 func _ui_trim(card : Card):
 	for i in range(_cache_refs.size() - 1, 0, -1):

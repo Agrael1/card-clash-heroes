@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://barswa3l865sj"]
+
+[ext_resource type="Script" uid="uid://dvuk8ud2kx233" path="res://scripts/abilities/heal.gd" id="1_33or7"]
+
+[node name="Heal" type="Node"]
+script = ExtResource("1_33or7")
+ability_name = "Healing Hand"
+viz_type = 1
+metadata/_custom_type_script = "uid://dvuk8ud2kx233"

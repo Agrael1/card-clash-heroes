@@ -179,6 +179,9 @@ func set_damage(damage: int):
 	current_health = damage_result[1]
 	return damage_result
 
+func is_full():
+	return number == max_units && current_health == unit.health
+
 func is_enemy():
 	return collision_mask == CARD_MASK_ENEMY_OFFSET
 	
