@@ -1,0 +1,13 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://dfgyd6uxaxlol"]
+
+[ext_resource type="Texture2D" uid="uid://c8bomgdoa2mc0" path="res://textures/tiles/y2k/128/y2k_marble.png" id="1_37btc"]
+
+[resource]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 4.0
+texture = ExtResource("1_37btc")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.408329, 0.408329, 0.408329, 1)

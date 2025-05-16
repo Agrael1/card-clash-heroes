@@ -1,15 +1,16 @@
 class_name Unit
 extends Resource
 
-@export var sprite : Texture2D
+@export var sprite : Texture2D = null
 
 @export_group("Unit Stats")
-@export var tag: String
-@export var health: int
-@export var attack: int
-@export var initiative: float
-@export var meele: bool
+@export var tag: String = "Unit"
+@export var health: int = 0
+@export var attack: int = 0
+@export var initiative: float = 0.0
+@export var meele: bool = false
+@export var abilities : Array[String] = []
 
 @export_group("Shop Stats")
-@export var max_count: int
-@export var cost: int
+@export var max_count: int = 0
+@export var cost: int = 0

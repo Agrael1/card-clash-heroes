@@ -22,11 +22,16 @@ Auxiliary:
 - [ ] Split cards into two decks with reevaluation of ATB (if needed)
 - [x] Add animation for the cards on the board + sync + wait
 - [x] Win screen + sync
-- [ ] Add card abilities (e.g. heal, attack, etc.) + sync
+- [x] Add card abilities (e.g. heal, attack, etc.) + sync
 - [ ] Add events for the field
+- [x] Visualize the heal 
 
 UI:
 - [ ] Refactor the UI of the shop
 - [x] Make mouse hover over the ATB bar point to the card
 - [x] Add a card description + actual info
 - [x] Add combat log
+
+Bugs:
+- [ ] Fix the wait button disappearing
+- [x] Fix join-after-hosting

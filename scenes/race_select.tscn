@@ -5,18 +5,23 @@
 [node name="RaceSelect" type="Control"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 3
-anchor_right = 0.067
-anchor_bottom = 0.037
-offset_right = -0.639999
-offset_bottom = 0.0400009
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_bottom = 40.0
 script = ExtResource("1_ayq28")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -216.0
+offset_top = -20.0
+offset_right = 216.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Back" type="Button" parent="HBoxContainer"]
 layout_mode = 2

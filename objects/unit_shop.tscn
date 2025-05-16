@@ -1,10 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0nu1n6wbjeug"]
+[gd_scene load_steps=5 format=3 uid="uid://c0nu1n6wbjeug"]
 
 [ext_resource type="Script" uid="uid://dpslxhofkwxwe" path="res://scripts/unit_shop.gd" id="1_8ajov"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7r41"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 7
+[ext_resource type="FontFile" uid="uid://cpvyi2ou0x6lj" path="res://fonts/MorrisRomanAlternate-Black.ttf" id="2_6qy75"]
+[ext_resource type="Texture2D" uid="uid://cqb7euyx5wudc" path="res://textures/tiles/y2k/128/y2k_gold.png" id="2_xep5q"]
+[ext_resource type="FontFile" uid="uid://dpgvpabatpm" path="res://fonts/MorrisRoman-Black.ttf" id="3_xep5q"]
 
 [node name="Shop" type="Panel"]
 custom_minimum_size = Vector2(300, 0)
@@ -13,7 +12,7 @@ anchor_bottom = 1.0
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_8ajov")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -22,30 +21,30 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -453.0
-offset_right = 196.0
+offset_right = 299.0
 offset_bottom = 453.0
 grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 98
-theme_override_constants/margin_top = 128
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
-mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 34
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="TextureRect" parent="."]
 layout_mode = 0
 offset_right = 300.0
-offset_bottom = 40.0
-color = Color(1, 0.596078, 0, 1)
+offset_bottom = 43.0
+texture = ExtResource("2_xep5q")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
+offset_top = 6.0
+offset_right = 300.0
+offset_bottom = 43.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -53,22 +52,26 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-text = "Gold"
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("2_6qy75")
+theme_override_font_sizes/normal_font_size = 30
+text = "Gold:"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="VSeparator" type="VSeparator" parent="ColorRect/HBoxContainer"]
-modulate = Color(0, 0, 0, 1)
-layout_mode = 2
-theme_override_constants/separation = 10
-theme_override_styles/separator = SubResource("StyleBoxFlat_l7r41")
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="ColorRect/HBoxContainer"]
 custom_minimum_size = Vector2(40.24, 0)
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("3_xep5q")
+theme_override_font_sizes/normal_font_size = 30
 text = "50
 "
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Container" type="Control" parent="ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2

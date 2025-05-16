@@ -11,6 +11,7 @@ health = 1
 attack = 1
 initiative = 8.0
 meele = true
+abilities = Array[String](["attack_melee"])
 max_count = 0
 cost = 1
 metadata/_custom_type_script = "uid://umlu675s31ui"

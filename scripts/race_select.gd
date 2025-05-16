@@ -2,13 +2,14 @@ class_name RaceSelect
 extends Control
 
 var card_db_ref : CardDB = preload("res://resources/card_db.tres")
-var races : Array[String]
+@export var races : Array[String]
+var custom : bool = false
 
-var _index : int
-var index : int:
+var _index : int = 0
+@export var index : int:
 	set(value):
 		_index = value
-		if line_edit:
+		if line_edit && !races.is_empty():
 			line_edit.text = races[_index]
 	get:
 		return _index
@@ -18,9 +19,12 @@ var index : int:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	races = card_db_ref.races.keys()
-	races.append("Random")
-	index = races.size() - 1
+	index = _index
+	custom = !races.is_empty()
+	if !custom:
+		races = card_db_ref.races.keys()
+		races.append("Random")
+		index = races.size() - 1
 
 
 func _on_back_pressed() -> void:

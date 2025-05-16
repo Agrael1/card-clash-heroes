@@ -31,3 +31,6 @@ func project_card(card:Card):
 	card_name.text = card.unit.tag.to_upper().replacen("_", " ")
 	
 	aux_info.text = "Melee" if card.unit.meele else "Shooter";
+	
+	for a: Ability in card.abilities:
+		aux_info.text += ", " + a.ability_name

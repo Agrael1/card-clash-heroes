@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dn3o8fl7ukp58"]
+[gd_scene load_steps=7 format=3 uid="uid://dn3o8fl7ukp58"]
 
 [ext_resource type="Script" uid="uid://2l51xmjinbe" path="res://scripts/game_over.gd" id="1_wqhvx"]
 [ext_resource type="Shader" uid="uid://crrn4ooo7uenx" path="res://shaders/game_over.gdshader" id="2_tbwuq"]
@@ -6,13 +6,6 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wqhvx"]
 shader = ExtResource("2_tbwuq")
 shader_parameter/lod = 0.0
-
-[sub_resource type="SystemFont" id="SystemFont_wqhvx"]
-subpixel_positioning = 0
-
-[sub_resource type="Theme" id="Theme_tbwuq"]
-default_font = SubResource("SystemFont_wqhvx")
-default_font_size = 36
 
 [sub_resource type="Animation" id="Animation_racf3"]
 length = 0.001
@@ -185,7 +178,6 @@ layout_mode = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = SubResource("Theme_tbwuq")
 text = "Game over"
 horizontal_alignment = 1
 vertical_alignment = 1

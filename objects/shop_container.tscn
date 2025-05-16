@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://beeyxl6dnix0t"]
+
+[ext_resource type="Script" uid="uid://c27jqnmoqw1ak" path="res://scripts/shop_container.gd" id="1_fk5n5"]
+[ext_resource type="PackedScene" uid="uid://c3dodjurejeur" path="res://objects/card.tscn" id="2_e3ltc"]
+[ext_resource type="Texture2D" uid="uid://2kqu72mvbcec" path="res://textures/triangle_up.svg" id="3_ftni0"]
+[ext_resource type="Texture2D" uid="uid://dmbssehyubamm" path="res://textures/triangle_down.svg" id="4_fmto4"]
+
+[node name="ShopContainer" type="PanelContainer"]
+z_index = 6
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+script = ExtResource("1_fk5n5")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Card" parent="MarginContainer/HBoxContainer" instance=ExtResource("2_e3ltc")]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+collision_mask = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Up" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "
+"
+icon = ExtResource("3_ftni0")
+icon_alignment = 1
+expand_icon = true
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "0"
+alignment = 1
+
+[node name="Down" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "
+"
+icon = ExtResource("4_fmto4")
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Up" to="." method="_on_up_pressed"]
+[connection signal="text_changed" from="MarginContainer/HBoxContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Down" to="." method="_on_down_pressed"]

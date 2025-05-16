@@ -5,7 +5,8 @@ const CARD_MASK = 0
 const SHOP_MASK = 2
 
 var card_db_ref : CardDB = preload("res://resources/card_db.tres")
-var card_instance : PackedScene = preload("res://objects/card.tscn")
+var card_container : PackedScene = preload("res://objects/shop_container.tscn")
+
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
 @onready var card_manager = $"../CardManager"
 @onready var gold_label = $ColorRect/HBoxContainer/RichTextLabel2
@@ -25,16 +26,20 @@ func open_for(race:String) -> void:
 	var card_array : Array = card_db_ref.races_unit_names[race]
 	for i in range(0, card_array.size()):
 		var card_name = card_array[i]
-		var card : Card = card_instance.instantiate()
-		card.name = card_name + "_" + str(i)
-		card.unit = card_db_ref.races[race][card_name]
-		card.collision_mask = SHOP_MASK
-		card.connect("mouse_click", on_card_clicked.bind(i))
+		var card : ShopContainer = card_container.instantiate()
+		container_array.add_child(card)
+		card.create(self, card_db_ref.races[race][card_name])
+		
+		#card.name = card_name + "_" + str(i)
+		#card.unit = card_db_ref.races[race][card_name]
+		#card.collision_mask = SHOP_MASK
+		#card.mouse_click.connect(on_card_clicked)
 
 		# Add the card to the container
-		container_array.add_child(card)
 
-func on_card_clicked(card: Card, bind : int):
+func on_card_clicked(card: Card, mouse_button:int):
+	if !mouse_button == MOUSE_BUTTON_RIGHT: return
+	
 	var same_card : Card = player_field.find_card(card.unit.tag)
 	var price = card.unit.cost
 	if gold - price < 0:
@@ -58,3 +63,7 @@ func on_card_clicked(card: Card, bind : int):
 	new_card.number = 1
 	new_card.collision_mask = CARD_MASK
 	empty_slot.set_card(new_card)
+
+func sell(card:Card):
+	card.number -= 1
+	gold += card.unit.cost

@@ -4,7 +4,7 @@ extends Node2D
 const CARD_MASK = 1 << 0
 const SLOT_MASK = 1 << 1
 const SHOP_MASK = 1 << 2
-const CARD_MASK_ENEMY = 1 << 4
+const CARD_MASK_ENEMY = 1 << Card.CARD_MASK_ENEMY_OFFSET
 
 const Z_DRAG = 4
 const Z_NORMAL = 0
@@ -18,17 +18,13 @@ var block_free_move : bool = false
 @onready var player_field: PlayerField = $"../MarginContainer/PlayerField"
 @onready var battle_field : BattleField = $"../BattleField"
 @onready var card_info : CardInfo = $"../CardInfo"
-@onready var tooltip : Tooltip = $"../Tooltip"
+@onready var card_shop : Shop = $"../Shop"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if dragged_card:
 		var mouse_pos = get_global_mouse_position()
 		dragged_card.position = Vector2(clamp(mouse_pos.x, 0, screen_size.x), clamp(mouse_pos.y, 0, screen_size.y)) - dragged_card.size / 2
-		
-	if tooltip.visible:
-		var mouse_pos = get_viewport().get_mouse_position()
-		tooltip.position = mouse_pos + Vector2(10, 10) 
 		
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,7 +33,6 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			tooltip.visible = false
 			if event.is_pressed():
 				raycast_at_cursor(CARD_MASK if !block_free_move else CARD_MASK_ENEMY | SLOT_MASK)
 			if event.is_released():
@@ -59,9 +54,10 @@ func on_raycast_card(card:Card, right_click:bool = false):
 		if !right_click:
 			on_drag_start(card)
 		else:
-			card.number-=1
+			card_shop.sell(card)
 			if card.number == 0:
-				card.queue_free()
+				card.queue_free() # Card is owned by the card_manager
+
 	else: # fight phase
 		if right_click:
 			watched_card = card
@@ -83,15 +79,15 @@ func on_raycast_slot(slot:CardSlot):
 # Drag logic
 func on_drag_start(card: Card):
 	dragged_card = card
-	dragged_card.scale = Vector2(1,1)
 	dragged_card.z_index = Z_DRAG
+	dragged_card.drag_began()
 	
 func on_drag_end():
 	var saved_card : Card = dragged_card;
 	dragged_card.z_index = Z_NORMAL
 	dragged_card = null
+	saved_card.drag_ended()
 	
-	saved_card.scale = Vector2(1.05,1.05)
 	var card_slot = raycast_slot()
 	if !card_slot or card_slot.slot_number == saved_card.slot or !player_field.try_place_card(saved_card, card_slot.slot_number):
 		player_field.return_to_slot(saved_card)
@@ -105,24 +101,19 @@ func on_drag_end():
 # Card logic
 func on_card_hovered(card: Card):
 	if !dragged_card:
-		card.scale = Vector2(1.05,1.05)
 		card_hovered = card
 		card.z_index = 2
-		if block_free_move and card.card_state == Card.Outline.ENEMY_FULL:
-			var dmg_kills : Array = battle_field.on_enemy_hover(card)
-			if dmg_kills:
-				var dmg = dmg_kills[0]
-				var kills = dmg_kills[1]
-				tooltip.label.text = "Damage: {dmg}\nKills: {kills}".format({"dmg": dmg, "kills":kills})
-				tooltip.visible = true
+		if block_free_move:
+			battle_field.on_card_hovered_battle(card)
+			
 
 func on_card_hovered_off(card: Card):
 	if !dragged_card:
-		card.scale = Vector2(1,1)
 		card.z_index = 1
 		if card_hovered == card:
 			card_hovered = null
-	tooltip.visible = false
+			if block_free_move:
+				battle_field.on_card_hovered_off_battle(card)
 
 func connect_card(card: Card):
 	card.mouse_enter.connect(on_card_hovered)

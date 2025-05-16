@@ -1,8 +1,16 @@
 class_name CardSlot
 extends Panel
 
+const DEBUG_EnableSlotCounter = true
+
 @export var slot_number : int = 0
 @export var card_ref : Card
+
+@onready var slot_dbg : RichTextLabel = $DEBUG_SlotNum
+
+func _ready() -> void:
+	slot_dbg.visible = DEBUG_EnableSlotCounter
+	slot_dbg.text = str(slot_number)
 
 func set_card(card : Card):
 	card_ref = card

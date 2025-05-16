@@ -1,7 +1,6 @@
 extends Node
 
 signal noray_connected
-signal join_connected
 
 const NORAY_ADDRESS = "tomfol.io"
 const NORAY_PORT = 8890

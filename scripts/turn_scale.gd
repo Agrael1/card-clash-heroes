@@ -33,9 +33,10 @@ var _last_state : Array[CardRef]
 func predict():
 	_cache_refs.resize(15)	
 	
-	_last_state.resize(_card_refs.size())
-	for i in range(0, _card_refs.size()):
-		_last_state[i] = _card_refs[i].duplicate()
+	_last_state.clear()
+	for ref in _card_refs:
+		if is_instance_valid(ref.ref):
+			_last_state.append(ref.duplicate())
 	
 	for i in range(0, _cache_refs.size()):
 		advance(i)
@@ -138,7 +139,7 @@ func export():
 	data.resize(_card_refs.size())
 	for i in range(0, _card_refs.size()):
 		var ref = _card_refs[i]
-		data[i] = {"slot": player_field.grid.size() - ref.ref.slot - 1, 
+		data[i] = {"slot": ref.ref.slot, 
 		"enemy":ref.belongs_to_player, 
 		"current_atb":ref.current_atb} # intentional enemy is caught on the other side
 	return data
@@ -206,8 +207,9 @@ func _ui_follow_card(card : Card):
 	card.mouse_enter.emit(card)
 	
 func _ui_unfollow_card(card : Card):
-	card.pointer.visible = false
-	card.mouse_exit.emit(card)
+	if card != battle_field.attacker_card:
+		card.pointer.visible = false
+		card.mouse_exit.emit(card)
 
 func _ui_trim(card : Card):
 	for i in range(_cache_refs.size() - 1, 0, -1):
@@ -260,10 +262,14 @@ func _make_ui_respect_state(instantiate:bool = true) -> void:
 			card_parent.add_child(instance)
 			card_manager.connect_card(instance)
 			instance.mouse_enter.connect(
-				func(card : Card): _ui_follow_card(ref.ref)
+				func(card : Card):
+					if is_instance_valid(ref.ref):
+						_ui_follow_card(ref.ref)
 			)
 			instance.mouse_exit.connect(
-				func(card : Card): _ui_unfollow_card(ref.ref)
+				func(card : Card):
+					if is_instance_valid(ref.ref):
+						_ui_unfollow_card(ref.ref)
 			)
 			
 		instance.sprite.modulate = Color.SKY_BLUE if ref.belongs_to_player else Color.INDIAN_RED
