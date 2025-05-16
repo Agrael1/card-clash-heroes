@@ -18,12 +18,16 @@ func visualize(caster : Card, _target : Card, battlefield : BattleField) -> void
 	if slot_front && !slot_front.is_empty():
 		return
 	
+	var radius = RADIUS
+	if position > battlefield.player_field.field_width:
+		radius -= 1
+		position %=  battlefield.player_field.field_width
 	
 	# Radius is 4 
 	# Front row: the slots are mirrored, so slot 0 is in front of field.field_width - 1
 	var mirror_pos = field.field_width - position - 1
-	var start_front = max(mirror_pos - RADIUS, 0)
-	var end_front = min(mirror_pos + RADIUS, field.field_width)
+	var start_front = max(mirror_pos - radius, 0)
+	var end_front = min(mirror_pos + radius, field.field_width)
 	
 	for slot : CardSlot in field.grid.slice(start_front, end_front).filter(slot_not_empty):
 		slot.card_ref.card_state = Card.CardSelection.ENEMY_FULL
