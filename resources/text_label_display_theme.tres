@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://756h6emk64xw"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bfw62misip25e"]
 
 [ext_resource type="StyleBox" uid="uid://cotiujweimyax" path="res://resources/ui_styles/marble_background_stylebox.tres" id="1_245bc"]
 [ext_resource type="Texture2D" uid="uid://b7q21qdtr86iv" path="res://textures/tiles/y2k/128/y2k_stone.png" id="1_ljvhy"]

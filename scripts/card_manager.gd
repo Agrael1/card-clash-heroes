@@ -19,6 +19,7 @@ var block_free_move : bool = false
 @onready var battle_field : BattleField = $"../BattleField"
 @onready var card_info : CardInfo = $"../CardInfo"
 @onready var card_shop : Shop = $"../Shop"
+@onready var split_dialog : SplitDialog = $"../SplitWindow"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -82,20 +83,51 @@ func on_drag_start(card: Card):
 	dragged_card.z_index = Z_DRAG
 	dragged_card.drag_began()
 	
+	
+func raycast_underneath():
+	var result : Card = raycast_at_cursor(CARD_MASK, 0, true)
+	if result:
+		on_card_hovered(result)
+		
+		
 func on_drag_end():
 	var saved_card : Card = dragged_card;
 	dragged_card.z_index = Z_NORMAL
 	dragged_card = null
 	saved_card.drag_ended()
+	saved_card.scale = saved_card.base_scale
 	
 	var card_slot = raycast_slot()
-	if !card_slot or card_slot.slot_number == saved_card.slot or !player_field.try_place_card(saved_card, card_slot.slot_number):
+	if !card_slot or card_slot.slot_number == saved_card.slot:
 		player_field.return_to_slot(saved_card)
+		raycast_underneath()
+		return
 	
-	# Raycast underneath
-	var result : Card = raycast_at_cursor(CARD_MASK, 0, true)
-	if result:
-		on_card_hovered(result)
+	if Input.is_key_pressed(KEY_SHIFT):
+		# Check if underneath there is something
+		if card_slot.is_empty() || player_field.try_place_card(saved_card, card_slot.slot_number):
+			block_free_move = true
+			player_field.return_to_slot(saved_card)
+			split_dialog.open_for(saved_card)
+			var result : Array = await split_dialog.card_split_succeded
+			var l = result[0]
+			var r = result[1]
+			if r > 0:
+				var new_card : Card = saved_card.duplicate()
+				add_child(new_card)
+				new_card.number = r
+				card_slot.set_card(new_card)
+				new_card.drag_ended()
+			if l == 0:
+				saved_card.queue_free()
+			else:
+				saved_card.number = l
+			block_free_move = false
+	elif !player_field.try_place_card(saved_card, card_slot.slot_number):
+		player_field.return_to_slot(saved_card)
+		
+	raycast_underneath()
+
 
 
 # Card logic

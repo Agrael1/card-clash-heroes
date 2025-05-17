@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8ac1s2xk3u8x" path="res://scripts/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="PackedScene" uid="uid://c02odu47h8l7g" path="res://scenes/race_select.tscn" id="2_ekxnf"]
-[ext_resource type="Theme" uid="uid://756h6emk64xw" path="res://resources/text_label_display_theme.tres" id="3_bqqt6"]
+[ext_resource type="Theme" uid="uid://bfw62misip25e" path="res://resources/text_label_display_theme.tres" id="3_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://cyiqswnmchkdv" path="res://textures/backgrounds/oldbookartdotcom/Bethlehem_April_6th_1839.jpg" id="4_wu84c"]
 [ext_resource type="Texture2D" uid="uid://bcb1qsou4phco" path="res://textures/backgrounds/oldbookartdotcom/Church_of_the_Purification_Jerusalem_April_5th_1839.jpg" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://c8cvb0snhyj08" path="res://textures/backgrounds/oldbookartdotcom/Descent_upon_the_Valley_of_Jordan.jpg" id="5_oa1go"]

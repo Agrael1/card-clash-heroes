@@ -70,8 +70,11 @@ func try_place_card(card:Card, slot_num:int) -> bool:
 		return true
 	
 	if slot.same_as(card.unit.tag):
-		slot.card_ref.number += card.number
-		card.queue_free()
+		card.number += slot.card_ref.number
+		var freed_card = slot.card_ref
+		reset_slot(card.slot)
+		slot.set_card(card)
+		freed_card.queue_free()
 		return true
 	return false
 
