@@ -3,8 +3,9 @@ extends Control
 
 const CARD_MASK = 0
 const SHOP_MASK = 2
+const UnitScript = preload("res://scripts/resources/unit.gd")
 
-var card_db_ref : CardDB = preload("res://resources/card_db.tres")
+@export var card_db_ref : CardDB
 var card_container : PackedScene = preload("res://objects/shop_container.tscn")
 
 @onready var player_field : PlayerField = $"../MarginContainer/PlayerField"
@@ -28,13 +29,16 @@ func open_for(race:String) -> void:
 		var card_name = card_array[i]
 		var card : ShopContainer = card_container.instantiate()
 		container_array.add_child(card)
-		card.create(self, card_db_ref.races[race][card_name])
 		
-		#card.name = card_name + "_" + str(i)
-		#card.unit = card_db_ref.races[race][card_name]
-		#card.collision_mask = SHOP_MASK
-		#card.mouse_click.connect(on_card_clicked)
-
+		print("Create called with unit type: ", card_db_ref.races[race][card_name].get_class())
+		# Detailed type inspection
+		print("Unit class info:")
+		print("- Is Resource: ", card_db_ref.races[race][card_name] is Resource)
+		print("- Is Unit: ", card_db_ref.races[race][card_name] is Unit)
+		print("- Has script: ", card_db_ref.races[race][card_name].get_script() != null)
+		
+		#push_warning("card_db_ref.races[race][card_name]" +  card_db_ref.races[race][card_name].get_class())
+		card.create(self, card_db_ref.races[race][card_name])
 		# Add the card to the container
 
 func on_card_clicked(card: Card, mouse_button:int):

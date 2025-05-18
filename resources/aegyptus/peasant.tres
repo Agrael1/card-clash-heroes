@@ -1,17 +1,17 @@
-[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://dfxg1nquu644t"]
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://ikt7tdd54ugj"]
 
 [ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_gb4c0"]
-[ext_resource type="Texture2D" uid="uid://daal0f6e3nimc" path="res://textures/aegyptus/peasant.png" id="2_8ck1u"]
+[ext_resource type="Texture2D" uid="uid://bewbrgmsamehp" path="res://textures/aegyptus/bowman.png" id="2_ar31a"]
 
 [resource]
 script = ExtResource("1_gb4c0")
-sprite = ExtResource("2_8ck1u")
-tag = "peasant"
+sprite = ExtResource("2_ar31a")
+tag = "bowman"
 health = 1
-attack = 1
-initiative = 8.0
-meele = true
-abilities = Array[String](["attack_melee"])
+attack = 2
+initiative = 7.0
+meele = false
+abilities = Array[String](["attack_ranged"])
 max_count = 22
-cost = 1
+cost = 2
 metadata/_custom_type_script = "uid://umlu675s31ui"

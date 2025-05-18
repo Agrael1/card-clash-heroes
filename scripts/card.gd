@@ -46,7 +46,7 @@ var _unit:Unit = null
 @export var unit:Unit:
 	set(value):
 		_unit = value
-		if sprite:
+		if sprite && _unit:
 			sprite.texture = _unit.sprite
 	get:
 		return _unit
@@ -88,7 +88,6 @@ func _set_ready_props() -> void:
 
 func _ready() -> void:
 	_set_ready_props()
-	current_health = unit.health
 	
 	# Make it appear
 	base_scale = self.scale
@@ -186,7 +185,9 @@ func is_enemy():
 	return collision_mask == CARD_MASK_ENEMY_OFFSET
 	
 func settle(adb:AbilityDB):
+	assert(unit)
 	max_units = number
+	current_health = unit.health
 	
 	# Inst abilities
 	for ab : String in unit.abilities:

@@ -6,7 +6,7 @@ var shop : Shop
 @onready var number_box : LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/LineEdit
 var final_text = ""
 
-func create(in_shop : Shop, unit : Unit):
+func create(in_shop : Shop, unit):
 	shop = in_shop
 	card_ref.unit = unit
 	card_ref.mouse_click.connect(on_card_clicked)
