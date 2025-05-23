@@ -1,0 +1,68 @@
+[gd_scene load_steps=13 format=3 uid="uid://bpx64xsgim7yj"]
+
+[ext_resource type="Script" uid="uid://bh5s3tl0ch0h7" path="res://scripts/weather/rain.gd" id="1_1pa7i"]
+[ext_resource type="Texture2D" uid="uid://cba1v2x57k2k1" path="res://textures/rain.png" id="2_ue4vg"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1pa7i"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_ue4vg"]
+_limits = [0.0, 0.3, 0.0, 1.0]
+_data = [Vector2(0.0185567, 0), 0.0, 0.0, 0, 0, Vector2(0.131959, 0.245581), 0.0, 0.0, 0, 0, Vector2(0.494845, 0.3), 0.0, 0.0, 0, 0, Vector2(1, 0.00690329), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_8wnrp"]
+curve = SubResource("Curve_ue4vg")
+
+[sub_resource type="Gradient" id="Gradient_cm431"]
+colors = PackedColorArray(1, 1, 1, 0.0784314, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gd8gh"]
+gradient = SubResource("Gradient_cm431")
+
+[sub_resource type="Curve" id="Curve_yg3ed"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_xqkym"]
+_limits = [0.0, 30.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.379381, 5.17748), 0.0, 0.0, 0, 0, Vector2(0.593814, 5.27295), 0.0, 0.0, 0, 0, Vector2(0.870103, 11.0831), 0.0, 0.0, 0, 0, Vector2(1, 20.2661), -42.0457, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_ubow7"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_onv4e"]
+curve_x = SubResource("Curve_yg3ed")
+curve_y = SubResource("Curve_xqkym")
+curve_z = SubResource("Curve_ubow7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s5kdk"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -200, 0)
+emission_shape = 3
+emission_box_extents = Vector3(350, 1, 1)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+gravity = Vector3(0, 3000, 0)
+scale_min = 1.2
+scale_max = 2.2
+scale_over_velocity_curve = SubResource("CurveXYZTexture_onv4e")
+color_initial_ramp = SubResource("GradientTexture1D_gd8gh")
+alpha_curve = SubResource("CurveTexture_8wnrp")
+
+[node name="Rain" type="CanvasLayer"]
+script = ExtResource("1_1pa7i")
+ability_name = "Rain"
+icon = ExtResource("2_ue4vg")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_1pa7i")
+amount = 1000
+lifetime = 2.0
+preprocess = 2.5
+visibility_rect = Rect2(-350, -200, 700, 400)
+process_material = SubResource("ParticleProcessMaterial_s5kdk")

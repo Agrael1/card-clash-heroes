@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc3843apwf3fn"]
+
+[ext_resource type="Script" uid="uid://bickv3qgchcx8" path="res://scripts/forecast.gd" id="1_ceyq3"]
+[ext_resource type="Texture2D" uid="uid://dtulej3ym3mjo" path="res://textures/sun.png" id="1_v1833"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1833"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.345098, 0.8, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k5eb0"]
+size = Vector2(11.6364, 11.6364)
+
+[node name="Weather" type="Control"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+script = ExtResource("1_ceyq3")
+
+[node name="Outline" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v1833")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(64, 64)
+scale = Vector2(0.128, 0.128)
+texture = ExtResource("1_v1833")
+
+[node name="Area2D" type="Area2D" parent="."]
+process_priority = 1
+collision_layer = 8
+collision_mask = 8
+priority = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+process_priority = 1
+texture_filter = 1
+position = Vector2(64, 64)
+scale = Vector2(11, 11)
+shape = SubResource("RectangleShape2D_k5eb0")

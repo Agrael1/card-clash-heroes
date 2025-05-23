@@ -12,6 +12,7 @@ var remote_player_id = 0
 @onready var ready_button : Button = $MarginContainer3/Attack
 @onready var enemy_field : PlayerField = $MarginContainer2/EnemyField
 @onready var player_field : PlayerField = $MarginContainer/PlayerField
+@onready var battle_field : BattleField = $BattleField
 @onready var shop : Shop = $Shop
 @onready var turn_scale : TurnScale = $TurnScale
 @onready var card_manager : CardManager = $CardManager
@@ -35,6 +36,7 @@ func on_both_ready()->void:
 	turn_scale.visible = true
 	floating_menu.visible = true
 	combat_log.visible = true
+	battle_field.forecast.visible = true
 	player_field.settle()
 
 

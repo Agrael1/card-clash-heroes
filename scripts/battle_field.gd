@@ -10,8 +10,12 @@ enum ActionTaken{ATTACK, MOVE, WAIT, ABILITY}
 @onready var end_screen : GameOver = $"../GameOver"
 @onready var combat_log : CombatLog = $"../CombatLog"
 @onready var tooltip : Tooltip = $"../Tooltip"
+@onready var rain : Rain = $"../Rain"
+@onready var forecast : Forecast = $Weather
 
+var turn_num = 0
 var attacker_card : Card
+var current_weather : Weather
 
 func _process(_delta: float) -> void:
 	if tooltip.visible:
@@ -23,6 +27,12 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
 				tooltip.visible = false
+
+func on_new_turn_host():
+	turn_num += 1
+	if turn_num % 5 == 0:
+		var pick_rand = randf()
+		sync_weather.rpc(pick_rand>=0.5)
 
 func on_card_turn(card:Card):
 	# first color the selected card
@@ -110,6 +120,12 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 	for passive : Ability in att_card.abilities.filter(func(x):return x.ability_type == Ability.AbilityType.PASSIVE):
 		await passive.apply(att_card, null, self, {})
 	
+	# Make Weather effect
+	if current_weather != null:
+		rain.apply(self, {})
+	else:
+		rain.revert(self)
+			
 	match action:
 		ActionTaken.MOVE:
 			var target_slot : int = turn_desc["target"]
@@ -159,7 +175,18 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 		attacker_card = null
 		wait_button.disabled = true
 		wait_button.text = "Opponent's turn..."
+	
+	if (recv_id == 1):
+		on_new_turn_host()
 
+@rpc("any_peer", "call_local", "reliable")
+func sync_weather(weather):
+	if weather:
+		rain.visualize(self)
+		current_weather = rain
+	else:
+		current_weather = null
+		rain.reset_visualize(self)
 
 func get_opponent_field_for(card:Card)->PlayerField:
 	if card.is_enemy():

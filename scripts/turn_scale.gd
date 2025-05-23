@@ -20,6 +20,9 @@ class CardRef:
 		self.belongs_to_player = inbelongs
 		self.atb_increment = inref.unit.initiative / 100
 		
+	func update():
+		self.atb_increment = self.ref.current_initiative / 100
+				
 	func duplicate():
 		var x = CardRef.new(self.ref, self.belongs_to_player)
 		x.current_atb = self.current_atb
@@ -72,6 +75,14 @@ func advance_original():
 	# sort 
 	_card_refs.sort_custom(func(a,b): return a.current_atb>b.current_atb)
 	
+func recalculate():
+	# Gather current ini
+	for j in range(0, _card_refs.size()):
+		var unit = _card_refs[j]
+		unit.update()
+		
+	predict()
+	_make_ui_respect_state(false)
 
 func advance(insert_idx:int):
 	# Get least time

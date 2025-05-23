@@ -72,6 +72,7 @@ var _card_state := CardSelection.NONE
 
 var abilities : Array[Node] = []
 var current_health : int
+var current_initiative : float
 var max_units : int
 var scale_tween: Tween
 var base_scale: Vector2
@@ -188,6 +189,7 @@ func settle(adb:AbilityDB):
 	assert(unit)
 	max_units = number
 	current_health = unit.health
+	current_initiative = unit.initiative
 	
 	# Inst abilities
 	for ab : String in unit.abilities:

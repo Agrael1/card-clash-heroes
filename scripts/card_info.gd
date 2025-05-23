@@ -23,12 +23,19 @@ func _ready() -> void:
 		stat_map[stat.name] = stat
 		stat.stat_name = stat.name
 		
+func modulate_stat(stat:String, val, default, str : String):
+	var xstat = stat_map[stat]
+	xstat.stat_val = str
+	if val < default:
+		xstat.modulate = Color.INDIAN_RED
+	else:
+		xstat.modulate = Color.WHITE
 
 func project_card(card:Card):
 	stat_map["Attack"].stat_val = str(card.unit.attack)
-	stat_map["Health"].stat_val = str(card.current_health) + "/" + str(card.unit.health)
-	stat_map["Initiative"].stat_val = str(card.unit.initiative)
-	
+	modulate_stat("Health", card.current_health, card.unit.health, str(card.current_health) + "/" + str(card.unit.health))
+	modulate_stat("Initiative", card.current_initiative, card.unit.initiative, str(card.current_initiative))
+		
 	card_name.text = card.unit.tag.to_upper().replacen("_", " ")
 	aux_info.text = ""
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cgvammbnay7fb"]
+[gd_scene load_steps=17 format=3 uid="uid://cgvammbnay7fb"]
 
 [ext_resource type="Script" uid="uid://b76fpo1woutd2" path="res://scripts/card_manager.gd" id="1_0wfyh"]
 [ext_resource type="Theme" uid="uid://bfw62misip25e" path="res://resources/text_label_display_theme.tres" id="1_eb6dy"]
@@ -7,12 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://c0nu1n6wbjeug" path="res://objects/unit_shop.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://d3b1xkxkqp8ye" path="res://objects/enemy_slot.tscn" id="3_tbgi4"]
 [ext_resource type="Script" uid="uid://bkuejk6sstmow" path="res://scripts/ability_db.gd" id="3_trceg"]
+[ext_resource type="PackedScene" uid="uid://bpx64xsgim7yj" path="res://resources/weather/rain.tscn" id="4_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://bkctk0q56iem" path="res://scenes/split_window.tscn" id="5_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://drvvnk4kik3uj" path="res://objects/turn_scale.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dn3o8fl7ukp58" path="res://scenes/game_over.tscn" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://dajiboyk64xc" path="res://scripts/battle_field.gd" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://n8sne3otbj1l" path="res://scenes/card_info.tscn" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c502vh2hqtbti" path="res://scenes/tooltip.tscn" id="10_choun"]
+[ext_resource type="PackedScene" uid="uid://dc3843apwf3fn" path="res://objects/weather.tscn" id="11_jbj1t"]
 [ext_resource type="Script" uid="uid://j2rujgejfpvr" path="res://scripts/combat_log.gd" id="11_ya4ey"]
 
 [node name="Root" type="PanelContainer"]
@@ -32,6 +34,12 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AbilityDB" type="Node" parent="."]
 script = ExtResource("3_trceg")
+
+[node name="Rain" parent="." instance=ExtResource("4_jkv2x")]
+visible = false
+offset = Vector2(800, 11.265)
+transform = Transform2D(1, 0, 0, 1, 800, 11.265)
+follow_viewport_enabled = true
 
 [node name="Shop" parent="." instance=ExtResource("3_jyhfs")]
 layout_mode = 2
@@ -82,6 +90,18 @@ script = ExtResource("1_0wfyh")
 
 [node name="BattleField" type="Node2D" parent="."]
 script = ExtResource("8_tipki")
+
+[node name="Weather" parent="BattleField" instance=ExtResource("11_jbj1t")]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 418.0
+offset_top = 469.0
+offset_right = 546.0
+offset_bottom = 597.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="FloatingMenu" type="Node2D" parent="."]
 visible = false
