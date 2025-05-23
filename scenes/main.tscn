@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cqgir0cs8c2i5" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://c0nu1n6wbjeug" path="res://objects/unit_shop.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://d3b1xkxkqp8ye" path="res://objects/enemy_slot.tscn" id="3_tbgi4"]
-[ext_resource type="Script" path="res://scripts/ability_db.gd" id="3_trceg"]
+[ext_resource type="Script" uid="uid://bkuejk6sstmow" path="res://scripts/ability_db.gd" id="3_trceg"]
 [ext_resource type="PackedScene" uid="uid://bkctk0q56iem" path="res://scenes/split_window.tscn" id="5_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://drvvnk4kik3uj" path="res://objects/turn_scale.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dn3o8fl7ukp58" path="res://scenes/game_over.tscn" id="8_85g3d"]
@@ -99,6 +99,7 @@ disabled = true
 text = "Opponent's turn..."
 
 [node name="GameOver" parent="." instance=ExtResource("8_85g3d")]
+visible = false
 layout_mode = 2
 
 [node name="CardInfo" parent="." instance=ExtResource("9_85g3d")]

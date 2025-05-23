@@ -37,8 +37,10 @@ func on_card_clicked(card: Card, mouse_button:int):
 	var new_card : Card = card.duplicate();
 	shop.card_manager.add_child(new_card)
 	new_card.number = number
+	
 	new_card.collision_mask = Shop.CARD_MASK
 	empty_slot.set_card(new_card)
+	new_card.number_panel.coin.visible = false
 	
 	final_text = "0"
 	number_box.text = final_text

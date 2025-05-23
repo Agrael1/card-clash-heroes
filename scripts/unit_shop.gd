@@ -12,6 +12,7 @@ var card_container : PackedScene = preload("res://objects/shop_container.tscn")
 @onready var card_manager = $"../CardManager"
 @onready var gold_label = $ColorRect/HBoxContainer/RichTextLabel2
 @onready var container_array = $MarginContainer/GridContainer
+@onready var card_info : CardInfo = $"../CardInfo"
 
 var _gold : int = 50
 var gold : int :
@@ -29,45 +30,24 @@ func open_for(race:String) -> void:
 		var card_name = card_array[i]
 		var card : ShopContainer = card_container.instantiate()
 		container_array.add_child(card)
+		card.card_ref.number = card_db_ref.races[race][card_name].cost
+		card.card_ref.number_panel.coin.visible = true
+		card.card_ref.mouse_enter.connect(on_card_hover_on)
+		card.card_ref.mouse_exit.connect(on_card_hover_off)
 		
-		print("Create called with unit type: ", card_db_ref.races[race][card_name].get_class())
-		# Detailed type inspection
-		print("Unit class info:")
-		print("- Is Resource: ", card_db_ref.races[race][card_name] is Resource)
-		print("- Is Unit: ", card_db_ref.races[race][card_name] is Unit)
-		print("- Has script: ", card_db_ref.races[race][card_name].get_script() != null)
+		card.tooltip_text = "Purchase"
 		
 		#push_warning("card_db_ref.races[race][card_name]" +  card_db_ref.races[race][card_name].get_class())
 		card.create(self, card_db_ref.races[race][card_name])
 		# Add the card to the container
 
-func on_card_clicked(card: Card, mouse_button:int):
-	if !mouse_button == MOUSE_BUTTON_RIGHT: return
-	
-	var same_card : Card = player_field.find_card(card.unit.tag)
-	var price = card.unit.cost
-	if gold - price < 0:
-		print("no money")
-		return
-	
-	if same_card != null:
-		gold -= price
-		same_card.number = same_card.number + 1
-		return
-	
-	# if there is no such unit, find an empty slot
-	var empty_slot : CardSlot = player_field.find_empty_slot()
-	if !empty_slot:
-		print("No empty space")
-		return
-	
-	gold -= price
-	var new_card : Card = card.duplicate();
-	card_manager.add_child(new_card)
-	new_card.number = 1
-	new_card.collision_mask = CARD_MASK
-	empty_slot.set_card(new_card)
-
 func sell(card:Card):
 	card.number -= 1
 	gold += card.unit.cost
+
+func on_card_hover_on(card : Card):
+	card_info.visible = true
+	card_info.project_card(card)
+	
+func on_card_hover_off(card : Card):
+	card_info.visible = false

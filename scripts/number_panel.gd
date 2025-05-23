@@ -1,7 +1,8 @@
 extends Panel
 
-var panel : Panel
-var label : RichTextLabel
+@onready var panel : Panel = $"."
+@onready var label : RichTextLabel = $HBoxContainer/RichTextLabel
+@onready var coin : TextureRect =  $HBoxContainer/TextureRect
 
 var _number: int = 0
 @export var number: int:
@@ -22,8 +23,6 @@ var _number: int = 0
 		return _number
 
 func _ready() -> void:
-	panel = $"."
-	label = $RichTextLabel
 	set_number(_number)
 
 func set_number(new_num : int):

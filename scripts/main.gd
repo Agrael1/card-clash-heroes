@@ -17,10 +17,15 @@ var remote_player_id = 0
 @onready var card_manager : CardManager = $CardManager
 @onready var floating_menu : Node2D = $FloatingMenu
 @onready var combat_log : CombatLog = $"CombatLog"
+@onready var pause_menu : GameOver = $GameOver
 
 func _ready() -> void:
 	shop.open_for(race)
-
+	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):
+		pass
+		
 func on_local_ready_changed()->void:
 	shop.visible = !local_player_ready
 	card_manager.block_free_move = local_player_ready

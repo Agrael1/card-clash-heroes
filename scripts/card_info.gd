@@ -4,6 +4,7 @@ extends Control
 @onready var stat_parent : Control = $PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer
 @onready var aux_info : RichTextLabel = $PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/AuxInfo
 @onready var card_name : RichTextLabel = $PanelContainer/MarginContainer/VBoxContainer/CardName
+@onready var adb : AbilityDB = $"../AbilityDB"
 
 const stats : Array[String] = [
 	"Attack",
@@ -29,8 +30,9 @@ func project_card(card:Card):
 	stat_map["Initiative"].stat_val = str(card.unit.initiative)
 	
 	card_name.text = card.unit.tag.to_upper().replacen("_", " ")
+	aux_info.text = ""
 	
-	aux_info.text = "Melee" if card.unit.meele else "Shooter";
-	
-	for a: Ability in card.abilities:
-		aux_info.text += ", " + a.ability_name
+	for a in card.unit.abilities:
+		var ab : Ability = adb.abilities[a].instantiate()
+		aux_info.text += ab.ability_name + ", "
+	aux_info.text = aux_info.text.trim_suffix(", ")
