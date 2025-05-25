@@ -1,11 +1,10 @@
-[gd_resource type="Resource" script_class="CardDB" load_steps=19 format=3 uid="uid://di7ut2mg4v2pi"]
+[gd_resource type="Resource" script_class="CardDB" load_steps=17 format=3 uid="uid://di7ut2mg4v2pi"]
 
 [ext_resource type="Script" uid="uid://dnvpngbkhhmc0" path="res://scripts/resources/card_db.gd" id="1_07eaj"]
 [ext_resource type="Resource" uid="uid://du6ly4yrk8unl" path="res://resources/aegyptus/bowman.tres" id="1_h3v6c"]
 [ext_resource type="Resource" uid="uid://lxkw4arvh14q" path="res://resources/aegyptus/chariot.tres" id="2_7hyya"]
-[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="3_7hyya"]
+[ext_resource type="Resource" uid="uid://di7qj1036v18c" path="res://resources/aegyptus/p1.tres" id="3_h3v6c"]
 [ext_resource type="Resource" uid="uid://b56g4jpn10smr" path="res://resources/aegyptus/priest.tres" id="4_65q30"]
-[ext_resource type="Texture2D" uid="uid://daal0f6e3nimc" path="res://textures/aegyptus/peasant.png" id="4_sftud"]
 [ext_resource type="Resource" uid="uid://bp6h008uvrb52" path="res://resources/aegyptus/royal_guard.tres" id="5_h1jwh"]
 [ext_resource type="Resource" uid="uid://camnxdag73wsx" path="res://resources/mesopotamia/archer.tres" id="6_ld5j4"]
 [ext_resource type="Resource" uid="uid://btxwu7y0nj8xh" path="res://resources/mesopotamia/sparabara.tres" id="7_7upfs"]
@@ -18,26 +17,13 @@
 [ext_resource type="Resource" uid="uid://djujqjfnow5qf" path="res://resources/imperium_romanum/ballista.tres" id="14_ihsoe"]
 [ext_resource type="Resource" uid="uid://dmytj41lgxx64" path="res://resources/imperium_romanum/praetorian.tres" id="15_2tkrr"]
 
-[sub_resource type="Resource" id="Resource_7hyya"]
-script = ExtResource("3_7hyya")
-sprite = ExtResource("4_sftud")
-tag = "peasant"
-health = 1
-attack = 1
-initiative = 7.0
-meele = true
-abilities = Array[String](["attack_melee"])
-max_count = 0
-cost = 1
-metadata/_custom_type_script = "uid://umlu675s31ui"
-
 [resource]
 script = ExtResource("1_07eaj")
 races = Dictionary[String, Dictionary]({
 "Aegyptus": {
 "bowman": ExtResource("1_h3v6c"),
 "chariot": ExtResource("2_7hyya"),
-"peasant": SubResource("Resource_7hyya"),
+"peasant": ExtResource("3_h3v6c"),
 "priest": ExtResource("4_65q30"),
 "royal_guard": ExtResource("5_h1jwh")
 },

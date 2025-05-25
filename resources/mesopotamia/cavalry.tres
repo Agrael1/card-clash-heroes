@@ -7,11 +7,10 @@
 script = ExtResource("1_h2nmm")
 sprite = ExtResource("2_ouxgd")
 tag = "cavalry"
-health = 3
-attack = 2
-initiative = 11.0
-meele = false
+health = 15
+attack = 12
+initiative = 12.0
 abilities = Array[String](["attack_melee"])
 max_count = 0
-cost = 3
+cost = 35
 metadata/_custom_type_script = "uid://umlu675s31ui"

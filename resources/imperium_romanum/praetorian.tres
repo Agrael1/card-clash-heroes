@@ -7,11 +7,10 @@
 script = ExtResource("1_yp1ls")
 sprite = ExtResource("2_l2luu")
 tag = "praetorian"
-health = 6
-attack = 7
+health = 80
+attack = 30
 initiative = 7.0
-meele = true
 abilities = Array[String](["attack_melee"])
 max_count = 0
-cost = 7
+cost = 65
 metadata/_custom_type_script = "uid://umlu675s31ui"

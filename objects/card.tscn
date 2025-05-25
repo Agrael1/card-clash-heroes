@@ -64,7 +64,7 @@ shape = SubResource("RectangleShape2D_k5eb0")
 self_modulate = Color(0.566531, 0.25297, 0, 1)
 texture_filter = 1
 layout_mode = 0
-offset_left = 64.0
+offset_left = 56.0
 offset_top = 96.0
 offset_right = 120.0
 offset_bottom = 120.0
@@ -80,25 +80,28 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = -9
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel/HBoxContainer"]
-texture_filter = 1
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/outline_size = 3
+theme_override_constants/line_separation = 0
 theme_override_fonts/normal_font = ExtResource("5_d1ene")
-theme_override_font_sizes/normal_font_size = 24
-text = "1"
+theme_override_font_sizes/normal_font_size = 22
+text = "65"
 fit_content = true
 scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer"]
-visible = false
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 8
 texture = ExtResource("5_3f76f")
 expand_mode = 3
 stretch_mode = 4

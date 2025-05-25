@@ -8,7 +8,6 @@ extends Resource
 @export var health: int = 0
 @export var attack: int = 0
 @export var initiative: float = 0.0
-@export var meele: bool = false
 @export var abilities : Array[String] = []
 
 @export_group("Shop Stats")

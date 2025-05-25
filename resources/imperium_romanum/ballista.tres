@@ -7,11 +7,10 @@
 script = ExtResource("1_o1qpt")
 sprite = ExtResource("2_3x8fr")
 tag = "ballista"
-health = 2
-attack = 5
-initiative = 10.0
-meele = false
+health = 20
+attack = 25
+initiative = 8.0
 abilities = Array[String](["attack_ranged", "cleave"])
 max_count = 0
-cost = 5
+cost = 50
 metadata/_custom_type_script = "uid://umlu675s31ui"

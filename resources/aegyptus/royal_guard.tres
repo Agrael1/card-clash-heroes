@@ -7,11 +7,10 @@
 script = ExtResource("1_y415w")
 sprite = ExtResource("2_y415w")
 tag = "royal_guard"
-health = 6
-attack = 5
+health = 60
+attack = 23
 initiative = 10.0
-meele = true
 abilities = Array[String](["attack_melee"])
 max_count = 22
-cost = 7
+cost = 65
 metadata/_custom_type_script = "uid://umlu675s31ui"

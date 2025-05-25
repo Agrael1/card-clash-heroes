@@ -7,11 +7,10 @@
 script = ExtResource("1_myfro")
 sprite = ExtResource("2_myfro")
 tag = "chariot"
-health = 3
-attack = 4
+health = 30
+attack = 17
 initiative = 11.0
-meele = true
 abilities = Array[String](["attack_melee"])
 max_count = 22
-cost = 4
+cost = 40
 metadata/_custom_type_script = "uid://umlu675s31ui"

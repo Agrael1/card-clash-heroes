@@ -4,6 +4,7 @@
 
 [node name="Heal" type="Node"]
 script = ExtResource("1_33or7")
+amount = 10.0
 ability_name = "Healing Hand"
 viz_type = 1
 metadata/_custom_type_script = "uid://dvuk8ud2kx233"

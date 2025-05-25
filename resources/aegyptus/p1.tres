@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit" load_steps=3 format=3 uid="uid://di7qj1036v18c"]
+
+[ext_resource type="Script" uid="uid://umlu675s31ui" path="res://scripts/resources/unit.gd" id="1_t00o5"]
+[ext_resource type="Texture2D" uid="uid://daal0f6e3nimc" path="res://textures/aegyptus/peasant.png" id="2_t00o5"]
+
+[resource]
+script = ExtResource("1_t00o5")
+sprite = ExtResource("2_t00o5")
+tag = "peasant"
+health = 10
+attack = 8
+initiative = 7.0
+abilities = Array[String](["attack_melee"])
+max_count = 22
+cost = 20
+metadata/_custom_type_script = "uid://umlu675s31ui"

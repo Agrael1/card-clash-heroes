@@ -53,11 +53,11 @@ func _on_join_pressed() -> void:
 func host_connect(_peer_id:int):
 	var gvalue = gold_box.pick_race()
 	if gvalue == gold_box.races[0]:
-		gold = 50
+		gold = 500
 	elif gvalue == gold_box.races[1]:
-		gold = 100
+		gold = 1000
 	elif gvalue == gold_box.races[2]:
-		gold = 150
+		gold = 1500
 	sync_gold.rpc(gold)
 	
 	load_main_scene()
@@ -119,7 +119,7 @@ func _on_join_back_pressed() -> void:
 	join_submenu.visible = false
 	main_bg_texture_rect.visible = true
 	join_bg_texture_rect.visible = false
-	multiplayer.connected_to_server.disconnect(load_main_scene)
+	multiplayer.connected_to_server.disconnect(join_connect)
 
 func _on_join_oid_pressed() -> void:
 	if Multiplayer.join(join_oid.text):
