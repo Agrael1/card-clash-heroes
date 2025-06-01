@@ -75,11 +75,10 @@ func advance_original():
 	# sort 
 	_card_refs.sort_custom(func(a,b): return a.current_atb>b.current_atb)
 	
-func recalculate():
+func recalculate():	
 	# Gather current ini
-	for j in range(0, _card_refs.size()):
-		var unit = _card_refs[j]
-		unit.update()
+	for u in _card_refs:
+		if u.ref: u.update()
 		
 	predict()
 	_make_ui_respect_state(false)

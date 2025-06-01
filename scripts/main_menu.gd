@@ -30,6 +30,9 @@ func _ready() -> void:
 	await Multiplayer.noray_connected
 	host_oid.text = Noray.oid
 	port_box.text = "Port: " + str(Noray.local_port)
+	multiplayer.peer_disconnected.connect(
+		func(_z): load_main_menu()
+	)
 
 func load_main_scene() -> void:
 	menu.visible = false
@@ -92,13 +95,14 @@ func load_main_menu():
 	host_bg_texture_rect.visible = false
 	join_bg_texture_rect.visible = false
 	battle_bg_texture_rect.visible = false
-	if host_submenu.visible:
-		host_bg_texture_rect.visible = true
-	elif join_submenu.visible:
-		join_bg_texture_rect.visible = true
-	else:
-		main_bg_texture_rect.visible = true
+	multiplayer.multiplayer_peer.close()
+	
+	host_submenu.visible = false
+	join_submenu.visible = false
+	main_submenu.visible = true
+	main_bg_texture_rect.visible = true
 	main_scene_instance.queue_free()
+	
 
 func _on_copy_oid_pressed() -> void:
 	DisplayServer.clipboard_set(Noray.oid)

@@ -32,16 +32,16 @@ func _init() -> void:
 		load_from_static_list()
 
 func generate_static_list():
-	var file = FileAccess.open("res://resources/ability_list.gd", FileAccess.WRITE)
-	if file:
-		file.store_string("# Auto-generated ability list\n")
-		file.store_string("const ABILITIES : Dictionary[String, PackedScene] = {\n")
-		
-		for ability_name in abilities:
-			file.store_string('    "%s": preload("res://resources/abilities/%s.tscn"),\n' % [ability_name, ability_name])
-		
-		file.store_string("}\n")
-		file.close()
+	#var file = FileAccess.open("res://resources/ability_list.gd", FileAccess.WRITE)
+	#if file:
+		#file.store_string("# Auto-generated ability list\n")
+		#file.store_string("const ABILITIES : Dictionary[String, PackedScene] = {\n")
+		#
+		#for ability_name in abilities:
+			#file.store_string('    "%s": preload("res://resources/abilities/%s.tscn"),\n' % [ability_name, ability_name])
+		#
+		#file.store_string("}\n")
+		#file.close()
 		print("Generated static ability list")
 
 func load_from_static_list():

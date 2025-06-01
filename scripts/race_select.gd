@@ -35,6 +35,7 @@ func _on_forth_pressed() -> void:
 	index = (index + 1) % races.size()
 
 func pick_race() -> String:
-	if index == races.size() - 1:
-		return races.slice(0, races.size() - 1).pick_random()
+	if !custom:
+		if index == races.size() - 1:
+			return races.slice(0, races.size() - 1).pick_random()
 	return races[index]
