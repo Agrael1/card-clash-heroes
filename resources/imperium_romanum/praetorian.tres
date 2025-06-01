@@ -7,9 +7,9 @@
 script = ExtResource("1_yp1ls")
 sprite = ExtResource("2_l2luu")
 tag = "praetorian"
-health = 80
-attack = 30
-initiative = 7.0
+health = 85
+attack = 35
+initiative = 8.0
 abilities = Array[String](["attack_melee"])
 max_count = 0
 cost = 65

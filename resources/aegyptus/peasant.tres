@@ -10,7 +10,6 @@ tag = "bowman"
 health = 1
 attack = 2
 initiative = 7.0
-meele = false
 abilities = Array[String](["attack_ranged"])
 max_count = 22
 cost = 2
