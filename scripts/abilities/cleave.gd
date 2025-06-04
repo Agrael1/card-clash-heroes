@@ -40,8 +40,8 @@ func reset_visualize() -> void:
 func validate(_caster : Card, target : Card, battlefield : BattleField) -> bool:
 	var behind = battlefield.enemy_field.get_behind(target.slot)
 	return target.is_enemy() && behind && !behind.is_empty() && \
-	target.card_state == Card.CardSelection.ENEMY_FULL || \
-	target.card_state == Card.CardSelection.ENEMY_PENALTY	
+	(target.card_state == Card.CardSelection.ENEMY_FULL || \
+	target.card_state == Card.CardSelection.ENEMY_PENALTY)	
 
 func predict(caster : Card, target : Card, battlefield : BattleField) -> Dictionary:
 	var behind = battlefield.enemy_field.get_behind(target.slot)

@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://c60w2t4yteayr"]
+[gd_scene load_steps=10 format=3 uid="uid://c60w2t4yteayr"]
 
 [ext_resource type="Script" uid="uid://dfx54bgpbnecg" path="res://scripts/card.gd" id="1_ekljc"]
 [ext_resource type="Script" uid="uid://cqqsmgab5rrmn" path="res://scripts/card_view_atb.gd" id="1_nuc7s"]
-[ext_resource type="Resource" uid="uid://ikt7tdd54ugj" path="res://resources/aegyptus/peasant.tres" id="2_nuc7s"]
 [ext_resource type="Texture2D" uid="uid://bewbrgmsamehp" path="res://textures/aegyptus/bowman.png" id="3_g2rn1"]
 [ext_resource type="Script" uid="uid://dpikklyj2aspl" path="res://scripts/number_panel.gd" id="4_vvybh"]
 [ext_resource type="FontFile" uid="uid://dpgvpabatpm" path="res://fonts/MorrisRoman-Black.ttf" id="5_xj1ju"]
@@ -47,7 +46,6 @@ offset_bottom = 128.0
 pivot_offset = Vector2(64, 64)
 mouse_filter = 1
 script = ExtResource("1_ekljc")
-unit = ExtResource("2_nuc7s")
 
 [node name="Outline" type="Panel" parent="Card"]
 layout_mode = 0
