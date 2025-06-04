@@ -10,6 +10,8 @@ var main_scene : PackedScene = preload("res://scenes/main.tscn")
 @onready var host_submenu : Control = $MenuContainer/MarginContainer/HostSubmenu
 @onready var join_submenu : Control = $MenuContainer/MarginContainer/JoinSubmenu
 @onready var main_submenu : Control = $MenuContainer/MarginContainer/MainSubmenu
+@onready var settings_submenu : Control = $MenuContainer/MarginContainer/SettingsSubmenu
+
 
 @onready var host_oid : TextEdit = $MenuContainer/MarginContainer/HostSubmenu/HBoxContainer/TextEdit
 @onready var join_oid : LineEdit = $MenuContainer/MarginContainer/JoinSubmenu/LineEdit
@@ -139,3 +141,11 @@ func _on_text_edit_text_submitted(new_text: String) -> void:
 
 func _on_copy_port_pressed() -> void:
 	DisplayServer.clipboard_set(":"+str(Noray.local_port))
+
+func _on_settings_pressed() -> void:
+	main_submenu.visible = false
+	settings_submenu.visible = true
+
+func _on_settings_back_pressed() -> void:
+	main_submenu.visible = true
+	settings_submenu.visible = false

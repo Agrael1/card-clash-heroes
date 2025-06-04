@@ -27,6 +27,9 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
 				tooltip.visible = false
+				
+	if event.is_action_pressed("action_wait") and attacker_card:
+		_on_wait_pressed()
 
 func on_new_turn_host():
 	turn_num += 1
@@ -212,6 +215,9 @@ func on_card_hovered_battle(card: Card):
 	if card.is_enemy() &&\
 	 (card.card_state == Card.CardSelection.ENEMY_FULL ||\
 	 card.card_state == Card.CardSelection.ENEMY_PENALTY):
+		if card.card_state == Card.CardSelection.ENEMY_PENALTY:
+			damage *= 0.5
+			
 		var calc_dmg : Array = card.calc_damage(damage)
 		tooltip.label.text = "Damage: {dmg}\nKills: {kills}"\
 		.format({"dmg": calc_dmg[2], "kills": card.number - calc_dmg[0]})
