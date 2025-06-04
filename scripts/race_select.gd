@@ -28,7 +28,8 @@ func _ready() -> void:
 
 
 func _on_back_pressed() -> void:
-	index = (index - 1) % races.size()
+	index = posmod(index - 1, races.size())
+	print(str(index))
 
 
 func _on_forth_pressed() -> void:
