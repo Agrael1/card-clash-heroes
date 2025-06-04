@@ -12,6 +12,7 @@ const CARD_MASK_ENEMY_OFFSET = 4
 signal mouse_enter(card : Card)
 signal mouse_exit(card : Card)
 signal mouse_click(card : Card, mouse_button : int)
+signal on_count_changed(new_count : int)
 #endregion
 
 #region imports
@@ -39,6 +40,7 @@ var _number : int = 0
 		_number = value
 		if number_panel:
 			number_panel.set_number(_number)
+		on_count_changed.emit(_number)
 	get:
 		return _number;
 

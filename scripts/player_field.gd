@@ -87,7 +87,7 @@ func get_in_front(index : int) -> CardSlot:
 
 func get_behind(index : int) -> CardSlot:
 	var new_idx = index + field_width
-	return null if new_idx > grid.size() else grid[new_idx]
+	return null if new_idx >= grid.size() else grid[new_idx]
 	
 func settle():
 	for slot:CardSlot in grid:

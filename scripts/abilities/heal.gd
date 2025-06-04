@@ -22,7 +22,7 @@ func reset_visualize() -> void:
 
 func validate(caster : Card, _target : Card, battlefield : BattleField) -> bool:
 	var tgt = get_target_card(caster, battlefield)
-	return tgt == null || tgt.is_full()
+	return tgt != null && !tgt.is_full()
 
 func predict(caster : Card, _target : Card, _battlefield : BattleField) -> Dictionary:
 	return {}
@@ -30,7 +30,7 @@ func predict(caster : Card, _target : Card, _battlefield : BattleField) -> Dicti
 # Called on both attacker and defender
 func apply(caster : Card, _target : Card, battlefield : BattleField, state : Dictionary) -> void:
 	var heal = int(amount * caster.number)
-	var tgt = get_target_card(caster, battlefield)
+	var tgt = get_target_card(caster, battlefield)	
 	var units_before = tgt.number
 	var heal_result = tgt.set_heal(heal)
 	var combat_log = battlefield.combat_log
@@ -47,6 +47,9 @@ func apply(caster : Card, _target : Card, battlefield : BattleField, state : Dic
 			"unit_t":tgt.unit.tag.to_upper(),
 			"dmg":heal_result[2],
 			"kill":heal_result[0] - units_before}))
+			
+	if heal_result[0] - units_before > 0:
+		on_unit_healed(tgt.position + tgt.size * 0.5, heal_result[0] - units_before, battlefield)
 
 
 
@@ -60,3 +63,10 @@ func get_target_card(caster : Card, battlefield : BattleField) -> Card:
 		return null
 		
 	return slot_handle.card_ref
+
+func on_unit_healed(position: Vector2, kill_count: int, battlefield : BattleField):
+	# Instance the scene
+	var popup = KillCount.SELF_SCENE.instantiate()
+	popup.position = position
+	popup.kill_count = kill_count
+	battlefield.add_child(popup)

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://bkuejk6sstmow" path="res://scripts/ability_db.gd" id="3_trceg"]
 [ext_resource type="PackedScene" uid="uid://bpx64xsgim7yj" path="res://resources/weather/rain.tscn" id="4_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://bkctk0q56iem" path="res://scenes/split_window.tscn" id="5_a8y0u"]
-[ext_resource type="PackedScene" uid="uid://drvvnk4kik3uj" path="res://objects/turn_scale.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://drvvnk4kik3uj" path="res://objects/atb_bar.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dn3o8fl7ukp58" path="res://scenes/game_over.tscn" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://dajiboyk64xc" path="res://scripts/battle_field.gd" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://n8sne3otbj1l" path="res://scenes/card_info.tscn" id="9_85g3d"]

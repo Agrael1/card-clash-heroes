@@ -1,0 +1,145 @@
+[gd_scene load_steps=11 format=3 uid="uid://c60w2t4yteayr"]
+
+[ext_resource type="Script" uid="uid://dfx54bgpbnecg" path="res://scripts/card.gd" id="1_ekljc"]
+[ext_resource type="Script" uid="uid://cqqsmgab5rrmn" path="res://scripts/card_view_atb.gd" id="1_nuc7s"]
+[ext_resource type="Resource" uid="uid://ikt7tdd54ugj" path="res://resources/aegyptus/peasant.tres" id="2_nuc7s"]
+[ext_resource type="Texture2D" uid="uid://bewbrgmsamehp" path="res://textures/aegyptus/bowman.png" id="3_g2rn1"]
+[ext_resource type="Script" uid="uid://dpikklyj2aspl" path="res://scripts/number_panel.gd" id="4_vvybh"]
+[ext_resource type="FontFile" uid="uid://dpgvpabatpm" path="res://fonts/MorrisRoman-Black.ttf" id="5_xj1ju"]
+[ext_resource type="Texture2D" uid="uid://c0tc73jip7py6" path="res://textures/aureus.png" id="6_ukmca"]
+[ext_resource type="Texture2D" uid="uid://dis3nwsomj0as" path="res://textures/triangle.svg" id="7_v5h2x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k5eb0"]
+size = Vector2(11.6364, 11.6364)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_77oaa"]
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 1
+shadow_offset = Vector2(1.51, 2.24)
+
+[node name="CardViewATB" type="Control"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("1_nuc7s")
+
+[node name="Card" type="Control" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+pivot_offset = Vector2(64, 64)
+mouse_filter = 1
+script = ExtResource("1_ekljc")
+unit = ExtResource("2_nuc7s")
+
+[node name="Outline" type="Panel" parent="Card"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Card"]
+position = Vector2(64, 64)
+scale = Vector2(0.128, 0.128)
+texture = ExtResource("3_g2rn1")
+
+[node name="Area2D" type="Area2D" parent="Card"]
+process_priority = 1
+priority = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Card/Area2D"]
+process_priority = 1
+texture_filter = 1
+position = Vector2(64, 64)
+scale = Vector2(11, 11)
+shape = SubResource("RectangleShape2D_k5eb0")
+
+[node name="Panel" type="Panel" parent="Card"]
+self_modulate = Color(0.566531, 0.25297, 0, 1)
+texture_filter = 1
+layout_mode = 0
+offset_left = 56.0
+offset_top = 96.0
+offset_right = 120.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_77oaa")
+script = ExtResource("4_vvybh")
+number = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Card/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -9
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Card/Panel/HBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/outline_size = 3
+theme_override_constants/line_separation = 0
+theme_override_fonts/normal_font = ExtResource("5_xj1ju")
+theme_override_font_sizes/normal_font_size = 22
+text = "65"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Card/Panel/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("6_ukmca")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="Triangle" type="Sprite2D" parent="Card"]
+visible = false
+z_index = 2
+position = Vector2(63.8468, 0.561527)
+rotation = 1.57952
+scale = Vector2(0.335663, 0.542443)
+texture = ExtResource("7_v5h2x")
+
+[node name="CurrentTime" type="RichTextLabel" parent="."]
+z_index = 6
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 48.0
+offset_bottom = 28.0
+text = "0.00"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[connection signal="visibility_changed" from="Card" to="Card" method="_on_visibility_changed"]
+[connection signal="input_event" from="Card/Area2D" to="Card" method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Card/Area2D" to="Card" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Card/Area2D" to="Card" method="_on_area_2d_mouse_exited"]

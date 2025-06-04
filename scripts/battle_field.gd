@@ -117,7 +117,8 @@ func make_turn(send_id:int, turn_desc : Dictionary): # Format {"action":ActionTa
 		invert = false
 		
 	# Activate passive abilities
-	for passive : Ability in att_card.abilities.filter(func(x):return x.ability_type == Ability.AbilityType.PASSIVE):
+	for passive : Ability in att_card.abilities.filter(func(x):
+			return x.ability_type == Ability.AbilityType.PASSIVE && x.validate(att_card, null, self)):
 		await passive.apply(att_card, null, self, {})
 	
 	# Make Weather effect

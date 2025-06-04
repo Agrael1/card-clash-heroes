@@ -38,24 +38,7 @@ func visualize(caster : Card, _target : Card, battlefield : BattleField) -> void
 			
 		slice_start += 1
 		slice_end -= 1
-		
-
-
-
-	#var start_front = max(mirror_front - radius, 0)
-	#var end_front = min(mirror_front + radius - 1, field.field_width)
-	#
-	#var start_back = max(mirror_back_pos - radius + 1, field.field_width)
-	#var end_back = min(mirror_back_pos + radius, 2 * field.field_width)
-	#
-	#for slot : CardSlot in field.grid.slice(start_front, end_front).filter(slot_not_empty):
-		#slot.card_ref.card_state = Card.CardSelection.ENEMY_FULL
-#
-	## Back row:
-	#for slot : CardSlot in field.grid.slice(start_back, end_back).filter(slot_not_empty):
-		#var slot_in_front = field.get_in_front(slot.slot_number)
-		#if !slot_in_front.is_empty(): continue
-		#slot.card_ref.card_state = Card.CardSelection.ENEMY_FULL
+	
 
 func reset_visualize() -> void:
 	for slot : CardSlot in grid_ref.filter(slot_not_empty):

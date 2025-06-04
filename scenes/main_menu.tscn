@@ -54,7 +54,7 @@ size_flags_stretch_ratio = 1.51
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/table_v_separation = 0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 50
 text = "Join
 "
 horizontal_alignment = 1
@@ -112,6 +112,7 @@ theme_override_constants/table_v_separation = 0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/normal_font_size = 50
 text = "Host"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -121,6 +122,7 @@ theme_override_constants/separation = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuContainer/MarginContainer/HostSubmenu"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="TextEdit" type="TextEdit" parent="MenuContainer/MarginContainer/HostSubmenu/HBoxContainer"]
 custom_minimum_size = Vector2(0, 36)
@@ -146,6 +148,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "PORT: --------
 "
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 vertical_alignment = 1
 
 [node name="CopyPort" type="Button" parent="MenuContainer/MarginContainer/HostSubmenu/VBoxContainer/HBoxContainer"]
@@ -209,7 +214,7 @@ layout_mode = 2
 size_flags_stretch_ratio = 1.51
 theme = ExtResource("3_bqqt6")
 theme_override_font_sizes/normal_font_size = 50
-text = "Card Clash: Heroes
+text = "Card Clash
 "
 horizontal_alignment = 1
 vertical_alignment = 1

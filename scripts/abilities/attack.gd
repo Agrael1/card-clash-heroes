@@ -26,7 +26,10 @@ func apply(caster : Card, target : Card, battlefield : BattleField, state : Dict
 			"unit_t":target.unit.tag.to_upper(),
 			"dmg":damage_result[2],
 			"kill":old_num - damage_result[0]}))
-			
+	
+	if old_num - damage_result[0] > 0:
+		on_unit_killed(target.position + target.size * 0.5, damage_result[0] - old_num, battlefield)
+	
 	if target.number == 0:
 		battlefield.atb_bar.trim_card(target)
 		battlefield.get_field_of(target).grid[target.slot].reset_card()
@@ -37,3 +40,10 @@ func apply(caster : Card, target : Card, battlefield : BattleField, state : Dict
 	await tween2.finished
 	
 	caster.z_index = CardManager.Z_NORMAL
+
+func on_unit_killed(position: Vector2, kill_count: int, battlefield : BattleField):
+	# Instance the scene
+	var popup = KillCount.SELF_SCENE.instantiate()
+	popup.position = position
+	popup.kill_count = kill_count
+	battlefield.add_child(popup)
